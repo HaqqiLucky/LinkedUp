@@ -13,17 +13,6 @@ data class Loker (
     val gaji: Int,
     val deskripsi: String,
     val instansi: String,
-    val dibuat: Date,
+    val dibuat: String,
     val status: Boolean,
 )
-class DateConverter {
-    @TypeConverter
-    fun fromTimestamp(value: Long?): Date? {
-        return value?.let { Date(it) }
-    }
-
-    @TypeConverter
-    fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
-    }
-}

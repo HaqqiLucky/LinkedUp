@@ -35,7 +35,7 @@ class LoginnFragment : Fragment() {
             val email = editTextEmail.text.toString()
             val password = editTextPassword.text.toString()
             // Tambahkan logika validasi login di sini
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(activity, HomeActivity::class.java)
             startActivity(intent)
         }
 

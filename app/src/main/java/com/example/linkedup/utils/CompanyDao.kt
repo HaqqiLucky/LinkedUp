@@ -6,10 +6,10 @@ import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-interface LokerDao {
-    @Query("SELECT * FROM loker ORDER BY dibuat DESC")
+interface CompanyDao {
+    @Query("SELECT * FROM company")
     fun getAll(): LiveData<List<Loker>>
 
     @Insert
-    fun insert(vararg loker: Loker)
+    suspend fun insert(vararg loker: Loker)
 }

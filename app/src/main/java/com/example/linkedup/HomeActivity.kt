@@ -16,6 +16,7 @@ import com.example.linkedup.utils.LokerDatabase
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var lokerViewModel: LokerViewModel
@@ -31,30 +32,30 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
 
-        recyclerView = findViewById(R.id.itemloker)
-        adapter = LokerAdapter()
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+//        recyclerView = findViewById(R.id.itemloker)
+//        adapter = LokerAdapter()
+//        recyclerView.adapter = adapter
+//        recyclerView.layoutManager = LinearLayoutManager(this)
+//
+//        lokerViewModel.allLoker.observe(this, Observer { lokers ->
+//            lokers?.let { adapter.setLoker(it) }
+//        })
 
-        lokerViewModel.allLoker.observe(this, Observer { lokers ->
-            lokers?.let { adapter.setLoker(it) }
-        })
-
-        insertDummyData()
+//        insertDummyData()
     }
-    private fun insertDummyData() {
-        // Pastikan operasi ini dijalankan di luar thread utama
-        lifecycleScope.launch {
-            val date = Date()
-            val newLoker = Loker(
-                title = "Software Engineer",
-                gaji = 10000000,
-                deskripsi = "Mengembangkan aplikasi Android",
-                instansi = "PT Contoh",
-                dibuat = date,
-                status = true
-            )
-            lokerViewModel.insert(newLoker)
-        }
-    }
+//    private fun insertDummyData() {
+//        // Pastikan operasi ini dijalankan di luar thread utama
+//        lifecycleScope.launch {
+//            val date = "aaaaaa"
+//            val newLoker = Loker(
+//                title = "Software Engineer",
+//                gaji = 10000000,
+//                deskripsi = "Mengembangkan aplikasi Android",
+//                instansi = "PT Contoh",
+//                dibuat = date,
+//                status = true
+//            )
+//            lokerViewModel.insert(newLoker)
+//        }
+//    }
 }

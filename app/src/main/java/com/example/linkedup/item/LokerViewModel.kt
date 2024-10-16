@@ -9,7 +9,6 @@ import com.example.linkedup.utils.LokerDatabase
 import com.example.linkedup.utils.LokerRepository
 import kotlinx.coroutines.launch
 
-// LokerViewModel.kt
 class LokerViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: LokerRepository
