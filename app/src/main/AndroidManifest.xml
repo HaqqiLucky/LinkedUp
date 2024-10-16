@@ -13,8 +13,13 @@
         android:theme="@style/Theme.LinkedUp"
         tools:targetApi="31">
         <activity
+<<<<<<< HEAD
             android:name=".HomeActivity"
             android:exported="false" />
+=======
+            android:name=".RegisterLoginActivity"
+            android:exported="true" />
+>>>>>>> 41db1783c6a9365e251c9fafe331e754883d470a
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />

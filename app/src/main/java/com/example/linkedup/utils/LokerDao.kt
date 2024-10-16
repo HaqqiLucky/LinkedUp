@@ -1,15 +1,16 @@
-package com.example.linkedup
+package com.example.linkedup.utils
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LokerDao {
     @Query("SELECT * FROM loker")
-    fun getAll(): LiveData<Loker>
+    fun getAll(): LiveData<List<Loker>>
 
     @Insert
-    fun insert(vararg loker: Loker)
+    suspend fun insert(vararg loker: Loker)
 }
