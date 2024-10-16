@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.linkedup.utils.LokerDatabase
+import com.example.linkedup.utils.User
+import com.example.linkedup.utils.UserDao
 import kotlinx.coroutines.launch
 
 class ProfileActivity : AppCompatActivity() {
@@ -22,7 +25,7 @@ class ProfileActivity : AppCompatActivity() {
             insets
         }
 
-        val db = LokerDatabase.getInstance(this)
+        val db = LokerDatabase.getDatabase(this)
         userDao = db.userDao()
 
         lifecycleScope.launch {

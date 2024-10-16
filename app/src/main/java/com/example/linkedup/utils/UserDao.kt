@@ -1,6 +1,5 @@
-package com.example.linkedup
+package com.example.linkedup.utils
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert

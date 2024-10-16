@@ -1,4 +1,4 @@
-package com.example.linkedup
+package com.example.linkedup.utils
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

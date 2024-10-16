@@ -1,5 +1,6 @@
 package com.example.linkedup
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,6 +35,8 @@ class LoginnFragment : Fragment() {
             val email = editTextEmail.text.toString()
             val password = editTextPassword.text.toString()
             // Tambahkan logika validasi login di sini
+            val intent = Intent(activity, HomeActivity::class.java)
+            startActivity(intent)
         }
 
         // Menangani klik pada teks untuk berpindah ke registrasi
