@@ -54,7 +54,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
 
-    implementation("de.hdodenhof:circleimageview:3.1.0") //buat lingkaran
+//    implementation("de.hdodenhof:circleimageview:3.1.0") //buat lingkaran
 
     implementation("androidx.room:room-runtime:2.5.0")
     testImplementation("androidx.room:room-testing:2.5.0")
@@ -67,6 +67,8 @@ dependencies {
 
     implementation("androidx.fragment:fragment-ktx:1.5.6")
     // Tambahkan dependencies lain yang diperlukan
+
+    implementation("androidx.room:room-ktx:2.5.0") //buat korotin
 
 
 }
