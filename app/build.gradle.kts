@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp")
+    id("com.google.devtools.ksp") //ksp kalo merah kesini
 }
 
 android {
@@ -69,6 +69,4 @@ dependencies {
     // Tambahkan dependencies lain yang diperlukan
 
     implementation("androidx.room:room-ktx:2.5.0") //buat korotin
-
-
 }
