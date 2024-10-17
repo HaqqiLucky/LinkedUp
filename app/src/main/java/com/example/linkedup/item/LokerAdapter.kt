@@ -9,10 +9,7 @@ import com.example.linkedup.R
 import com.example.linkedup.utils.Loker
 
 // LokerAdapter.kt
-class LokerAdapter : RecyclerView.Adapter<LokerAdapter.LokerViewHolder>() {
-
-    private var lokerList = emptyList<Loker>()
-
+class LokerAdapter(private val lokerList: List<Loker>) : RecyclerView.Adapter<LokerAdapter.LokerViewHolder>() {
     class LokerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById(R.id.title)
         val gajiTextView: TextView = itemView.findViewById(R.id.gaji)
@@ -35,10 +32,5 @@ class LokerAdapter : RecyclerView.Adapter<LokerAdapter.LokerViewHolder>() {
     }
 
     override fun getItemCount() = lokerList.size
-
-    fun setLoker(lokers: List<Loker>) {
-        this.lokerList = lokers
-        notifyDataSetChanged()
-    }
 }
 
