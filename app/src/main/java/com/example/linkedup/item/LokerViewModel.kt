@@ -3,6 +3,7 @@ package com.example.linkedup.item
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.linkedup.utils.Loker
 import com.example.linkedup.utils.LokerDatabase
@@ -12,16 +13,24 @@ import kotlinx.coroutines.launch
 class LokerViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: LokerRepository
-    val allLoker: LiveData<List<Loker>>
+    private val _allLoker = MutableLiveData<List<Loker>>()
+    val allLoker: LiveData<List<Loker>> get() = _allLoker
 
     init {
         val lokerDao = LokerDatabase.getDatabase(application).lokerDao()
         repository = LokerRepository(lokerDao)
-        allLoker = repository.allLoker
+        fetchAllLoker()
+    }
+
+    private fun fetchAllLoker() {
+        viewModelScope.launch {
+            _allLoker.value = repository.getAllLoker()
+        }
     }
 
     fun insert(loker: Loker) = viewModelScope.launch {
         repository.insert(loker)
+        fetchAllLoker()
     }
 
 }
