@@ -25,7 +25,7 @@
 
     <!-- Nama EditText -->
     <EditText
-        android:id="@+id/etRegisterName"
+        android:id="@+id/etRegistName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -36,13 +36,12 @@
         android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
     <!-- Email EditText -->
     <EditText
-        android:id="@+id/etRegisterEmail"
+        android:id="@+id/etRegistEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Email"
@@ -51,15 +50,14 @@
         android:padding="12dp"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/etRegisterName"
+        app:layout_constraintTop_toBottomOf="@id/etRegistName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         android:layout_marginTop="16dp" />
 
     <!-- Password EditText -->
     <EditText
-        android:id="@+id/etRegisterPassword"
+        android:id="@+id/etRegistPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Password"
@@ -68,15 +66,14 @@
         android:padding="12dp"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/etRegisterEmail"
+        app:layout_constraintTop_toBottomOf="@id/etRegistEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         android:layout_marginTop="16dp" />
 
     <!-- Register Button -->
     <Button
-        android:id="@+id/btnRegister"
+        android:id="@+id/btnRegist"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -88,6 +85,17 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etRegisterPassword" />
+        app:layout_constraintTop_toBottomOf="@id/etRegistPassword" />
 
+    <TextView
+        android:id="@+id/tvLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Sudah punya akun? Login"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnRegist" />
 </androidx.constraintlayout.widget.ConstraintLayout>
