@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 
 class RegistFragment : Fragment() {
 
@@ -23,10 +25,11 @@ class RegistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Mendapatkan referensi ke elemen UI
-        val editTextName = view.findViewById<EditText>(R.id.etRegisterName) // ID untuk EditText nama
-        val editTextEmail = view.findViewById<EditText>(R.id.etRegisterEmail) // ID untuk EditText email
-        val editTextPassword = view.findViewById<EditText>(R.id.etRegisterPassword) // ID untuk EditText password
-        val buttonRegister = view.findViewById<Button>(R.id.btnRegister) // ID untuk Button register
+        val editTextName = view.findViewById<EditText>(R.id.etRegistName)
+        val editTextEmail = view.findViewById<EditText>(R.id.etRegistEmail)
+        val editTextPassword = view.findViewById<EditText>(R.id.etRegistPassword)
+        val buttonRegister = view.findViewById<Button>(R.id.btnRegist)
+        val textViewLogin = view.findViewById<TextView>(R.id.tvLogin)
 
         // Menangani klik pada tombol register
         buttonRegister.setOnClickListener {
@@ -37,12 +40,24 @@ class RegistFragment : Fragment() {
 
             // Logika untuk registrasi (misalnya validasi input)
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                // Lakukan proses registrasi di sini
-                // Misalnya, simpan data ke database atau lakukan autentikasi
+                // Lakukan proses registrasi di sini (misalnya, simpan ke database)
+                Toast.makeText(requireContext(), "Registrasi berhasil", Toast.LENGTH_SHORT).show()
+                // Anda dapat melakukan tindakan setelah registrasi sukses
             } else {
                 // Tampilkan pesan kesalahan jika ada field yang kosong
-                // Anda bisa menggunakan Toast atau Snackbar
+                Toast.makeText(requireContext(), "Semua field harus diisi", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        // Menangani klik pada TextView untuk berpindah ke LoginFragment
+        textViewLogin.setOnClickListener {
+            val loginFragment = LoginnFragment()
+
+            // Mengganti fragment saat ini dengan LoginFragment
+            val transaction: FragmentTransaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, loginFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
     }
 }
