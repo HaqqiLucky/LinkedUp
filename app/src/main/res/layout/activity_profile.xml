@@ -54,66 +54,70 @@
     </androidx.cardview.widget.CardView>
 
 
-<!--    <androidx.cardview.widget.CardView-->
-<!--        android:id="@+id/profilOverview"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content">-->
-
-    <TextView
-        android:id="@+id/namauser"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardviewProfilOverview"
         android:layout_width="0dp"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
-        android:text="Kaedahara Kazuha"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@id/guidelinekiri"
-        app:layout_constraintTop_toBottomOf="@+id/potoprofil" />
-
-    <TextView
-        android:id="@+id/desk"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex commodo cojgjg"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:maxLength="220"
-        app:layout_constraintTop_toBottomOf="@id/namauser"
-        app:layout_constraintStart_toEndOf="@id/guidelinekiri"
-        app:layout_constraintEnd_toStartOf="@+id/guidelinekanan"/>
-
-    <TextView
-        android:id="@+id/gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:text="(He/Him)"
-        android:textColor="@color/abu_abu"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/desk"
-        app:layout_constraintStart_toEndOf="@+id/namauser"
-        app:layout_constraintTop_toTopOf="@+id/namauser"/>
-
-    <TextView
-        android:id="@+id/alamat"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Madiun Regency, East Java, Indonesia"
-        android:maxLines="3"
-        android:textColor="@color/abu_abu"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/desk"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="10dp"
         app:layout_constraintStart_toStartOf="@id/guidelinekiri"
-        app:layout_constraintEnd_toEndOf="@id/guidelinekanan"/>
+        app:layout_constraintEnd_toEndOf="@id/guidelinekanan"
+        app:layout_constraintTop_toBottomOf="@id/potoprofil">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintcardprofile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
 
+            <TextView
+                android:id="@+id/namauser"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Kaedahara Kazuha"
+                android:layout_marginStart="5dp"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintTop_toTopOf="@id/constraintcardprofile"
+                app:layout_constraintStart_toStartOf="@id/constraintcardprofile"/>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guidelinetengah"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.45"
-        />
+                <TextView
+                    android:id="@+id/desk"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex commodo cojgjg"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:layout_marginHorizontal="10dp"
+                    android:maxLength="220"
+                    app:layout_constraintTop_toBottomOf="@id/namauser"
+                    app:layout_constraintStart_toStartOf="@id/constraintcardprofile"
+                    app:layout_constraintEnd_toEndOf="@id/constraintcardprofile"/>
 
+            <TextView
+                android:id="@+id/gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(He/Him)"
+                android:textColor="@color/abu_abu"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@+id/desk"
+                app:layout_constraintStart_toEndOf="@+id/namauser"
+                app:layout_constraintTop_toTopOf="@+id/namauser" />
+
+                    <TextView
+                        android:id="@+id/alamat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Madiun Regency, East Java, Indonesia"
+                        android:maxLines="3"
+                        android:textColor="@color/abu_abu"
+                        android:textSize="14sp"
+                        app:layout_constraintTop_toBottomOf="@id/desk"
+                        app:layout_constraintStart_toStartOf="@id/desk"
+                        app:layout_constraintEnd_toEndOf="@id/desk"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardexperiences"
@@ -121,7 +125,8 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
         app:cardElevation="10dp"
-        app:layout_constraintTop_toBottomOf="@id/guidelinetengah"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/cardviewProfilOverview"
         app:layout_constraintStart_toStartOf="@id/guidelinekiri"
         app:layout_constraintEnd_toEndOf="@id/guidelinekanan">
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -135,7 +140,7 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.27"
                 app:layout_constraintTop_toTopOf="@id/constraintcard"
-                app:layout_constraintStart_toStartOf=""/>
+                app:layout_constraintStart_toStartOf="@id/experienceteks"/>
 
             <TextView
                 android:id="@+id/experienceteks"
@@ -154,7 +159,7 @@
                 android:layout_height="50dp"
                 android:scaleType="fitCenter"
                 android:contentDescription="Detail"
-                android:src="@drawable/gedungagakpolos_nobg"
+                android:src="@drawable/gambar_experiences"
                 app:layout_constraintEnd_toStartOf="@id/viewguidelinecard"
                 app:layout_constraintStart_toStartOf="@id/constraintcard"
                 app:layout_constraintTop_toBottomOf="@id/experienceteks" />
@@ -163,13 +168,14 @@
                 android:id="@+id/judulexperience"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:maxLines="2"
                 android:text="Mahasiswa TI di PNM"
                 android:textSize="16dp"
-                android:maxLines="2"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/namatempat"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/viewguidelinecard"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/imageButtonCompany" />
             <TextView
                 android:id="@+id/namatempat"
                 android:layout_width="0dp"
@@ -177,28 +183,34 @@
                 android:text="Politeknik Negeri Madiun"
                 android:textSize="14dp"
                 app:layout_constraintTop_toBottomOf="@id/judulexperience"
-                app:layout_constraintStart_toEndOf="@id/viewguidelinecard"/>
+                app:layout_constraintStart_toEndOf="@id/viewguidelinecard" />
 
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/namatempat"
+                app:layout_constraintGuide_percent="0.20"/>
 
             <Button
+                android:id="@+id/lihatdetailexperience"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/namatempat"
-                android:backgroundTint="@color/abu_abu"
+                android:layout_height="40dp"
+                android:background="@drawable/persegipanjang_button_profil_shape"
                 android:text="Lihat Detail >"
-                android:textSize="10dp"
-                android:textColor="@color/black"/>
-
-
-
-
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                app:backgroundTint="@null"
+                app:layout_constraintTop_toBottomOf="@id/imageButtonCompany"
+                app:layout_constraintBottom_toBottomOf="@id/constraintcard" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
 
 
 
+
+<!---->
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -210,3 +222,92 @@
 <!--app:layout_constraintGuide_percent="0."-->
 <!--app:layout_constraintTop_toBottomOf="@id/namatempat"-->
 <!--app:layout_constraintStart_toStartOf="@id/constraintcard"/>-->
+
+
+
+<!--<androidx.cardview.widget.CardView&ndash;&gt;-->
+<!--        android:id="@+id/cardPendidikan"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:cardCornerRadius="8dp"-->
+<!--        app:cardElevation="10dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/cardviewProfilOverview"-->
+<!--        app:layout_constraintStart_toStartOf="@id/guidelinekiri"-->
+<!--        app:layout_constraintEnd_toEndOf="@id/guidelinekanan">-->
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:id="@+id/constraintcard"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            <View-->
+<!--                android:id="@+id/viewguidelinecard"-->
+<!--                android:layout_width="1dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                app:layout_constraintGuide_percent="0.27"-->
+<!--                app:layout_constraintTop_toTopOf="@id/constraintcard"-->
+<!--                app:layout_constraintStart_toStartOf="@id/experienceteks"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/experienceteks"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Experience"-->
+<!--                android:textSize="18sp"-->
+<!--                app:layout_constraintTop_toTopOf="@id/constraintcard"-->
+<!--                app:layout_constraintEnd_toStartOf="@id/viewguidelinecard"-->
+<!--                app:layout_constraintStart_toStartOf="@id/constraintcard"/>-->
+
+
+<!--            <ImageButton-->
+<!--                android:id="@+id/imageButtonCompany"-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:scaleType="fitCenter"-->
+<!--                android:contentDescription="Detail"-->
+<!--                android:src="@drawable/gambar_experiences"-->
+<!--                app:layout_constraintEnd_toStartOf="@id/viewguidelinecard"-->
+<!--                app:layout_constraintStart_toStartOf="@id/constraintcard"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/experienceteks" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/judulexperience"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:maxLines="2"-->
+<!--                android:text="Mahasiswa TI di PNM"-->
+<!--                android:textSize="16dp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintBottom_toTopOf="@id/namatempat"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toEndOf="@id/viewguidelinecard"-->
+<!--                app:layout_constraintTop_toTopOf="@id/imageButtonCompany" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/namatempat"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Politeknik Negeri Madiun"-->
+<!--                android:textSize="14dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/judulexperience"-->
+<!--                app:layout_constraintStart_toEndOf="@id/viewguidelinecard" />-->
+
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/namatempat"-->
+<!--                app:layout_constraintGuide_percent="0.20"/>-->
+
+<!--            <Button-->
+<!--                android:id="@+id/lihatdetailexperience"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:background="@drawable/persegipanjang_button_profil_shape"-->
+<!--                android:text="Lihat Detail >"-->
+<!--                android:textSize="15sp"-->
+<!--                android:textColor="@color/black"-->
+<!--                app:backgroundTint="@null"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/imageButtonCompany"-->
+<!--                app:layout_constraintBottom_toBottomOf="@id/constraintcard" />-->
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--    </androidx.cardview.widget.CardView>
