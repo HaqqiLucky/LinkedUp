@@ -70,4 +70,8 @@ dependencies {
     // Tambahkan dependencies lain yang diperlukan
 
     implementation("androidx.room:room-ktx:2.5.0") //buat korotin
+
+    //glide buat database poto profil
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 }
