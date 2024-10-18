@@ -17,10 +17,10 @@ interface UserDao {
 //    @Query("SELECT * FROM users WHERE name = :name")
 //    fun getUserByName(name: String): Flow<User>
 
-    @Query("SELECT * from users WHERE _id = :id")
-    fun getUser(id: Int): Flow<User>
+    @Query("SELECT * from users ORDER BY _id DESC")
+    suspend fun getAllUser(): List<User>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(users: User)
 
     @Update

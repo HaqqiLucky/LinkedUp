@@ -8,7 +8,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedup.databinding.ActivityProfileBinding
+import com.example.linkedup.item.UserViewModel
 import com.example.linkedup.utils.LokerDatabase
 import com.example.linkedup.utils.User
 import com.example.linkedup.utils.UserDao
@@ -17,6 +19,8 @@ import kotlinx.coroutines.launch
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var userDao: UserDao
+    private lateinit var UserViewModel : UserViewModel
+    private lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

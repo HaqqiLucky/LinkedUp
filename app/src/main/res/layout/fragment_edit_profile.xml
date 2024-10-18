@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/white"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+tools:context=".Profile.EditProfileFragment">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineatas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.03"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelinekiridiEditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelinekanandiEditProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/potoprofil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
+        android:onClick="selectImage"
+        app:cardCornerRadius="75dp"
+        app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile"
+        app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
+        app:layout_constraintTop_toBottomOf="@+id/guidelineatas">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_margin="5dp"
+            android:background="@color/black"
+            app:cardCornerRadius="75dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/person1" />
+        </androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+
+    <EditText
+        android:id="@+id/nama"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Masukan Nama (max 30)"
+        android:maxLength="30"
+        android:layout_marginVertical="20dp"
+        android:textSize="30dp"
+        app:layout_constraintTop_toBottomOf="@id/potoprofil"
+        app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
+        app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile"
+        />
+
+    <EditText
+        android:id="@+id/deskEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Masukan Deskripsi Profil (max lenght : 220 karakter)"
+        android:text=""
+        android:maxLength="220"
+        app:layout_constraintTop_toBottomOf="@+id/nama"
+        app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
+        app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile"/>
+
+    <TextView
+        android:id="@+id/TextViewGender"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:text="Pilih Gender"
+        android:layout_marginVertical="10dp"
+        android:textSize="25dp"
+        app:layout_constraintTop_toBottomOf="@id/deskEdit"
+        app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
+        app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile"/>
+    <RadioGroup
+        android:id="@+id/genderEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/TextViewGender"
+        app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
+        app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile">
+
+        <RadioButton
+            android:id="@+id/He"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="(He/Him)"/>
+        <RadioButton
+            android:id="@+id/She"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="(She/Her)" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/simpan"
+        android:layout_width="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="50dp"
+        android:background="@drawable/persegipanjang_button_profil_shape"
+        android:text="Simpan"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        app:backgroundTint="@null"
+        app:layout_constraintTop_toBottomOf="@id/genderEdit"
+        app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
+        app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+</ScrollView>
+
+
+<!--    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex commodo cojgjg-->
