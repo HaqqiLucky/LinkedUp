@@ -28,7 +28,7 @@
             android:id="@+id/pppp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tambah Lowongan KerJa"
+            android:text="Edit Lowongan KerJa"
             android:textColor="#0000ff"
             android:textSize="30dp"
             android:layout_marginTop="30dp"
@@ -65,7 +65,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
-        <Spinner
+        <TextView
             android:id="@+id/company"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

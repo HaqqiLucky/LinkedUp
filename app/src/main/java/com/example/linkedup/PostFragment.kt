@@ -11,10 +11,12 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedup.databinding.FragmentPostBinding
+import com.example.linkedup.item.CompanyViewModel
 import com.example.linkedup.item.LokerViewModel
 import com.example.linkedup.utils.Loker
 import kotlinx.coroutines.launch
@@ -41,7 +43,7 @@ class PostFragment : Fragment() {
 
         binding.back.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_post, HomeFragment())
+                .replace(R.id.fragment_container, HomeFragment())
                 .addToBackStack(null)
                 .commit()
         }
@@ -52,11 +54,23 @@ class PostFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val spinner: Spinner = binding.company
-        val options = listOf("Opsi 1", "Opsi 2", "Opsi 3")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, options)
+        val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mutableListOf())
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
+
+        val viewModelCompany: CompanyViewModel by viewModels()
+
+        viewModelCompany.companyNames.observe(viewLifecycleOwner) { names ->
+            adapter.clear()
+            adapter.addAll(names)
+            adapter.notifyDataSetChanged()
+        }
+
+        lifecycleScope.launch {
+            viewModelCompany.fetchAllCompanyNames()
+        }
     }
 
     private fun insertLoker(title: String,gaji: String, deskripsi: String, instansi: String) {
@@ -70,7 +84,7 @@ class PostFragment : Fragment() {
             try {
                 data.forEach { lokerViewModel.insert(it) }
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_post, HomeFragment())
+                    .replace(R.id.fragment_container, HomeFragment())
                     .addToBackStack(null)
                     .commit()
                 Handler(Looper.getMainLooper()).postDelayed({

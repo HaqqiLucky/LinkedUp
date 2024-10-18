@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase
 abstract class LokerDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun lokerDao(): LokerDao
+    abstract fun companyDao(): CompanyDao
 
     companion object {
             @Volatile
