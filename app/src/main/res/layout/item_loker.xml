@@ -61,16 +61,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/title" />
 
             <TextView
-                android:id="@+id/lokasi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:textColor="#898989"
-                android:text="Jakarta, indonesia"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/company" />
-
-            <TextView
                 android:id="@+id/gaji"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +69,7 @@
                 android:textColor="#898989"
                 android:textSize="11dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lokasi" />
+                app:layout_constraintTop_toBottomOf="@+id/company" />
 
             <TextView
                 android:id="@+id/waktu"
