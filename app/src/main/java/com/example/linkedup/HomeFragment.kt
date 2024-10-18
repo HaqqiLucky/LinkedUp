@@ -1,5 +1,7 @@
 package com.example.linkedup
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -41,7 +43,11 @@ class HomeFragment : Fragment() {
 
         lokerViewModel.allLoker.observe(viewLifecycleOwner) { lokerList ->
             lokerList?.let {
-                recyclerView.adapter = LokerAdapter(it)
+                recyclerView.adapter = LokerAdapter(it, { context, loker ->
+                    showDeleteLokerConfirmationDialog(context, loker)
+                }, { id, title, deskripsi, gaji, company ->
+                    navigateToEditLokerPostFragment(id, title, deskripsi, gaji, company)
+                })
             }
         }
 
@@ -49,8 +55,17 @@ class HomeFragment : Fragment() {
             navigateToPostFragment()
         }
 
+        binding.company.setOnClickListener {
+            navigateToCompanyFragment()
+        }
+
         binding.profile.setOnClickListener {
             val intent = Intent(activity, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.logout.setOnClickListener {
+            val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
         }
 
@@ -60,9 +75,53 @@ class HomeFragment : Fragment() {
     private fun navigateToPostFragment() {
         val postFragment = PostFragment()
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_post, postFragment)
+            .replace(R.id.fragment_container, postFragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun navigateToCompanyFragment() {
+        val companyFragment = CompanyListFragment()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, companyFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun navigateToEditLokerPostFragment(id: Int, title: String, deskripsi: String, gaji: Int, company: String) {
+        val editPostFragment = EditPostFragment()
+        val bundle = Bundle()
+        bundle.putInt("id", id)
+        bundle.putString("title", title)
+        bundle.putString("deskripsi", deskripsi)
+        bundle.putInt("gaji", gaji)
+        bundle.putString("company", company)
+        editPostFragment.arguments = bundle
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, editPostFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    fun showDeleteLokerConfirmationDialog(context: Context, loker: Loker) {
+        AlertDialog.Builder(context)
+            .setTitle("Konfirmasi Hapus")
+            .setMessage("Apakah Anda yakin ingin menghapus loker ini?")
+            .setPositiveButton("Hapus") { dialog, _ ->
+                lifecycleScope.launch {
+                    try {
+                        lokerViewModel.delete(loker)
+                    } catch (e: Exception) {
+                        Log.e("HomeFragment", "Error hapus data", e)
+                    }
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton("Batal") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
 }

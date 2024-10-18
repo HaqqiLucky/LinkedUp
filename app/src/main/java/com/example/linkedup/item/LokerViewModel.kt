@@ -33,4 +33,14 @@ class LokerViewModel(application: Application) : AndroidViewModel(application) {
         fetchAllLoker()
     }
 
+    fun delete(loker: Loker) = viewModelScope.launch {
+        repository.delete(loker)
+        fetchAllLoker()
+    }
+
+    fun update(loker: Loker) = viewModelScope.launch {
+        repository.update(loker)
+        fetchAllLoker()
+    }
+
 }
