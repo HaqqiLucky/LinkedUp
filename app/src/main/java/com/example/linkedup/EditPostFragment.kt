@@ -40,6 +40,12 @@ class EditPostFragment : Fragment() {
             edittLoker(id.toInt(), binding.title.text.toString(), binding.gaji.text.toString(), binding.deskripsi.text.toString(), binding.company.text.toString() )
         }
 
+        binding.back.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, HomeFragment())
+                .addToBackStack(null)
+                .commit()
+        }
         return binding.root
     }
 
