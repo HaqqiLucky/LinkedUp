@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp")
+    id("com.google.devtools.ksp") //ksp kalo merah kesini
 }
 
 android {
@@ -36,6 +36,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -70,5 +71,7 @@ dependencies {
 
     implementation("androidx.room:room-ktx:2.5.0") //buat korotin
 
-
+    //glide buat database poto profil
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 }

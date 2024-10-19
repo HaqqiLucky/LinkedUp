@@ -94,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Belum punya akun? Register"
-        android:textColor="@android:color/holo_blue_light"
+        android:textColor="#33b5e5"
         android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
