@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Gambar Pekerjaan -->
+    <ImageView
+        android:id="@+id/job_image"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/software"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="1" />
+
+    <!-- Judul Pekerjaan -->
+    <TextView
+        android:id="@+id/job_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Software Engineer"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/job_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Gaji -->
+    <TextView
+        android:id="@+id/job_salary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gaji: Rp. 77.000.000,00 - Rp. 108.000.000,0"
+        android:textSize="16sp"
+        android:paddingStart="16dp"
+        app:layout_constraintTop_toBottomOf="@id/job_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Deskripsi Pekerjaan -->
+    <TextView
+        android:id="@+id/job_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="We are looking for a skilled Software Engineer with experience in developing web applications."
+        android:textSize="16sp"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/job_salary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.9" />
+
+    <!-- Nama Instansi/Perusahaan -->
+    <TextView
+        android:id="@+id/company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Company: Tech Innovators Inc."
+        android:textSize="14sp"
+        android:paddingStart="16dp"
+        app:layout_constraintTop_toBottomOf="@id/job_description"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Tanggal Posting -->
+    <TextView
+        android:id="@+id/posting_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Posted on: 2024-10-01"
+        android:textSize="14sp"
+        android:paddingStart="16dp"
+        app:layout_constraintTop_toBottomOf="@id/company_name"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Status Diterima -->
+    <TextView
+        android:id="@+id/job_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Status: Not Accepted"
+        android:textSize="14sp"
+        android:textColor="@android:color/holo_red_dark"
+        android:paddingStart="16dp"
+        app:layout_constraintTop_toBottomOf="@id/posting_date"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Tombol Apply -->
+    <Button
+        android:id="@+id/apply_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
+        android:backgroundTint="#0F72C1"
+        android:text="Apply Now"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/job_status" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
