@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,13 +15,17 @@ import com.example.linkedup.R
 import com.example.linkedup.utils.User
 import java.io.File
 
-class UserAdapter(private val userList: List<User>, private val showDeleteConfirmationDialog: (Context, User) -> Unit, private val navigateToEditLokerPostFragment: (id: Int, nama: String, deskripsi: String, gender:String,pengalaman: String,gambar: String ) -> Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+//pengalaman: String
+
+class UserAdapter(private val userList: List<User>, private val showDeleteConfirmationDialog: (Context, User) -> Unit, private val navigateToEditLokerPostFragment: (id: Int, nama: String,email: String,password: String, deskripsi: String, gender:String,gambar: String ) -> Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     class UserViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
         val namaTextView: TextView = itemView.findViewById(R.id.namauser)
+        var registEmailEditText: EditText = itemView.findViewById(R.id.etRegistEmail)
+        val registPasswordEditText: EditText = itemView.findViewById(R.id.etRegistPassword)
         val deskripsiTextView:TextView = itemView.findViewById(R.id.desk)
         val genderTextView:TextView = itemView.findViewById(R.id.gender)
         val alamatTextView:TextView = itemView.findViewById(R.id.alamat)
-        val pengalamanTextView: TextView = itemView.findViewById(R.id.experienceteks)
+//        val pengalamanTextView: TextView = itemView.findViewById(R.id.experienceteks)
         val gambarTextView:ImageView = itemView.findViewById(R.id.potoprofil)
 
         val edit: Button = itemView.findViewById(R.id.tombolEdit)
@@ -41,11 +46,10 @@ class UserAdapter(private val userList: List<User>, private val showDeleteConfir
         holder.deskripsiTextView.text = current.deskripsi
         holder.genderTextView.text = current.jenis_kelamin
         holder.alamatTextView.text = current.alamat
+        holder.registEmailEditText.setText(current.email)
+        holder.registPasswordEditText.setText(current.password)
 
-        // Path gambar dari database
         val imagePath = current.image
-
-        // Gunakan Glide untuk memuat gambar dari file lokal
         Glide.with(holder.gambarTextView.context)
             .load(File(imagePath))  // Mengambil gambar dari file lokal
             .placeholder(R.drawable.person1)  // Gambar placeholder jika tidak ada gambar
