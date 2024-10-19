@@ -15,7 +15,6 @@ class CompanyViewModel(application: Application) : AndroidViewModel(application)
     private val repository: CompanyRepository
     private val _allCompany = MutableLiveData<List<Company>>()
     val allCompany: LiveData<List<Company>> get() = _allCompany
-
     private val _companyNames = MutableLiveData<List<String>>()
     val companyNames: LiveData<List<String>> get() = _companyNames
 
