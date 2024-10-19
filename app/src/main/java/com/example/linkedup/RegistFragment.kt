@@ -38,11 +38,19 @@ class RegistFragment : Fragment() {
             val email = editTextEmail.text.toString()
             val password = editTextPassword.text.toString()
 
+            // Regular expression untuk validasi email
+            val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+
             // Logika untuk registrasi (misalnya validasi input)
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                // Lakukan proses registrasi di sini (misalnya, simpan ke database)
-                Toast.makeText(requireContext(), "Registrasi berhasil", Toast.LENGTH_SHORT).show()
-                // Anda dapat melakukan tindakan setelah registrasi sukses
+                if (email.matches(emailPattern.toRegex())) {
+                    // Jika email valid, lakukan proses registrasi di sini
+                    Toast.makeText(requireContext(), "Registrasi berhasil", Toast.LENGTH_SHORT).show()
+                    // Anda dapat melakukan tindakan setelah registrasi sukses
+                } else {
+                    // Menampilkan pesan kesalahan jika email tidak valid
+                    Toast.makeText(requireContext(), "Format email tidak valid. Gunakan @ dan .com", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 // Tampilkan pesan kesalahan jika ada field yang kosong
                 Toast.makeText(requireContext(), "Semua field harus diisi", Toast.LENGTH_SHORT).show()
