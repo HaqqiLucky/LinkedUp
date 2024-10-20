@@ -54,9 +54,19 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/headtest" />
             </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>
+
+        <ImageButton
+            android:id="@+id/tombolEditTabelUser"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/putih_magnolia"
+            android:src="@drawable/logo_edit"
+            app:layout_constraintBottom_toTopOf="@id/cardviewProfilOverview"
+            app:layout_constraintEnd_toEndOf="@id/guidelinekanan"/>
 
 
         <androidx.cardview.widget.CardView
