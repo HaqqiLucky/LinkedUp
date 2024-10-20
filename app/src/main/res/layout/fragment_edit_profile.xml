@@ -38,7 +38,6 @@ tools:context=".Profile.EditProfileFragment">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/black"
-        android:onClick="selectImage"
         app:cardCornerRadius="75dp"
         app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile"
         app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
@@ -84,6 +83,16 @@ tools:context=".Profile.EditProfileFragment">
         app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
         app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile"/>
 
+    <EditText
+        android:id="@+id/alamatEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:hint="Masukan alamat"
+        app:layout_constraintTop_toBottomOf="@id/deskEdit"
+        app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
+        app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile"/>
+
     <TextView
         android:id="@+id/TextViewGender"
         android:layout_width="0dp"
@@ -91,9 +100,10 @@ tools:context=".Profile.EditProfileFragment">
         android:text="Pilih Gender"
         android:layout_marginVertical="10dp"
         android:textSize="25dp"
-        app:layout_constraintTop_toBottomOf="@id/deskEdit"
+        app:layout_constraintTop_toBottomOf="@id/alamatEdit"
         app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
         app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile"/>
+
     <RadioGroup
         android:id="@+id/genderEdit"
         android:layout_width="0dp"
@@ -117,7 +127,7 @@ tools:context=".Profile.EditProfileFragment">
     </RadioGroup>
 
     <Button
-        android:id="@+id/simpan"
+        android:id="@+id/simpanButton"
         android:layout_width="0dp"
         android:layout_marginTop="20dp"
         android:layout_height="50dp"
@@ -129,8 +139,6 @@ tools:context=".Profile.EditProfileFragment">
         app:layout_constraintTop_toBottomOf="@id/genderEdit"
         app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
         app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile"/>
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
