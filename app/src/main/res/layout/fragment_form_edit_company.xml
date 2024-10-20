@@ -73,7 +73,7 @@
 
     <!-- Batal Button -->
     <Button
-        android:id="@+id/btnBatal"
+        android:id="@+id/btnSimpan"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -89,7 +89,7 @@
 
     <!-- Simpan Button -->
     <Button
-        android:id="@+id/btnSimpan"
+        android:id="@+id/btnBatal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -101,6 +101,6 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnBatal" />
+        app:layout_constraintTop_toBottomOf="@id/btnSimpan" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

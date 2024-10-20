@@ -11,6 +11,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <ImageButton
+                android:id="@+id/tombolHapusTabelUser"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/putih_magnolia"
+                android:src="@drawable/logo_delete"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <ImageButton
                 android:id="@+id/tombolEditTabelUser"
@@ -18,8 +26,8 @@
                 android:layout_height="60dp"
                 android:backgroundTint="@color/putih_magnolia"
                 android:src="@drawable/logo_edit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintEnd_toStartOf="@+id/tombolHapusTabelUser"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/imageView"

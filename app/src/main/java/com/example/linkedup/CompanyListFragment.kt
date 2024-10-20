@@ -1,5 +1,7 @@
 package com.example.linkedup
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -46,7 +48,11 @@ class CompanyListFragment : Fragment() {
 
         companyViewModel.allCompany.observe(viewLifecycleOwner) { companyList ->
             companyList?.let {
-                recyclerView.adapter = CompanyAdapter(it)
+                recyclerView.adapter = CompanyAdapter(it, { id, nama, alamat, web ->
+                    pindahEdit(id, nama, alamat, web)
+                },{ context, company ->
+                    showDeleteLokerConfirmationDialog(context, company)
+                })
             }
         }
         binding.addpost.setOnClickListener {
@@ -95,6 +101,39 @@ class CompanyListFragment : Fragment() {
             .replace(R.id.fragment_container, postFragment)
             .addToBackStack(null)
             .commit()
+    }
+    private fun pindahEdit(id: Int, nama: String, alamat: String, web: String) {
+        val homeFragment = FormEditCompanyFragment()
+        val bundle = Bundle()
+        bundle.putInt("id", id)
+        bundle.putString("nama", nama)
+        bundle.putString("alamat", alamat)
+        bundle.putString("web", web)
+        homeFragment.arguments = bundle
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, homeFragment)
+            .addToBackStack(null)
+            .commit()
+    }
+    fun showDeleteLokerConfirmationDialog(context: Context, company: Company) {
+        AlertDialog.Builder(context)
+            .setTitle("Konfirmasi Hapus")
+            .setMessage("Apakah Anda yakin ingin menghapus data ini?")
+            .setPositiveButton("Hapus") { dialog, _ ->
+                lifecycleScope.launch {
+                    try {
+                        companyViewModel.delete(company)
+                    } catch (e: Exception) {
+                        Log.e("HomeFragment", "Error hapus data", e)
+                    }
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton("Batal") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
     private fun insertCompany(nama: String, alamat: String, web: String) {
