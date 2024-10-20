@@ -12,7 +12,9 @@ class CompanyRepository(private val companyDao: CompanyDao) {
     }
 
     suspend fun delete(company: Company) {
-        companyDao.delete(company)
+        return withContext(Dispatchers.IO) {
+            companyDao.delete(company)
+        }
     }
 
     suspend fun update(company: Company) {
