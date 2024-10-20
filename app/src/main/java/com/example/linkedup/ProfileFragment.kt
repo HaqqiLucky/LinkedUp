@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.linkedup.Profile.EditProfileFragment
 import com.example.linkedup.databinding.FragmentPostBinding
 import com.example.linkedup.databinding.FragmentProfileBinding
 
@@ -22,6 +23,14 @@ class ProfileFragment : Fragment() {
             val experienceFragment = LihatDetailPengalamanFragment()
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, experienceFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
+        binding.tombolEditTabelUser.setOnClickListener{
+            val profileEdit = EditProfileFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, profileEdit)
                 .addToBackStack(null)
                 .commit()
         }

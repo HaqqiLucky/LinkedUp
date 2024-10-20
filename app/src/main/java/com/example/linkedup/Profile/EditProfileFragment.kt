@@ -1,10 +1,15 @@
 package com.example.linkedup.Profile
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.cardview.widget.CardView
+import com.bumptech.glide.Glide
 import com.example.linkedup.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -18,43 +23,44 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class EditProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var imageView: ImageView
+    private val REQUEST_IMAGE_PICK = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
+
+        // Inisialisasi ImageView
+        imageView = view.findViewById(R.id.gambaryangSesungguhnya)
+
+        // Set onClickListener pada CardView untuk membuka galeri
+        val cardView: CardView = view.findViewById(R.id.potoprofil)
+        cardView.setOnClickListener {
+            selectImageDariGaleri()
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment EditProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EditProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun selectImageDariGaleri() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        startActivityForResult(intent, REQUEST_IMAGE_PICK)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                // Menggunakan Glide untuk memuat gambar yang dipilih ke dalam ImageView
+                Glide.with(this)
+                    .load(uri)
+                    .into(imageView)
             }
+        }
     }
 }
