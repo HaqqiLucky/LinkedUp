@@ -29,6 +29,9 @@ interface UserDao {
     @Delete
     suspend fun delete(users: User)
 
+    @Query("SELECT * FROM users WHERE email = :email AND password = :password LIMIT 1")
+    suspend fun getUserByEmailAndPassword(email: String, password: String): User?
+
 //    @Query("SELECT * FROM users WHERE alamat = :alamat")
 //    fun getUserByalamat(alamat: String): LiveData<User>
 //

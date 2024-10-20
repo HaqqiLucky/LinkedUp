@@ -1,6 +1,9 @@
 package com.example.linkedup
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +13,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.linkedup.item.LokerViewModel
+import com.example.linkedup.item.SessionViewModel
+import com.example.linkedup.item.UserViewModel
+import com.example.linkedup.utils.Loker
+import com.example.linkedup.utils.User
+import kotlinx.coroutines.launch
 
 class RegistFragment : Fragment() {
-
+    private lateinit var userViewModel: UserViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -23,6 +34,7 @@ class RegistFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         // Mendapatkan referensi ke elemen UI
         val editTextName = view.findViewById<EditText>(R.id.etRegistName)
@@ -38,19 +50,13 @@ class RegistFragment : Fragment() {
             val email = editTextEmail.text.toString()
             val password = editTextPassword.text.toString()
 
+            userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
             // Regular expression untuk validasi email
             val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
 
             // Logika untuk registrasi (misalnya validasi input)
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                if (email.matches(emailPattern.toRegex())) {
-                    // Jika email valid, lakukan proses registrasi di sini
-                    Toast.makeText(requireContext(), "Registrasi berhasil", Toast.LENGTH_SHORT).show()
-                    // Anda dapat melakukan tindakan setelah registrasi sukses
-                } else {
-                    // Menampilkan pesan kesalahan jika email tidak valid
-                    Toast.makeText(requireContext(), "Format email tidak valid. Gunakan @ dan .com", Toast.LENGTH_SHORT).show()
-                }
+                tambahAccount(name, email, password)
             } else {
                 // Tampilkan pesan kesalahan jika ada field yang kosong
                 Toast.makeText(requireContext(), "Semua field harus diisi", Toast.LENGTH_SHORT).show()
@@ -66,6 +72,25 @@ class RegistFragment : Fragment() {
             transaction.replace(R.id.fragment_container, loginFragment)
             transaction.addToBackStack(null)
             transaction.commit()
+        }
+    }
+    private fun tambahAccount(name: String, email: String, password: String) {
+        val data = User(name = name, email = email, password = password, isAdmin = false, jenis_kelamin = "belum di set", deskripsi = "belum di set", alamat = "belum di set", image = "belum di set")
+
+        lifecycleScope.launch {
+            try {
+                userViewModel.insert(data)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, LoginnFragment())
+                    .addToBackStack(null)
+                    .commit()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    Toast.makeText(requireContext(), "Register Berhasil", Toast.LENGTH_SHORT).show()
+                }, 100)
+            } catch (e: Exception) {
+                Log.e("LokerActivity", "Error inserting data", e)
+                Toast.makeText(requireContext(), "Register gagal", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
