@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.linkedup.utils.Loker
 import com.example.linkedup.utils.LokerDatabase
 import com.example.linkedup.utils.User
 import com.example.linkedup.utils.UserDao
@@ -21,9 +22,19 @@ class UserViewModel(application: Application):AndroidViewModel(application) {
         repository = UserRepository(UserDao)
         fetchAllUser()
     }
+
     private fun fetchAllUser(){
         viewModelScope.launch {
             _allUser.value = repository.getAllUser()
         }
     }
+    fun insert(user: User) = viewModelScope.launch {
+        repository.insert(user)
+        fetchAllUser()
+    }
+
+    suspend fun getUserByEmailAndPassword(email: String, password: String): User? {
+        return repository.getUserByEmailAndPassword(email, password)
+    }
+
 }
