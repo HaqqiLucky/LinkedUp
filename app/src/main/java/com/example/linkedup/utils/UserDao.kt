@@ -14,9 +14,6 @@ interface UserDao {
     @Query("SELECT * FROM users")
     fun getAll(): Flow<User>
 
-//    @Query("SELECT * FROM users WHERE name = :name")
-//    fun getUserByName(name: String): Flow<User>
-
     @Query("SELECT * from users ORDER BY _id DESC")
     suspend fun getAllUser(): List<User>
 

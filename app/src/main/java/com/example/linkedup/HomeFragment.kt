@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -59,13 +60,20 @@ class HomeFragment : Fragment() {
             navigateToCompanyFragment()
         }
 
+        val userId = arguments?.getInt("EXTRA_USER_ID") ?: -1 // Atur default value jika tidak ada
+        val userName = arguments?.getString("EXTRA_USER_NAME")
+        val userDescription = arguments?.getString("EXTRA_USER_DESCRIPTION")
         binding.profile.setOnClickListener {
             val intent = Intent(activity, ProfileActivity::class.java)
+            intent.putExtra("EXTRA_USER_ID", userId) // Ganti dengan nama properti yang sesuai
+            intent.putExtra("EXTRA_USER_NAME", userName)
+            intent.putExtra("EXTRA_USER_DESCRIPTION", userDescription)
             startActivity(intent)
         }
 
         binding.logout.setOnClickListener {
             val intent = Intent(activity, MainActivity::class.java)
+            clearUserPreferences()
             startActivity(intent)
         }
 
@@ -123,5 +131,13 @@ class HomeFragment : Fragment() {
             .create()
             .show()
     }
+    private fun clearUserPreferences() {
+        val sharedPref = requireActivity().getSharedPreferences("user_prefs", AppCompatActivity.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            clear()
+            apply()
+        }
+    }
+
 
 }

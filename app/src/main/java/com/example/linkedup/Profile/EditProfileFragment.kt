@@ -9,8 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.linkedup.R
+import com.example.linkedup.databinding.FragmentEditProfileBinding
+import com.example.linkedup.item.UserViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +29,8 @@ class EditProfileFragment : Fragment() {
 
     private lateinit var imageView: ImageView
     private val REQUEST_IMAGE_PICK = 1
+    private lateinit var binding : FragmentEditProfileBinding
+    private lateinit var userViewModel : UserViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +38,6 @@ class EditProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
-
         // Inisialisasi ImageView
         imageView = view.findViewById(R.id.gambaryangSesungguhnya)
 
@@ -43,6 +47,18 @@ class EditProfileFragment : Fragment() {
             selectImageDariGaleri()
         }
 
+        binding = FragmentEditProfileBinding.inflate(inflater,container,false)
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+
+        val id : String = arguments?.getInt("id").toString()
+        binding.nama.setText(arguments?.getString("title"))
+        binding.deskEdit.setText(arguments?.getString("desk"))
+        val selectedGenderId = binding.genderEdit.checkedRadioButtonId
+        val selectedGender = when (selectedGenderId){
+            R.id.He -> "(He/Him)"
+            R.id.She -> "(She/Her)"
+            else -> ""
+        }
         return view
     }
 

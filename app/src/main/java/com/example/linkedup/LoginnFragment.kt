@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.linkedup.item.SessionViewModel
@@ -62,15 +63,43 @@ class LoginnFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 sessionViewModel.login(email, password)
-                val intent = Intent(activity, HomeActivity::class.java)
-                startActivity(intent)
-                Handler(Looper.getMainLooper()).postDelayed({
-                    Toast.makeText(requireContext(), "Login Berhasil", Toast.LENGTH_SHORT).show()
-                }, 100)
+//                sessionViewModel.userSession.value?.let { Log.d("lalala", it.name) }
+                sessionViewModel.userSession.observe(viewLifecycleOwner) { user ->
+                    if (user != null) {
+                        // Jika user berhasil disimpan di session (login berhasil)
+                        saveUserToPreferences(user)
+                        val intent = Intent(activity, HomeActivity::class.java)
+                        intent.putExtra("EXTRA_USER_ID", user._id) // Ganti dengan nama properti yang sesuai
+                        intent.putExtra("EXTRA_USER_NAME", user.name.toString())
+                        intent.putExtra("EXTRA_USER_DESCRIPTION", user.deskripsi)
+                        startActivity(intent)
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            Toast.makeText(requireContext(), "Login Berhasil", Toast.LENGTH_SHORT).show()
+                        }, 100)
+                    } else {
+//                         Jika userSession tetap null (login gagal)
+                        Toast.makeText(requireContext(), "Login gagal", Toast.LENGTH_SHORT).show()
+                    }
+                }
             } catch (e: Exception) {
                 Log.e("LokerActivity", "Error inserting data", e)
                 Toast.makeText(requireContext(), "Login gagal", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+    private fun saveUserToPreferences(user: User) {
+        val sharedPref = requireActivity().getSharedPreferences("user_prefs", AppCompatActivity.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putInt("user_id", user._id)
+            putString("user_name", user.name)
+            putString("user_alamat", user.alamat)
+            putString("user_email", user.email)
+            putString("user_password", user.password) // Hati-hati menyimpan password, gunakan metode hashing dan salting jika perlu
+            putString("user_deskripsi", user.deskripsi)
+            putString("user_gender", user.jenis_kelamin)
+            putBoolean("user_isAdmin", user.isAdmin)
+            putString("user_image", user.image)
+            apply() // Simpan perubahan
         }
     }
 }
