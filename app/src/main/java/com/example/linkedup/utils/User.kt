@@ -12,7 +12,7 @@ data class User(
     val email: String,
     val password: String,
     val deskripsi : String? = null,
-    @ColumnInfo (name = "gender") val jenis_kelamin : String? = null,
+    val jenis_kelamin : String? = null,
     val isAdmin : Boolean,
     val image: String? = null,
 //    @ColumnInfo (name = "no_tlpn") val telepon : String,

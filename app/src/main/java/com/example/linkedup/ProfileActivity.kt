@@ -38,7 +38,6 @@ class ProfileActivity : AppCompatActivity() {
         }
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, ProfileFragment())
-            .addToBackStack(null)
             .commit()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

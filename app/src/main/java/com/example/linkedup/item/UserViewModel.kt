@@ -1,6 +1,7 @@
 package com.example.linkedup.item
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,6 +32,28 @@ class UserViewModel(application: Application):AndroidViewModel(application) {
     fun insert(user: User) = viewModelScope.launch {
         repository.insert(user)
         fetchAllUser()
+    }
+
+    fun update(user: User) = viewModelScope.launch {
+        repository.update(user)
+        saveUserToPreferences(user)
+        fetchAllUser()
+    }
+
+    private fun saveUserToPreferences(user: User) {
+        val sharedPref = getApplication<Application>().getSharedPreferences("user_prefs", AppCompatActivity.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putInt("user_id", user._id)
+            putString("user_name", user.name)
+            putString("user_alamat", user.alamat)
+            putString("user_email", user.email)
+            putString("user_password", user.password) // Hati-hati menyimpan password, gunakan metode hashing dan salting jika perlu
+            putString("user_deskripsi", user.deskripsi)
+            putString("user_gender", user.jenis_kelamin)
+            putBoolean("user_isAdmin", user.isAdmin)
+            putString("user_image", user.image)
+            apply() // Simpan perubahan
+        }
     }
 
     suspend fun getUserByEmailAndPassword(email: String, password: String): User? {

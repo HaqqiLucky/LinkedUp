@@ -36,8 +36,7 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         user = loadUserFromPreferences() ?: User(-1, "Guest", null, "", "", null, null, false, null)
-        binding.namauser.text = user.name
-//        binding.desk. = user.deskripsi
+
 //        binding.alamat.text =
 
 
@@ -71,8 +70,16 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inisialisasi ViewModel
-
+    }
+    override fun onResume() {
+        super.onResume()
+        user = loadUserFromPreferences() ?: User(-1, "Guest", null, "", "", null, null, false, null)
+        updateUI()
+    }
+    private fun updateUI() {
+        binding.namauser.text = user.name
+        binding.desk.text = user.deskripsi.toString()
+        binding.alamat.text = user.alamat.toString()
     }
     private fun loadUserFromPreferences(): User? {
         val sharedPref = requireActivity().getSharedPreferences("user_prefs", MODE_PRIVATE)
