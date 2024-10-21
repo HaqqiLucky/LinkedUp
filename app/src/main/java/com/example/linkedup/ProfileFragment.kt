@@ -1,6 +1,8 @@
 package com.example.linkedup
 
+import android.app.AlertDialog
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import com.example.linkedup.Profile.EditProfileFragment
 import com.example.linkedup.databinding.FragmentProfileBinding
 import com.example.linkedup.item.LokerViewModel
 import com.example.linkedup.item.SessionViewModel
+import com.example.linkedup.item.UserViewModel
 import com.example.linkedup.utils.User
 import kotlinx.coroutines.launch
 
@@ -21,11 +24,14 @@ import kotlinx.coroutines.launch
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var sessionViewModel: SessionViewModel
+    private lateinit var userViewModel: UserViewModel
     private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sessionViewModel = ViewModelProvider(requireActivity()).get(SessionViewModel::class.java)
+        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
     }
 
     override fun onCreateView(
@@ -37,7 +43,9 @@ class ProfileFragment : Fragment() {
 
         user = loadUserFromPreferences() ?: User(-1, "Guest", null, "", "", null, null, false, null)
 
-//        binding.alamat.text =
+        binding.hapusAkunButton.setOnClickListener {
+            hpsAkun(user._id)
+        }
 
 
         sessionViewModel = ViewModelProvider(this).get(SessionViewModel::class.java)
@@ -67,15 +75,65 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun hpsAkun(userId: Int) {
+        Log.d("ProfileFragment", "Tombol hapus akun diklik") // Cek apakah fungsi terpanggil
+        AlertDialog.Builder(context)
+            .setTitle("Konfirmasi Hapus")
+            .setMessage("Apakah Anda yakin ingin menghapus Akun ini?")
+            .setPositiveButton("Hapus") { dialog, _ ->
+                lifecycleScope.launch {
+                    try {
+                        userViewModel.deleteUserAccount(userId)
+                        balikkeLogin()
+                    } catch (e: Exception) {
+                        Log.e("HomeFragment", "Error hapus data", e)
+                    }
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton("Batal") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+
+    private fun balikkeLogin() {
+        val intent = Intent(activity, RegisterLoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        activity?.finish()
+    }
+
+    private fun clearUserPreferences() {
+        val sharedPref = requireActivity().getSharedPreferences("user_prefs", MODE_PRIVATE)
+        with(sharedPref.edit()){
+            clear()
+            apply()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
     }
     override fun onResume() {
         super.onResume()
+        sessionViewModel.userId.observe(viewLifecycleOwner) { userId ->
+            if (userId != null) {
+                // Gunakan userId dari sessionViewModel
+                Log.d("ProfileFragment", "User ID dari SessionViewModel: $userId")
+            } else {
+                Log.d("ProfileFragment", "User ID masih null")
+            }
+        }
+
         user = loadUserFromPreferences() ?: User(-1, "Guest", null, "", "", null, null, false, null)
         updateUI()
     }
+
     private fun updateUI() {
         binding.namauser.text = user.name
         binding.desk.text = user.deskripsi.toString()
@@ -95,5 +153,6 @@ class ProfileFragment : Fragment() {
 
         return User(userId, userName, userAlamat, userEmail, userPassword, userDeskripsi, userGender, userIsAdmin, userImage)
     }
+
 
 }

@@ -23,4 +23,5 @@ class LokerRepository(private val lokerDao: LokerDao) {
     suspend fun getAllLoker(): List<Loker> {
         return lokerDao.getAllLoker()
     }
+
 }

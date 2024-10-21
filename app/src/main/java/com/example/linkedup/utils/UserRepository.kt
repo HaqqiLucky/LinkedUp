@@ -1,5 +1,6 @@
 package com.example.linkedup.utils
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -26,6 +27,9 @@ class UserRepository(private val userDao: UserDao) {
 
     suspend fun getUserByEmailAndPassword(email: String, password: String): User? {
         return userDao.getUserByEmailAndPassword(email, password)
+    }
+    suspend fun deleteUserById (userId: Int){
+        return userDao.deleteUser(userId)
     }
 
 }
