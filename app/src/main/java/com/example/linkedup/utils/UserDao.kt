@@ -17,6 +17,9 @@ interface UserDao {
     @Query("SELECT * from users ORDER BY _id DESC")
     suspend fun getAllUser(): List<User>
 
+    @Query("DELETE FROM users WHERE _id = :userId")
+    suspend fun deleteUser(userId: Int)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(users: User)
 

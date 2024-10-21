@@ -1,6 +1,7 @@
 package com.example.linkedup.item
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,12 +29,16 @@ class SessionViewModel(application: Application) : AndroidViewModel(application)
 
     // Fungsi login
     fun login(email: String, password: String) {
+        Log.d("SessionViewModel", "Memulai proses login untuk email: $email")
         viewModelScope.launch {
             val user = userRepository.getUserByEmailAndPassword(email, password)
             if (user != null) {
             _userSession.value = user
             _userId.value = user?._id
             _userName.value = user?.name
+                Log.d("SessionViewModel", "User ID setelah login: ${_userId.value}")
+            }else {
+                Log.d("SessionViewModel", "Login gagal, userId null")
             }
         }
     }
@@ -42,4 +47,6 @@ class SessionViewModel(application: Application) : AndroidViewModel(application)
         _userSession.value = null
         _userId.value = null
     }
+
+
 }

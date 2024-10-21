@@ -1,6 +1,7 @@
 package com.example.linkedup.item
 
 import android.app.Application
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -11,6 +12,8 @@ import com.example.linkedup.utils.LokerDatabase
 import com.example.linkedup.utils.User
 import com.example.linkedup.utils.UserDao
 import com.example.linkedup.utils.UserRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class UserViewModel(application: Application):AndroidViewModel(application) {
@@ -40,6 +43,11 @@ class UserViewModel(application: Application):AndroidViewModel(application) {
         fetchAllUser()
     }
 
+    fun delete(user: User) = viewModelScope.launch {
+        repository.delete(user)
+        fetchAllUser()
+    }
+
     private fun saveUserToPreferences(user: User) {
         val sharedPref = getApplication<Application>().getSharedPreferences("user_prefs", AppCompatActivity.MODE_PRIVATE)
         with(sharedPref.edit()) {
@@ -53,6 +61,11 @@ class UserViewModel(application: Application):AndroidViewModel(application) {
             putBoolean("user_isAdmin", user.isAdmin)
             putString("user_image", user.image)
             apply() // Simpan perubahan
+        }
+    }
+    fun deleteUserAccount(userId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+        repository.deleteUserById(userId)
         }
     }
 

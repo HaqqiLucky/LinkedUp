@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="12dp" />
+            app:layout_constraintGuide_percent="0.02919708" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelinekanan"
@@ -325,11 +325,13 @@
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="Hapus Akun"
-            android:textColor="@color/black"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
             android:textSize="15sp"
             app:backgroundTint="#f32323"
-            app:layout_constraintBottom_toTopOf="@+id/tombolEditTabelUser"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/cardPendidikan"
+            app:layout_constraintEnd_toEndOf="@id/guidelinekanan"
+            app:layout_constraintStart_toStartOf="@id/guidelinekiri"/>
         <!---->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
