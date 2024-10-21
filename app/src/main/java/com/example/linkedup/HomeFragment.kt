@@ -48,6 +48,14 @@ class HomeFragment : Fragment() {
                     showDeleteLokerConfirmationDialog(context, loker)
                 }, { id, title, deskripsi, gaji, company ->
                     navigateToEditLokerPostFragment(id, title, deskripsi, gaji, company)
+                }, { title, gaji, deskripsi, waktu, company ->
+                    val intent = Intent(activity, DetailActivity::class.java)
+                    intent.putExtra("title", title)
+                    intent.putExtra("gaji", gaji)
+                    intent.putExtra("deskripsi", deskripsi)
+                    intent.putExtra("waktu", waktu)
+                    intent.putExtra("company", company)
+                    startActivity(intent)
                 })
             }
         }

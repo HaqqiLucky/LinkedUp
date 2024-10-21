@@ -14,7 +14,7 @@ import com.example.linkedup.utils.Loker
 import kotlinx.coroutines.launch
 
 // LokerAdapter.kt
-class LokerAdapter(private val lokerList: List<Loker>, private val showDeleteConfirmationDialog: (Context, Loker) -> Unit, private val navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit) : RecyclerView.Adapter<LokerAdapter.LokerViewHolder>() {
+class LokerAdapter(private val lokerList: List<Loker>, private val showDeleteConfirmationDialog: (Context, Loker) -> Unit, private val navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit, private val detail: (title:String, gaji:String, deskripsi:String, waktu:String, company:String) -> Unit) : RecyclerView.Adapter<LokerAdapter.LokerViewHolder>() {
     class LokerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val titleTextView: TextView = itemView.findViewById(R.id.title)
         val gajiTextView: TextView = itemView.findViewById(R.id.gaji)
@@ -44,6 +44,10 @@ class LokerAdapter(private val lokerList: List<Loker>, private val showDeleteCon
         }
         holder.edit.setOnClickListener {
             navigateToEditLokerPostFragment(current._id, current.title, current.deskripsi, current.gaji, current.instansi)
+        }
+
+        holder.titleTextView.setOnClickListener {
+            detail(current.title, current.gaji.toString(), current.deskripsi, current.dibuat, current.instansi)
         }
     }
 
