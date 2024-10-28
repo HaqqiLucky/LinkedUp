@@ -55,7 +55,7 @@ class UserViewModel(application: Application):AndroidViewModel(application) {
             putString("user_name", user.name)
             putString("user_alamat", user.alamat)
             putString("user_email", user.email)
-            putString("user_password", user.password) // Hati-hati menyimpan password, gunakan metode hashing dan salting jika perlu
+            putString("user_password", user.password)
             putString("user_deskripsi", user.deskripsi)
             putString("user_gender", user.jenis_kelamin)
             putBoolean("user_isAdmin", user.isAdmin)
