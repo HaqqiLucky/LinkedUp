@@ -17,7 +17,10 @@ import java.io.File
 
 //pengalaman: String
 
-class UserAdapter(private val userList: List<User>, private val showDeleteConfirmationDialog: (Context, User) -> Unit, private val navigateToEditLokerPostFragment: (id: Int, nama: String,email: String,password: String, deskripsi: String, gender:String,gambar: String ) -> Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter(private val userList: List<User>, private val showDeleteConfirmationDialog: (Context, User) ->
+Unit, private val navigateToEditLokerPostFragment: (id: Int, nama: String,email: String,password: String,
+                                                    deskripsi: String, gender:String,gambar: String ) ->
+Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     class UserViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
         val namaTextView: TextView = itemView.findViewById(R.id.namauser)
         var registEmailEditText: EditText = itemView.findViewById(R.id.etRegistEmail)
