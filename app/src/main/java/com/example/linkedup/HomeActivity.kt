@@ -21,23 +21,12 @@ import java.util.Date
 import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
-    private lateinit var lokerViewModel: LokerViewModel
-    private lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
         if (savedInstanceState == null) {
-            val userId = intent.getIntExtra("EXTRA_USER_ID", -1) // Atur default value jika tidak ada
-            val userName = intent.getStringExtra("EXTRA_USER_NAME")
-            val userDescription = intent.getStringExtra("EXTRA_USER_DESCRIPTION")
-            val homeFragment = HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putInt("EXTRA_USER_ID", userId) // Pastikan ini sesuai dengan tipe data yang benar
-                    putString("EXTRA_USER_NAME", userName)
-                    putString("EXTRA_USER_DESCRIPTION", userDescription) // Pastikan ada properti description di model User
-                }
-            }
+            val homeFragment = HomeFragment()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, homeFragment)
                 .commit()

@@ -16,9 +16,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments ["clearPackageData"] = "true"
-
-
+//        testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
 
     buildTypes {
@@ -53,6 +51,7 @@ dependencies {
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation("com.google.android.material:material:1.8.0")
     implementation(libs.androidx.junit.ktx)
     implementation(libs.androidx.media3.test.utils)
 //    testImplementation(libs.junit)

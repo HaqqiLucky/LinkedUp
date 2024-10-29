@@ -36,10 +36,9 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        recyclerView = binding.itemloker  // Pastikan ID ini benar
+        recyclerView = binding.itemloker
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         lokerViewModel.allLoker.observe(viewLifecycleOwner) { lokerList ->
@@ -68,14 +67,8 @@ class HomeFragment : Fragment() {
             navigateToCompanyFragment()
         }
 
-        val userId = arguments?.getInt("EXTRA_USER_ID") ?: -1 // Atur default value jika tidak ada
-        val userName = arguments?.getString("EXTRA_USER_NAME")
-        val userDescription = arguments?.getString("EXTRA_USER_DESCRIPTION")
         binding.profile.setOnClickListener {
             val intent = Intent(activity, ProfileActivity::class.java)
-            intent.putExtra("EXTRA_USER_ID", userId) // Ganti dengan nama properti yang sesuai
-            intent.putExtra("EXTRA_USER_NAME", userName)
-            intent.putExtra("EXTRA_USER_DESCRIPTION", userDescription)
             startActivity(intent)
         }
 

@@ -15,32 +15,26 @@ class LokerViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: LokerRepository
     private val _allLoker = MutableLiveData<List<Loker>>()
     val allLoker: LiveData<List<Loker>> get() = _allLoker
-
     init {
         val lokerDao = LokerDatabase.getDatabase(application).lokerDao()
         repository = LokerRepository(lokerDao)
         fetchAllLoker()
     }
-
     private fun fetchAllLoker() {
         viewModelScope.launch {
             _allLoker.value = repository.getAllLoker()
         }
     }
-
     fun insert(loker: Loker) = viewModelScope.launch {
         repository.insert(loker)
         fetchAllLoker()
     }
-
     fun delete(loker: Loker) = viewModelScope.launch {
         repository.delete(loker)
         fetchAllLoker()
     }
-
     fun update(loker: Loker) = viewModelScope.launch {
         repository.update(loker)
         fetchAllLoker()
     }
-
 }

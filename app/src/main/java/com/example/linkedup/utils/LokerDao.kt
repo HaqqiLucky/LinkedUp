@@ -11,7 +11,7 @@ import androidx.room.Update
 @Dao
 interface LokerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(loker: Loker)
+    suspend fun insert(vararg loker: Loker)
 
     @Query("SELECT * FROM loker ORDER BY _id DESC")
     suspend fun getAllLoker(): List<Loker>

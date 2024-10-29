@@ -10,7 +10,11 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Tests" value="360" />
+<<<<<<< HEAD
+                  <entry key="ZTE ZTE Blade A54" value="120" />
+=======
                   <entry key="samsung SM-A057F" value="120" />
+>>>>>>> a1558ac442f7700e91ecf669f48a3092e90a0133
                 </map>
               </option>
             </AndroidTestResultsTableState>
