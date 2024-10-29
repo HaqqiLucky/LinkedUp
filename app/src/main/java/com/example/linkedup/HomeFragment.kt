@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,9 +18,6 @@ import com.example.linkedup.item.LokerAdapter
 import com.example.linkedup.item.LokerViewModel
 import com.example.linkedup.utils.Loker
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -59,28 +55,12 @@ class HomeFragment : Fragment() {
             }
         }
 
-        binding.addpost.setOnClickListener {
+        binding.addbutton.setOnClickListener {
             navigateToPostFragment()
-        }
-
-        binding.company.setOnClickListener {
-            navigateToCompanyFragment()
-        }
-
-        binding.profile.setOnClickListener {
-            val intent = Intent(activity, ProfileActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.logout.setOnClickListener {
-            val intent = Intent(activity, MainActivity::class.java)
-            clearUserPreferences()
-            startActivity(intent)
         }
 
         return binding.root
     }
-
     private fun navigateToPostFragment() {
         val postFragment = PostFragment()
         parentFragmentManager.beginTransaction()
@@ -88,15 +68,6 @@ class HomeFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
-
-    private fun navigateToCompanyFragment() {
-        val companyFragment = CompanyListFragment()
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, companyFragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
     fun navigateToEditLokerPostFragment(id: Int, title: String, deskripsi: String, gaji: Int, company: String) {
         val editPostFragment = EditPostFragment()
         val bundle = Bundle()
@@ -132,13 +103,5 @@ class HomeFragment : Fragment() {
             .create()
             .show()
     }
-    private fun clearUserPreferences() {
-        val sharedPref = requireActivity().getSharedPreferences("user_prefs", AppCompatActivity.MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            clear()
-            apply()
-        }
-    }
-
 
 }

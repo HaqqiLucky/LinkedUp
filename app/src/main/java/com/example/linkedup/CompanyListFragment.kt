@@ -2,7 +2,6 @@ package com.example.linkedup
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,11 +19,7 @@ import com.example.linkedup.databinding.FragmentCompanyListBinding
 import com.example.linkedup.item.CompanyAdapter
 import com.example.linkedup.item.CompanyViewModel
 import com.example.linkedup.utils.Company
-import com.example.linkedup.utils.Loker
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class CompanyListFragment : Fragment() {
     private lateinit var binding: FragmentCompanyListBinding
@@ -55,13 +50,6 @@ class CompanyListFragment : Fragment() {
                 })
             }
         }
-        binding.addpost.setOnClickListener {
-            navigateToPostFragment()
-        }
-
-        binding.home.setOnClickListener {
-            navigateToHomeFragment()
-        }
 
         binding.addbutton.setOnClickListener {
             binding.cardPopUp.visibility = View.VISIBLE
@@ -75,32 +63,7 @@ class CompanyListFragment : Fragment() {
             insertCompany(binding.nama.text.toString(), binding.alamat.text.toString(), binding.web.text.toString())
         }
 
-        binding.profile.setOnClickListener {
-            val intent = Intent(activity, ProfileActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.logout.setOnClickListener {
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
-        }
-
         return binding.root
-    }
-
-    private fun navigateToHomeFragment() {
-        val homeFragment = HomeFragment()
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, homeFragment)
-            .addToBackStack(null)
-            .commit()
-    }
-    private fun navigateToPostFragment() {
-        val postFragment = PostFragment()
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, postFragment)
-            .addToBackStack(null)
-            .commit()
     }
     private fun pindahEdit(id: Int, nama: String, alamat: String, web: String) {
         val homeFragment = FormEditCompanyFragment()
