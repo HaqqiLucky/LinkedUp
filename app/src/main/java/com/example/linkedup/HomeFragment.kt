@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var lokerViewModel: LokerViewModel
     private lateinit var recyclerView: RecyclerView
-
+//f
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lokerViewModel = ViewModelProvider(this).get(LokerViewModel::class.java)
