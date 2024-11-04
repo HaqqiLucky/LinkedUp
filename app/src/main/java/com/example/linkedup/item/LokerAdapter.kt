@@ -1,48 +1,74 @@
 package com.example.linkedup.item
 
-import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.linkedup.R
+import com.example.linkedup.databinding.ItemLokerBinding
 import com.example.linkedup.utils.Loker
-import kotlinx.coroutines.launch
 
-class LokerAdapter(private val lokerList: List<Loker>, private val showDeleteConfirmationDialog: (Context, Loker) -> Unit, private val navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit, private val detail: (title:String, gaji:String, deskripsi:String, waktu:String, company:String) -> Unit) : RecyclerView.Adapter<LokerAdapter.LokerViewHolder>() {
-    class LokerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleTextView: TextView = itemView.findViewById(R.id.title)
-        val gajiTextView: TextView = itemView.findViewById(R.id.gaji)
-        val instansiTextView: TextView = itemView.findViewById(R.id.company)
-        val dibuatTextView: TextView = itemView.findViewById(R.id.waktu)
-        val hapus: Button = itemView.findViewById(R.id.hapus)
-        val edit: Button = itemView.findViewById(R.id.edit)
+class LokerAdapter(
+    private val showDeleteConfirmationDialog: (Context, Loker) -> Unit,
+    private val navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
+    private val detail: (title: String, gaji: String, deskripsi: String, waktu: String, company: String) -> Unit
+) : ListAdapter<Loker, LokerAdapter.LokerViewHolder>(LokerDiffCallback()) {
+
+    class LokerViewHolder private constructor(
+        val binding: ItemLokerBinding,
+        private val showDeleteConfirmationDialog: (Context, Loker) -> Unit,
+        private val navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
+        private val detail: (title: String, gaji: String, deskripsi: String, waktu: String, company: String) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(item: Loker) {
+            binding.title.text = item.title
+            binding.gaji.text = "Rp. ${item.gaji}"
+            binding.company.text = item.instansi
+            binding.waktu.text = item.dibuat
+
+            binding.hapus.setOnClickListener {
+                showDeleteConfirmationDialog(binding.root.context, item)
+            }
+            binding.edit.setOnClickListener {
+                navigateToEditLokerPostFragment(item._id, item.title, item.deskripsi, item.gaji, item.instansi)
+            }
+            binding.title.setOnClickListener {
+                detail(item.title, item.gaji.toString(), item.deskripsi, item.dibuat, item.instansi)
+            }
+        }
+
+        companion object {
+            fun from(
+                parent: ViewGroup,
+                showDeleteConfirmationDialog: (Context, Loker) -> Unit,
+                navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
+                detail: (title: String, gaji: String, deskripsi: String, waktu: String, company: String) -> Unit
+            ): LokerViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ItemLokerBinding.inflate(layoutInflater, parent, false)
+                return LokerViewHolder(binding, showDeleteConfirmationDialog, navigateToEditLokerPostFragment, detail)
+            }
+        }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LokerViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_loker, parent, false)
-        return LokerViewHolder(itemView)
+        return LokerViewHolder.from(parent, showDeleteConfirmationDialog, navigateToEditLokerPostFragment, detail)
     }
-    override fun onBindViewHolder(holder: LokerViewHolder, position: Int) {
-        val current = lokerList[position]
-        holder.titleTextView.text = current.title
-        holder.gajiTextView.text = "Rp. ${current.gaji}"
-        holder.instansiTextView.text = "${current.instansi}"
-        holder.dibuatTextView.text = "${current.dibuat}"
-        holder.hapus.setOnClickListener {
-            showDeleteConfirmationDialog(holder.itemView.context, current)
-        }
-        holder.edit.setOnClickListener {
-            navigateToEditLokerPostFragment(current._id, current.title, current.deskripsi, current.gaji, current.instansi)
-        }
-        holder.titleTextView.setOnClickListener {
-            detail(current.title, current.gaji.toString(), current.deskripsi, current.dibuat, current.instansi)
-        }
-    }
-    override fun getItemCount() = lokerList.size
-}
 
+    override fun onBindViewHolder(holder: LokerViewHolder, position: Int) {
+        val current = getItem(position)
+        holder.bind(current)
+    }
+
+    class LokerDiffCallback : DiffUtil.ItemCallback<Loker>() {
+        override fun areItemsTheSame(oldItem: Loker, newItem: Loker): Boolean {
+            return oldItem._id == newItem._id
+        }
+
+        override fun areContentsTheSame(oldItem: Loker, newItem: Loker): Boolean {
+            return oldItem == newItem
+        }
+    }
+}

@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.linkedup.R
@@ -20,7 +22,9 @@ import java.io.File
 class UserAdapter(private val userList: List<User>, private val showDeleteConfirmationDialog: (Context, User) ->
 Unit, private val navigateToEditLokerPostFragment: (id: Int, nama: String,email: String,password: String,
                                                     deskripsi: String, gender:String,gambar: String ) ->
-Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+Unit) :
+//    RecyclerView.Adapter<UserAdapter.UserViewHolder>()
+    ListAdapter<User, UserAdapter.UserViewHolder>(RowItemDiffCallback()){
     class UserViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
         val namaTextView: TextView = itemView.findViewById(R.id.namauser)
         var registEmailEditText: EditText = itemView.findViewById(R.id.etRegistEmail)
@@ -34,6 +38,24 @@ Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
         val edit: Button = itemView.findViewById(R.id.tombolEdit)
 
 //        val hapus
+
+//        companion object{
+//            fun from(parent : ViewGroup):UserViewHolder{
+//                val layoutInflater = LayoutInflater.from(parent.context)
+////                val binding =
+//            }
+//        } INI DI LANJUT HABIS BUAT TABEL EKSPERIENCE
+
+    }
+
+    class RowItemDiffCallback : DiffUtil.ItemCallback<User>(){
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem == newItem
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {

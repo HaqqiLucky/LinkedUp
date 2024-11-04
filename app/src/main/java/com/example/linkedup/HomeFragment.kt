@@ -23,7 +23,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var lokerViewModel: LokerViewModel
     private lateinit var recyclerView: RecyclerView
-//f
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lokerViewModel = ViewModelProvider(this).get(LokerViewModel::class.java)
@@ -39,21 +39,28 @@ class HomeFragment : Fragment() {
 
         lokerViewModel.allLoker.observe(viewLifecycleOwner) { lokerList ->
             lokerList?.let {
-                recyclerView.adapter = LokerAdapter(it, { context, loker ->
-                    showDeleteLokerConfirmationDialog(context, loker)
-                }, { id, title, deskripsi, gaji, company ->
-                    navigateToEditLokerPostFragment(id, title, deskripsi, gaji, company)
-                }, { title, gaji, deskripsi, waktu, company ->
-                    val intent = Intent(activity, DetailActivity::class.java)
-                    intent.putExtra("title", title)
-                    intent.putExtra("gaji", gaji)
-                    intent.putExtra("deskripsi", deskripsi)
-                    intent.putExtra("waktu", waktu)
-                    intent.putExtra("company", company)
-                    startActivity(intent)
-                })
+                val adapter = LokerAdapter(
+                    { context, loker ->
+                        showDeleteLokerConfirmationDialog(context, loker)
+                    },
+                    { id, title, deskripsi, gaji, company ->
+                        navigateToEditLokerPostFragment(id, title, deskripsi, gaji, company)
+                    },
+                    { title, gaji, deskripsi, waktu, company ->
+                        val intent = Intent(activity, DetailActivity::class.java)
+                        intent.putExtra("title", title)
+                        intent.putExtra("gaji", gaji)
+                        intent.putExtra("deskripsi", deskripsi)
+                        intent.putExtra("waktu", waktu)
+                        intent.putExtra("company", company)
+                        startActivity(intent)
+                    }
+                )
+                recyclerView.adapter = adapter
+                adapter.submitList(it)  // Menggunakan submitList untuk memberikan data ke adapter
             }
         }
+
 
         binding.addbutton.setOnClickListener {
             navigateToPostFragment()
