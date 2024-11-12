@@ -54,11 +54,14 @@ class EditProfileFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_edit_profile, container, false)
         imageView = view.findViewById(R.id.gambaryangSesungguhnya)
 
-        // Set onClickListener pada CardView untuk membuka galeri
-        cardView = view.findViewById(R.id.potoprofil) // Simpan referensi ke CardView
-        cardView.setOnClickListener {
-            selectImageDariGaleri()
-        }
+//        Glide.with(this)
+//            .load(R.drawable.person1)
+
+//        // Set onClickListener pada CardView untuk membuka galeri
+//        cardView = view.findViewById(R.id.potoprofil) // Simpan referensi ke CardView
+//        cardView.setOnClickListener {
+//            selectImageDariGaleri()
+//        }
 
         binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
@@ -74,6 +77,13 @@ class EditProfileFragment : Fragment() {
             simpenKeDatabase(user._id, binding.nama.text.toString(), binding.alamatEdit.text.toString(), user.email, user.password, binding.deskEdit.text.toString(), user.isAdmin, user.image.toString())
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.potoprofil.setOnClickListener {
+            bukaGaleri()
+        }
     }
 
     private fun simpenKeDatabase(id: Int, nama: String, alamat: String, email: String, password: String, deskripsi: String, isAdmin: Boolean, image:String) {
@@ -113,6 +123,7 @@ class EditProfileFragment : Fragment() {
             }
         }
 
+
 //        if (nama.isNotEmpty() && deskripsi.isNotEmpty() && alamat.isNotEmpty() && imagePath != null) {
 //            val updatedUser = User(
 //                _id = id, // atau bisa pakai ID user yang sedang diedit jika datanya sudah ada
@@ -133,89 +144,109 @@ class EditProfileFragment : Fragment() {
 //        }
     }
 
-    private fun selectImageDariGaleri() {
-        if (requireContext().checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            startActivityForResult(intent, REQUEST_IMAGE_PICK)
-        } else {
-            // Meminta izin
-            requestPermissions(
-                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                REQUEST_PERMISSION
-            )
-        }
-    }
+//    private fun selectImageDariGaleri() {
+//        if (requireContext().checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+//            == PackageManager.PERMISSION_GRANTED
+//        ) {
+//            val intent = Intent(Intent.ACTION_GET_CONTENT)
+//            intent.type = "image/*"
+//            startActivityForResult(intent, REQUEST_IMAGE_PICK)
+//        } else {
+//            // Meminta izin
+//            requestPermissions(
+//                arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+//                REQUEST_PERMISSION
+//            )
+//        }
+//    }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_PERMISSION) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//    override fun onRequestPermissionsResult(
+//        requestCode: Int, permissions: Array<out String>, grantResults: IntArray
+//    ) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+//        if (requestCode == REQUEST_PERMISSION) {
+//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//                selectImageDariGaleri()
+//            } else {
+//                Toast.makeText(context, "Izin akses penyimpanan ditolak", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
+//
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
+//            data?.data?.let { uri ->
+//                // Simpan gambar di penyimpanan lokal
+//                imagePath = saveImageToLocalStorage(uri)
+//
+//                // Tampilkan gambar yang dipilih
+//                Glide.with(this)
+//                    .load(uri)
+//                    .into(imageView)
+//            }
+//        }
+//    }
 
-                selectImageDariGaleri()
-            } else {
-                Toast.makeText(context, "Izin akses penyimpanan ditolak", Toast.LENGTH_SHORT).show()
-            }
-        }
+//    private fun saveImageToLocalStorage(imageUri: Uri): String? {
+//        // Simpan gambar ke file lokal dan kembalikan path file
+//        val drawable = imageView.drawable
+//        var bitmap: Bitmap? = null
+//
+//        // Cek apakah drawable tidak null
+//        if (drawable != null) {
+//            // Jika drawable adalah instance dari BitmapDrawable, langsung dapatkan bitmapnya
+//            if (drawable is BitmapDrawable) {
+//                bitmap = drawable.bitmap
+//            } else {
+//                // Jika bukan, buat bitmap dari drawable
+//                bitmap = Bitmap.createBitmap(
+//                    drawable.intrinsicWidth,
+//                    drawable.intrinsicHeight,
+//                    Bitmap.Config.ARGB_8888
+//                )
+//                val canvas = Canvas(bitmap!!)
+//                drawable.setBounds(0, 0, canvas.width, canvas.height)
+//                drawable.draw(canvas)
+//            }
+//        }
+//
+//        var filePath: String? = null
+//
+//        try {
+//            val file = File(requireContext().getExternalFilesDir(null), "ppgambar.png")
+//            val outputStream: OutputStream = FileOutputStream(file)
+//            bitmap?.compress(Bitmap.CompressFormat.PNG, 100, outputStream) // Simpan bitmap ke file
+//            outputStream.flush()
+//            outputStream.close()
+//
+//            filePath = file.absolutePath // Kembalikan path gambar
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//        }
+//
+//        return filePath
+//    }
+
+    private val AMBIL_GAMBAR_DARI_GALERI = 1
+    private fun bukaGaleri(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, AMBIL_GAMBAR_DARI_GALERI)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK) {
-            data?.data?.let { uri ->
-                // Simpan gambar di penyimpanan lokal
-                imagePath = saveImageToLocalStorage(uri)
+        if (requestCode == AMBIL_GAMBAR_DARI_GALERI && resultCode == Activity.RESULT_OK && data !=null){
+            val gambarUri = data.data
 
-                // Tampilkan gambar yang dipilih
-                Glide.with(this)
-                    .load(uri)
-                    .into(imageView)
-            }
+            Glide.with(this)
+                .load(gambarUri)
+                .placeholder(R.drawable.person1)
+                .error(R.drawable.headtest)
+                .into(binding.gambaryangSesungguhnya)
         }
-    }
-
-    private fun saveImageToLocalStorage(imageUri: Uri): String? {
-        // Simpan gambar ke file lokal dan kembalikan path file
-        val drawable = imageView.drawable
-        var bitmap: Bitmap? = null
-
-        // Cek apakah drawable tidak null
-        if (drawable != null) {
-            // Jika drawable adalah instance dari BitmapDrawable, langsung dapatkan bitmapnya
-            if (drawable is BitmapDrawable) {
-                bitmap = drawable.bitmap
-            } else {
-                // Jika bukan, buat bitmap dari drawable
-                bitmap = Bitmap.createBitmap(
-                    drawable.intrinsicWidth,
-                    drawable.intrinsicHeight,
-                    Bitmap.Config.ARGB_8888
-                )
-                val canvas = Canvas(bitmap!!)
-                drawable.setBounds(0, 0, canvas.width, canvas.height)
-                drawable.draw(canvas)
-            }
-        }
-
-        var filePath: String? = null
-
-        try {
-            val file = File(requireContext().getExternalFilesDir(null), "ppgambar.png")
-            val outputStream: OutputStream = FileOutputStream(file)
-            bitmap?.compress(Bitmap.CompressFormat.PNG, 100, outputStream) // Simpan bitmap ke file
-            outputStream.flush()
-            outputStream.close()
-
-            filePath = file.absolutePath // Kembalikan path gambar
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
-        return filePath
     }
 
     private fun loadUserFromPreferences(): User? {

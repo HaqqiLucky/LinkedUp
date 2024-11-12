@@ -43,8 +43,8 @@ class LihatDetailPengalamanFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_lihat_detail_pengalaman,container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclExperience)
+//        val view = inflater.inflate(R.layout.fragment_lihat_detail_pengalaman,container, false)
+//        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclExperience)
 
         val itemList = listOf(
             Experience("Judul 1","Desk 1"),
@@ -54,8 +54,8 @@ class LihatDetailPengalamanFragment : Fragment() {
         )
         val adapter = ExperienceAdapter(itemList)
 
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+//        recyclerView.layoutManager = LinearLayoutManager(context)
+//        recyclerView.adapter = adapter
 
         return view
     }

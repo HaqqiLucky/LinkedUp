@@ -5,12 +5,12 @@
     android:backgroundTint="@color/putih_magnolia"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardviewLuar"
         android:layout_marginVertical="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/biru_kolombia"
         app:cardCornerRadius="8dp"
         app:cardElevation="10dp"
         android:layout_marginHorizontal="5dp"
@@ -24,6 +24,17 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/highlighted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Highlighted"
+                android:textColor="@color/merah_cardinal"
+                android:textStyle="italic"
+                app:layout_constraintTop_toTopOf="@id/constraintcardBuatExperiencetapibuatRecycleView"
+                app:layout_constraintEnd_toEndOf="@id/constraintcardBuatExperiencetapibuatRecycleView"
+                app:layout_constraintStart_toStartOf="@id/constraintcardBuatExperiencetapibuatRecycleView"/>
+
+            <TextView
                 android:id="@+id/judul"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -33,7 +44,7 @@
                 android:textSize="20dp"
                 app:layout_constraintEnd_toStartOf="@id/tombolEdit"
                 app:layout_constraintStart_toStartOf="@id/constraintcardBuatExperiencetapibuatRecycleView"
-                app:layout_constraintTop_toTopOf="@id/constraintcardBuatExperiencetapibuatRecycleView" />
+                app:layout_constraintTop_toBottomOf="@id/highlighted" />
 
             <ImageButton
                 android:id="@+id/tombolEdit"
