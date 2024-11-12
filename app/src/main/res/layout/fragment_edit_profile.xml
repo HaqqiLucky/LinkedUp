@@ -94,7 +94,7 @@ tools:context=".Profile.EditProfileFragment">
         app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile"/>
 
     <TextView
-        android:id="@+id/TextViewGender"
+        android:id="@+id/TextViewHighlighted"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:text="Pilih Gender"
@@ -108,7 +108,7 @@ tools:context=".Profile.EditProfileFragment">
         android:id="@+id/genderEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/TextViewGender"
+        app:layout_constraintTop_toBottomOf="@id/TextViewHighlighted"
         app:layout_constraintStart_toStartOf="@id/guidelinekiridiEditProfile"
         app:layout_constraintEnd_toEndOf="@id/guidelinekanandiEditProfile">
 

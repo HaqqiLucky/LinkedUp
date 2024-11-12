@@ -11,22 +11,25 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedup.databinding.FragmentHomeBinding
+import com.example.linkedup.item.HomeAdapter
+import com.example.linkedup.item.HomeViewModel
 import com.example.linkedup.item.LokerAdapter
-import com.example.linkedup.item.LokerViewModel
 import com.example.linkedup.utils.Loker
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var lokerViewModel: LokerViewModel
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var companyView: RecyclerView
+    private lateinit var lokerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lokerViewModel = ViewModelProvider(this).get(LokerViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,18 +37,32 @@ class HomeFragment : Fragment() {
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        recyclerView = binding.itemloker
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        companyView = binding.itemcompany
+        lokerView = binding.itemloker
+        lokerView.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.VERTICAL, false)
+        companyView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        lokerViewModel.allLoker.observe(viewLifecycleOwner) { lokerList ->
-            lokerList?.let {
-                val adapter = LokerAdapter(
-                    { context, loker ->
-                        showDeleteLokerConfirmationDialog(context, loker)
-                    },
-                    { id, title, deskripsi, gaji, company ->
-                        navigateToEditLokerPostFragment(id, title, deskripsi, gaji, company)
-                    },
+        homeViewModel.allCompany.observe(viewLifecycleOwner) { companyList ->
+            val companyAdapter = HomeAdapter(
+                { context, loker -> showDeleteLokerConfirmationDialog(context, loker) },
+                { id, title, deskripsi, gaji, company -> navigateToEditLokerPostFragment(id, title, deskripsi, gaji, company) },
+                { title, gaji, deskripsi, waktu, company ->
+                    val intent = Intent(activity, DetailActivity::class.java)
+                    intent.putExtra("title", title)
+                    intent.putExtra("gaji", gaji)
+                    intent.putExtra("deskripsi", deskripsi)
+                    intent.putExtra("waktu", waktu)
+                    intent.putExtra("company", company)
+                    startActivity(intent)
+                }
+            )
+            companyView.adapter = companyAdapter
+            companyAdapter.submitList(companyList)
+        }
+        homeViewModel.allLoker.observe(viewLifecycleOwner) { lokerList ->
+                val lokerAdapter = HomeAdapter(
+                    { context, loker -> showDeleteLokerConfirmationDialog(context, loker) },
+                    { id, title, deskripsi, gaji, company -> navigateToEditLokerPostFragment(id, title, deskripsi, gaji, company) },
                     { title, gaji, deskripsi, waktu, company ->
                         val intent = Intent(activity, DetailActivity::class.java)
                         intent.putExtra("title", title)
@@ -56,11 +73,9 @@ class HomeFragment : Fragment() {
                         startActivity(intent)
                     }
                 )
-                recyclerView.adapter = adapter
-                adapter.submitList(it)  // Menggunakan submitList untuk memberikan data ke adapter
+                lokerView.adapter = lokerAdapter
+                lokerAdapter.submitList(lokerList)
             }
-        }
-
 
         binding.addbutton.setOnClickListener {
             navigateToPostFragment()
@@ -97,7 +112,7 @@ class HomeFragment : Fragment() {
             .setPositiveButton("Hapus") { dialog, _ ->
                 lifecycleScope.launch {
                     try {
-                        lokerViewModel.delete(loker)
+                        homeViewModel.delete(loker)
                     } catch (e: Exception) {
                         Log.e("HomeFragment", "Error hapus data", e)
                     }
