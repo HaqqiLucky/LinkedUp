@@ -54,6 +54,7 @@ dependencies {
     implementation("com.google.android.material:material:1.8.0")
     implementation(libs.androidx.junit.ktx)
     implementation(libs.androidx.media3.test.utils)
+    implementation(libs.play.services.cast.framework)
 //    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -65,6 +66,12 @@ dependencies {
     implementation("androidx.room:room-runtime:2.5.0")
     testImplementation("androidx.room:room-testing:2.5.0")
     ksp("androidx.room:room-compiler:2.5.0")
+
+    // api fetch retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")  // Versi Retrofit yang digunakan
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
 
     // test database
 //    testImplementation (libs.junit.v5112)

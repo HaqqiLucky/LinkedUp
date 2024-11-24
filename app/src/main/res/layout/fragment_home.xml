@@ -6,20 +6,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#efefef"
     tools:context=".HomeFragment">
-    <Button
-        android:id="@+id/addbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:backgroundTint="#0f72c1"
-        android:text="Tambah Loker"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/addbutton">
+        app:layout_constraintTop_toTopOf="parent">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -27,10 +17,10 @@
                 android:id="@+id/itemcompany"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="50dp"
+                android:paddingBottom="5dp"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="100dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -48,5 +38,104 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPopUp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="#90000000"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ffffff"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="10dp"
+                android:layout_gravity="center"
+                android:layout_margin="25dp">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="20dp">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tambah Job"
+                            android:textColor="@color/black"
+                            android:textSize="18dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <EditText
+                            android:id="@+id/title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/edittext_background"
+                            android:hint="Title Job"
+                            android:padding="12dp"
+                            android:textColor="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                        <EditText
+                            android:id="@+id/gaji"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:inputType="number"
+                            android:background="@drawable/edittext_background"
+                            android:hint="salary"
+                            android:padding="12dp"
+                            android:textColor="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/title" />
+
+                        <EditText
+                            android:id="@+id/deskripsi"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/edittext_background"
+                            android:hint="deskripsi"
+                            android:padding="12dp"
+                            android:textColor="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/gaji" />
+
+                        <Button
+                            android:id="@+id/edit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:backgroundTint="#0f72c1"
+                            android:text="edit"
+                            android:textColor="@color/white"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/deskripsi" />
+
+                        <Button
+                            android:id="@+id/batal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:backgroundTint="#cf5251"
+                            android:text="batal"
+                            android:textColor="@color/white"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/edit" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </ScrollView>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
