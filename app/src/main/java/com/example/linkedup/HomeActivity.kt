@@ -29,6 +29,10 @@ class HomeActivity : AppCompatActivity() {
                     changeFragment(HomeFragment())
                     true
                 }
+                R.id.job -> {
+                    changeFragment(JobListFragment())
+                    true
+                }
                 R.id.company -> {
                     changeFragment(CompanyListFragment())
                     true

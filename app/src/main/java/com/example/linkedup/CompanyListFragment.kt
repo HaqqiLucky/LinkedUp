@@ -5,6 +5,8 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,17 +20,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedup.databinding.FragmentCompanyListBinding
 import com.example.linkedup.item.CompanyAdapter
 import com.example.linkedup.item.CompanyViewModel
-import com.example.linkedup.utils.Company
+import com.example.linkedup.fetch.Company
+import com.example.linkedup.item.HomeViewModel
 import kotlinx.coroutines.launch
 
 class CompanyListFragment : Fragment() {
     private lateinit var binding: FragmentCompanyListBinding
-    private lateinit var companyViewModel: CompanyViewModel
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        companyViewModel = ViewModelProvider(this).get(CompanyViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -41,22 +44,38 @@ class CompanyListFragment : Fragment() {
         recyclerView = binding.itemCompany
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        companyViewModel.allCompany.observe(viewLifecycleOwner) { companyList ->
+        homeViewModel.companiesLiveData.observe(viewLifecycleOwner) { companyList ->
             companyList?.let {
                 recyclerView.adapter = CompanyAdapter(it, { id, nama, alamat, web ->
                     pindahEdit(id, nama, alamat, web)
-                },{ context, company ->
-                    showDeleteLokerConfirmationDialog(context, company)
+                },{ id ->
+                    showDeleteLokerConfirmationDialog(id)
                 })
             }
         }
 
+        binding.searchBar.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val query = s.toString()
+                homeViewModel.fetchAllCompany(query)
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
         binding.addbutton.setOnClickListener {
+            binding.textView4.text = "Tambah Company"
+            binding.tambah.visibility = View.VISIBLE
             binding.cardPopUp.visibility = View.VISIBLE
         }
 
         binding.batal.setOnClickListener {
+            binding.tambah.visibility = View.GONE
+            binding.edit.visibility = View.GONE
             binding.cardPopUp.visibility = View.GONE
+            binding.nama.setText("")
+            binding.alamat.setText("")
+            binding.web.setText("")
         }
 
         binding.tambah.setOnClickListener {
@@ -66,26 +85,46 @@ class CompanyListFragment : Fragment() {
         return binding.root
     }
     private fun pindahEdit(id: Int, nama: String, alamat: String, web: String) {
-        val homeFragment = FormEditCompanyFragment()
-        val bundle = Bundle()
-        bundle.putInt("id", id)
-        bundle.putString("nama", nama)
-        bundle.putString("alamat", alamat)
-        bundle.putString("web", web)
-        homeFragment.arguments = bundle
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, homeFragment)
-            .addToBackStack(null)
-            .commit()
+        binding.textView4.text = "Edit Company"
+        binding.cardPopUp.visibility = View.VISIBLE
+        binding.edit.visibility = View.VISIBLE
+        binding.nama.setText(nama)
+        binding.alamat.setText(alamat)
+        binding.web.setText(web)
+
+        binding.edit.setOnClickListener {
+            updateCompany(id, binding.nama.text.toString(), binding.alamat.text.toString(), binding.web.text.toString())
+        }
     }
-    fun showDeleteLokerConfirmationDialog(context: Context, company: Company) {
+    private fun updateCompany(id: Int, nama: String, alamat: String, web: String) {
+        val data = Company(null, nama, alamat, web)
+
+        lifecycleScope.launch {
+            try {
+                homeViewModel.updateCompany(id,data)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, CompanyListFragment())
+                    .commit()
+                Toast.makeText(requireContext(), "Data Company berhasil diedit", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Log.e("LokerActivity", "Error update data", e)
+            }
+        }
+    }
+    fun showDeleteLokerConfirmationDialog(id: Int) {
         AlertDialog.Builder(context)
             .setTitle("Konfirmasi Hapus")
             .setMessage("Apakah Anda yakin ingin menghapus data ini?")
             .setPositiveButton("Hapus") { dialog, _ ->
                 lifecycleScope.launch {
                     try {
-                        companyViewModel.delete(company)
+                        homeViewModel.deleteCompany(id)
+                        parentFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, HomeFragment())
+                            .commit()
+                        parentFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, CompanyListFragment())
+                            .commit()
                     } catch (e: Exception) {
                         Log.e("HomeFragment", "Error hapus data", e)
                     }
@@ -100,17 +139,16 @@ class CompanyListFragment : Fragment() {
     }
 
     private fun insertCompany(nama: String, alamat: String, web: String) {
-        val data = Company(nama = nama, alamat = alamat, web = web)
+        val data = Company(null, name = nama, address = alamat, website = web)
 
         lifecycleScope.launch {
             try {
-                companyViewModel.insert(data)
+                homeViewModel.createCompany(data)
+                homeViewModel.fetchAllCompany()
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, CompanyListFragment())
                     .commit()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    Toast.makeText(requireContext(), "Data Company berhasil ditambahkan", Toast.LENGTH_SHORT).show()
-                }, 100)
+                Toast.makeText(requireContext(), "Data Company berhasil ditambahkan", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 Log.e("LokerActivity", "Error inserting data", e)
             }
