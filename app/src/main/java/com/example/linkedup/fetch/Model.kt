@@ -16,6 +16,7 @@ data class User(
     val phone: String?,
     val email: String,
     val gender: String?,
+    val description: String?,
     val role: String = "user", // Default role
     val image: String?,
     val companyId: Int?,
@@ -23,6 +24,16 @@ data class User(
     val experience: List<Experience> = emptyList(), // Relasi Experience
     val education: List<Education> = emptyList(),   // Relasi Education
     val jobs: List<Job> = emptyList()               // Relasi Job
+)
+data class RegisterRequest(
+    val name: String,
+    val email: String,
+    val password: String
+)
+data class RegisterResponse(
+    val id: Int,
+    val name: String,
+    val email: String
 )
 data class Job(
     val id: Int?,

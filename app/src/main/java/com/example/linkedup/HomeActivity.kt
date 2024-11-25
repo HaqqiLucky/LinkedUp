@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.linkedup.databinding.ActivityHomeBinding
+import com.example.linkedup.fetch.AuthPrefs
 import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
@@ -82,6 +83,7 @@ class HomeActivity : AppCompatActivity() {
     }
     fun out() {
         val intent = Intent(this, MainActivity::class.java)
+        AuthPrefs.clearToken()
         clearUserPreferences()
         startActivity(intent)
     }

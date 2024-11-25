@@ -70,6 +70,8 @@ interface CompanyApiService {
 }
 
 interface UserApiService {
+    @POST("api/auth/register")
+    suspend fun register(@Body user: RegisterRequest): RegisterResponse
     @GET("api/users/me")
     suspend fun getMe(@Header("Authorization") token: String): User
     @GET("api/users/me")

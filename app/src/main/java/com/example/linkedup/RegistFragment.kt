@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.linkedup.item.LokerViewModel
 import com.example.linkedup.item.SessionViewModel
 import com.example.linkedup.item.UserViewModel
+import com.example.linkedup.repository.UserRepository
 import com.example.linkedup.utils.Loker
 import com.example.linkedup.utils.User
 import kotlinx.coroutines.launch
@@ -75,18 +76,17 @@ class RegistFragment : Fragment() {
         }
     }
     private fun tambahAccount(name: String, email: String, password: String) {
-        val data = User(name = name, email = email, password = password, isAdmin = false, jenis_kelamin = "belum di set", deskripsi = "belum di set", alamat = "belum di set", image = "belum di set")
+//        val data = User(name = name, email = email, password = password, isAdmin = false, jenis_kelamin = "belum di set", deskripsi = "belum di set", alamat = "belum di set", image = "belum di set")
 
         lifecycleScope.launch {
             try {
-                userViewModel.insert(data)
+//                userViewModel.insert(data)
+                UserRepository().register(name, email, password)
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, LoginnFragment())
                     .addToBackStack(null)
                     .commit()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    Toast.makeText(requireContext(), "Register Berhasil", Toast.LENGTH_SHORT).show()
-                }, 100)
+                Toast.makeText(requireContext(), "Register Berhasil", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 Log.e("LokerActivity", "Error inserting data", e)
                 Toast.makeText(requireContext(), "Register gagal", Toast.LENGTH_SHORT).show()
