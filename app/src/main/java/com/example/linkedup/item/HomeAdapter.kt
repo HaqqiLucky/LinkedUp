@@ -22,7 +22,7 @@ import java.util.Locale
 class HomeAdapter(
     private val showDeleteConfirmationDialog: (id: Int) -> Unit,
     private val navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
-    private val detail: (title: String, gaji: String, deskripsi: String, waktu: String, company: String) -> Unit,
+    private val detail: (title: String, gaji: String, deskripsi: String, waktu: String, company: String, image: String) -> Unit,
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(HomeDiffCallback()) {
 
     companion object {
@@ -34,7 +34,7 @@ class HomeAdapter(
         val binding: ItemLokerBinding,
         private val showDeleteConfirmationDialog: (id:Int) -> Unit,
         private val navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
-        private val detail: (title: String, gaji: String, deskripsi: String, waktu: String, company: String) -> Unit
+        private val detail: (title: String, gaji: String, deskripsi: String, waktu: String, company: String, image: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Job) {
@@ -70,7 +70,7 @@ class HomeAdapter(
                 item.id?.let { it1 -> item.company?.let { it2 -> navigateToEditLokerPostFragment(it1, item.title, item.description, item.salary, it2.name) } }
             }
             binding.title.setOnClickListener {
-//                detail(item.title, item.salary.toString(), item.description, item.company.name)
+                item.company?.let { it1 -> detail(item.title, item.salary.toString(), item.description, formattedDate, it1.name, item.image) }
             }
         }
         fun formatDate(date: Date): String {
@@ -83,7 +83,7 @@ class HomeAdapter(
                 parent: ViewGroup,
                 showDeleteConfirmationDialog: (id: Int) -> Unit,
                 navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
-                detail: (title: String, gaji: String, deskripsi: String, waktu: String, company: String) -> Unit
+                detail: (title: String, gaji: String, deskripsi: String, waktu: String, company: String, image: String) -> Unit
             ): LokerViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ItemLokerBinding.inflate(layoutInflater, parent, false)

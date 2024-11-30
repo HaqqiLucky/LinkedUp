@@ -48,13 +48,14 @@ class HomeFragment : Fragment() {
             val companyAdapter = HomeAdapter(
                 { id -> showDeleteLokerConfirmationDialog(id) },
                 { id, title, deskripsi, gaji, company -> navigateToEditLokerPostFragment(id, title, deskripsi, gaji) },
-                { title, gaji, deskripsi, waktu, company ->
+                { title, gaji, deskripsi, waktu, company, image ->
                     val intent = Intent(activity, DetailActivity::class.java)
                     intent.putExtra("title", title)
                     intent.putExtra("gaji", gaji)
                     intent.putExtra("deskripsi", deskripsi)
                     intent.putExtra("waktu", waktu)
                     intent.putExtra("company", company)
+                    intent.putExtra("image", image)
                     startActivity(intent)
                 }
             )
@@ -66,13 +67,14 @@ class HomeFragment : Fragment() {
                 val lokerAdapter = HomeAdapter(
                     { id -> showDeleteLokerConfirmationDialog(id) },
                     { id, title, deskripsi, gaji, company -> navigateToEditLokerPostFragment(id, title, deskripsi, gaji) },
-                    { title, gaji, deskripsi, waktu, company ->
+                    { title, gaji, deskripsi, waktu, company, image ->
                         val intent = Intent(activity, DetailActivity::class.java)
                         intent.putExtra("title", title)
                         intent.putExtra("gaji", gaji)
                         intent.putExtra("deskripsi", deskripsi)
                         intent.putExtra("waktu", waktu)
                         intent.putExtra("company", company)
+                        intent.putExtra("image", image)
                         startActivity(intent)
                     }
                 )
