@@ -1,6 +1,7 @@
 package com.example.linkedup
 
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         val intent = intent
+        val id = intent.getStringExtra("id")
         val title = intent.getStringExtra("title")
         val gaji = intent.getStringExtra("gaji")
         val deskripsi = intent.getStringExtra("deskripsi")
@@ -44,6 +46,13 @@ class DetailActivity : AppCompatActivity() {
         binding.companyName.text = "Company : "+company.toString()
         binding.postingDate.text = "Posted on : "+waktu.toString()
 
+        binding.applyButton.setOnClickListener {
+            binding.cardPopUp.visibility = View.VISIBLE
+        }
+
+        binding.batal.setOnClickListener {
+            binding.cardPopUp.visibility = View.GONE
+        }
 
     }
 }

@@ -78,8 +78,9 @@ class JobListFragment : Fragment() {
             val lokerAdapter = HomeAdapter(
                 { id -> showDeleteLokerConfirmationDialog(id) },
                 { id, title, deskripsi, gaji, company -> navigateToEditLokerPostFragment(id, title, deskripsi, gaji) },
-                { title, gaji, deskripsi, waktu, company, image ->
+                { id, title, gaji, deskripsi, waktu, company, image ->
                     val intent = Intent(activity, DetailActivity::class.java)
+                    intent.putExtra("id", id)
                     intent.putExtra("title", title)
                     intent.putExtra("gaji", gaji)
                     intent.putExtra("deskripsi", deskripsi)

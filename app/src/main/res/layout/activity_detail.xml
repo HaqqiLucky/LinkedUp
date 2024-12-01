@@ -108,4 +108,92 @@
         app:layout_constraintTop_toBottomOf="@id/job_status"
         app:layout_constraintWidth_percent="0.8" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardPopUp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="#90000000"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ffffff"
+                app:cardElevation="10dp"
+                app:cardCornerRadius="10dp"
+                android:layout_gravity="center"
+                android:layout_margin="25dp">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="20dp">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Daftar Job"
+                            android:textColor="@color/black"
+                            android:textSize="18dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <EditText
+                            android:id="@+id/deskripsiDiri"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/edittext_background"
+                            android:hint="deskripsikan diri anda"
+                            android:padding="12dp"
+                            android:textColor="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                        <EditText
+                            android:id="@+id/linkPortfolio"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/edittext_background"
+                            android:hint="link Portfolio anda"
+                            android:padding="12dp"
+                            android:textColor="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/deskripsiDiri" />
+
+                        <Button
+                            android:id="@+id/daftar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:backgroundTint="#0f72c1"
+                            android:text="daftar"
+                            android:textColor="@color/white"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/linkPortfolio" />
+
+                        <Button
+                            android:id="@+id/batal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:backgroundTint="#cf5251"
+                            android:text="batal"
+                            android:textColor="@color/white"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/daftar" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </ScrollView>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
