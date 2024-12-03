@@ -9,8 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedup.R
 import com.example.linkedup.fetch.Company
+import com.example.linkedup.fetch.CompanyResponse
 
-class CompanyAdapter(private val companyList: List<Company>, private val pindahEdit: (id: Int, nama: String, alamat: String, web: String) -> Unit, private val showDeleteConfirmationDialog: (id: Int) -> Unit) : RecyclerView.Adapter<CompanyAdapter.CompanyViewHolder>() {
+class CompanyAdapter(private val companyList: List<CompanyResponse>, private val pindahEdit: (id: String, nama: String, alamat: String, web: String) -> Unit, private val showDeleteConfirmationDialog: (id: String) -> Unit) : RecyclerView.Adapter<CompanyAdapter.CompanyViewHolder>() {
     class CompanyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val namaTextView: TextView = itemView.findViewById(R.id.nama)
         val alamatTextView: TextView = itemView.findViewById(R.id.alamat)
@@ -30,10 +31,10 @@ class CompanyAdapter(private val companyList: List<Company>, private val pindahE
         holder.alamatTextView.text = current.address
 
         holder.btnedit.setOnClickListener {
-            current.id?.let { it1 -> pindahEdit(it1, current.name, current.address, current.website.toString()) }
+            pindahEdit(current._id, current.name, current.address, current.website.toString())
         }
         holder.btndel.setOnClickListener {
-            current.id?.let { it1 -> showDeleteConfirmationDialog(it1) }
+            showDeleteConfirmationDialog(current._id)
         }
     }
 

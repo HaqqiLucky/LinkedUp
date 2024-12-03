@@ -84,7 +84,7 @@ class CompanyListFragment : Fragment() {
 
         return binding.root
     }
-    private fun pindahEdit(id: Int, nama: String, alamat: String, web: String) {
+    private fun pindahEdit(id: String, nama: String, alamat: String, web: String) {
         binding.textView4.text = "Edit Company"
         binding.cardPopUp.visibility = View.VISIBLE
         binding.edit.visibility = View.VISIBLE
@@ -96,7 +96,7 @@ class CompanyListFragment : Fragment() {
             updateCompany(id, binding.nama.text.toString(), binding.alamat.text.toString(), binding.web.text.toString())
         }
     }
-    private fun updateCompany(id: Int, nama: String, alamat: String, web: String) {
+    private fun updateCompany(id: String, nama: String, alamat: String, web: String) {
         val data = Company(null, nama, alamat, web)
 
         lifecycleScope.launch {
@@ -111,7 +111,7 @@ class CompanyListFragment : Fragment() {
             }
         }
     }
-    fun showDeleteLokerConfirmationDialog(id: Int) {
+    fun showDeleteLokerConfirmationDialog(id: String) {
         AlertDialog.Builder(context)
             .setTitle("Konfirmasi Hapus")
             .setMessage("Apakah Anda yakin ingin menghapus data ini?")

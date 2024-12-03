@@ -42,12 +42,12 @@ interface JobApiService {
     )
     @PUT("api/job/{id}")
     suspend fun updateJob(
-        @Path("id") id: Int,
+        @Path("id") id: String,
         @Body jobUpdatesReq: JobUpdateReq
-    ): Job
+    ): JobResponse
     @DELETE("api/job/{id}")
     suspend fun deleteJob(
-        @Path("id") id: Int
+        @Path("id") id: String
     ): Call<ResponseMessage>
 }
 
@@ -55,17 +55,17 @@ interface CompanyApiService {
     @GET("api/companies/search")
     suspend fun getCompanies(
         @Query("name") name: String,
-    ): List<Company>
+    ): List<CompanyResponse>
     @POST("api/companies")
     fun createCompanies(@Body company: Company): Call<Void>
     @PUT("api/companies/{id}")
     suspend fun updateCompany(
-        @Path("id") id: Int,
+        @Path("id") id: String,
         @Body company: Company
     ): Company
     @DELETE("api/companies/{id}")
     suspend fun deleteCompany(
-        @Path("id") id: Int
+        @Path("id") id: String
     ): Call<ResponseMessage>
 }
 
@@ -73,7 +73,7 @@ interface UserApiService {
     @POST("api/auth/register")
     suspend fun register(@Body user: RegisterRequest): RegisterResponse
     @GET("api/users/me")
-    suspend fun getMe(@Header("Authorization") token: String): User
+    suspend fun getMe(): User
     @GET("api/users/me")
     fun getCurrentUser(@Header("Authorization") token: String): Call<User>
 }
