@@ -54,7 +54,7 @@ object RetrofitClient {
 }
 object ConfigManager {
     private const val BASE_URL = "https://linkedup.muazmhafidz.my.id/"
-    private const val apikey = "muaztamvansekali"
+    private const val apikey = "apikey"
     fun getBaseUrl(): String {
         return BASE_URL
     }
