@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.linkedup.fetch.Job
 import com.example.linkedup.fetch.JobApiService
 import com.example.linkedup.fetch.JobPagingResponse
+import com.example.linkedup.fetch.JobResponse
 import com.example.linkedup.fetch.ResponseMessage
 import com.example.linkedup.fetch.RetrofitClient
 import okhttp3.MultipartBody
@@ -78,13 +79,13 @@ class JobRepository {
         })
     }
 
-    suspend fun updateJob(id: Int, title: String, salary: Int, description: String): Job {
+    suspend fun updateJob(id: String, title: String, salary: Int, description: String): JobResponse {
         val request = JobApiService.JobUpdateReq(title,salary,description)
         val response = apiService.updateJob(id, request)
         Log.d("updatejob", response.toString())
         return response
     }
-    suspend fun deleteJob(id: Int): Call<ResponseMessage> {
+    suspend fun deleteJob(id: String): Call<ResponseMessage> {
         val response = apiService.deleteJob(id)
         return response
     }

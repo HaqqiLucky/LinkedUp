@@ -2,6 +2,7 @@ package com.example.linkedup.repository
 
 import android.util.Log
 import com.example.linkedup.fetch.Company
+import com.example.linkedup.fetch.CompanyResponse
 import com.example.linkedup.fetch.ResponseMessage
 import com.example.linkedup.fetch.RetrofitClient
 import retrofit2.Call
@@ -11,7 +12,7 @@ import retrofit2.Response
 class CompanyRepository {
     private val apiService = RetrofitClient.CompanyApiServices
 
-    suspend fun getCompanies(name: String): List<Company> {
+    suspend fun getCompanies(name: String): List<CompanyResponse> {
         try {
             val response = apiService.getCompanies(name)
             Log.d("CompanyRepository", "Response from API for search: $response")
@@ -38,13 +39,13 @@ class CompanyRepository {
         })
     }
 
-    suspend fun updateCompany(id: Int, company: Company): Company {
-        val response = apiService.updateCompany(id, company)
+    suspend fun updateCompany(_id: String, company: Company): Company {
+        val response = apiService.updateCompany(_id, company)
         Log.d("updatecomp", response.toString())
         return response
     }
 
-    suspend fun deleteCompany(id: Int): Call<ResponseMessage> {
+    suspend fun deleteCompany(id: String): Call<ResponseMessage> {
         val response = apiService.deleteCompany(id)
         return response
     }

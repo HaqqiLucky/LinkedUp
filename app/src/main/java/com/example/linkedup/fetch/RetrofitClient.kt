@@ -19,7 +19,11 @@ object RetrofitClient {
                 .apply {
                     val token = AuthPrefs.getToken()
                     if (token.isNotEmpty()) {
-                        header("Authorization", "Bearer $token")
+                        addHeader("Authorization", "Bearer $token")
+                    }
+                    val apiKey = ConfigManager.getApiKey()
+                    if (apiKey.isNotEmpty()) {
+                        addHeader("x-api-key", apiKey)
                     }
                 }
                 .build()
@@ -49,9 +53,14 @@ object RetrofitClient {
     val authApiService: AuthApiService = retrofit.create(AuthApiService::class.java)
 }
 object ConfigManager {
-    private const val BASE_URL = "http://192.168.68.37:8000/"
+    private const val BASE_URL = "https://linkedup.muazmhafidz.my.id/"
+    private const val apikey = "muaztamvansekali"
     fun getBaseUrl(): String {
         return BASE_URL
+    }
+
+    fun getApiKey(): String {
+        return apikey
     }
 
     fun isConnectedToInternet(context: Context): Boolean {

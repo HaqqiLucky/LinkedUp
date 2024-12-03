@@ -9,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.linkedup.fetch.Job
 import com.example.linkedup.repository.JobRepository
 import com.example.linkedup.fetch.Company
+import com.example.linkedup.fetch.CompanyResponse
+import com.example.linkedup.fetch.JobResponse
 import com.example.linkedup.repository.CompanyRepository
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
@@ -21,16 +23,16 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val jobRepository = JobRepository()
     private val companyRepository = CompanyRepository()
 
-    private val _jobsLiveData = MutableLiveData<List<Job>>()
-    val jobsLiveData: LiveData<List<Job>> get() = _jobsLiveData
+    private val _jobsLiveData = MutableLiveData<List<JobResponse>>()
+    val jobsLiveData: LiveData<List<JobResponse>> get() = _jobsLiveData
 
-    private val _companiesLiveData = MutableLiveData<List<Company>>()
-    val companiesLiveData: LiveData<List<Company>> get() = _companiesLiveData
+    private val _companiesLiveData = MutableLiveData<List<CompanyResponse>>()
+    val companiesLiveData: LiveData<List<CompanyResponse>> get() = _companiesLiveData
 
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
-    private var tiga_puluh: Boolean = true
+//    private var tiga_puluh: Boolean = true
 
 
     init {
@@ -42,7 +44,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val response = jobRepository.searchJobs("")
                 _jobsLiveData.postValue(response.jobs)
-                tiga_puluh = true
+//                tiga_puluh = true
             } catch (e: Exception) {
                 _jobsLiveData.postValue(emptyList())
             }
@@ -50,19 +52,19 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // job
-    fun fetchAllLokerOther() {
-        viewModelScope.launch {
-            try {
-                if (tiga_puluh) {
-                    val response = jobRepository.searchJobs("", pageSize = 30)
-                    _jobsLiveData.postValue(response.jobs)
-                    tiga_puluh = false
-                } else {}
-            } catch (e: Exception) {
-                _jobsLiveData.postValue(emptyList())
-            }
-        }
-    }
+//    fun fetchAllLokerOther() {
+//        viewModelScope.launch {
+//            try {
+//                if (tiga_puluh) {
+//                    val response = jobRepository.searchJobs("", pageSize = 30)
+//                    _jobsLiveData.postValue(response.jobs)
+//                    tiga_puluh = false
+//                } else {}
+//            } catch (e: Exception) {
+//                _jobsLiveData.postValue(emptyList())
+//            }
+//        }
+//    }
     fun searchJobs(title: String) {
         viewModelScope.launch {
             _loading.value = true
@@ -76,7 +78,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-    fun createJob(title: String, salary: Int, description: String, companyId: Int, imageFile: File) {
+    fun createJob(title: String, salary: Int, description: String, companyId: String, imageFile: File) {
             val titleBody = RequestBody.create("text/plain".toMediaType(), title)
             val salaryBody = RequestBody.create("text/plain".toMediaType(), salary.toString())
             val descriptionBody = RequestBody.create("text/plain".toMediaType(), description)
@@ -94,7 +96,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     Log.d("create job", "Error: ${e.message}")
                 }
     }
-    suspend fun updateJob(id: Int, title: String, salary: Int, description: String) {
+    suspend fun updateJob(id: String, title: String, salary: Int, description: String) {
         try {
             val response = jobRepository.updateJob(id, title, salary, description)
             Log.d("update job", "success:"+response.toString())
@@ -102,7 +104,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             Log.d("update job", "Failed to put job: "+e.message)
         }
     }
-    suspend fun deleteJob(id: Int) {
+    suspend fun deleteJob(id: String) {
         try {
             val response = jobRepository.deleteJob(id)
             Log.d("delete job", "success:"+response.toString())
@@ -130,7 +132,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             Log.d("create company", "result: "+result.toString())
         }
     }
-    suspend fun updateCompany(id: Int, company: Company) {
+    suspend fun updateCompany(id: String, company: Company) {
         try {
             val response = companyRepository.updateCompany(id, company)
             Log.d("update company", "success:"+response.toString())
@@ -138,7 +140,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             Log.d("update company", "Failed to put company: "+e.message)
         }
     }
-    suspend fun deleteCompany(id: Int) {
+    suspend fun deleteCompany(id: String) {
         try {
             val response = companyRepository.deleteCompany(id)
             Log.d("delete comp", "success:"+response.toString())

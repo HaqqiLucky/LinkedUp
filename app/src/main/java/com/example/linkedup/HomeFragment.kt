@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-    fun navigateToEditLokerPostFragment(id: Int, title: String, deskripsi: String, gaji: Int) {
+    fun navigateToEditLokerPostFragment(id: String, title: String, deskripsi: String, gaji: Int) {
         binding.textView4.setText("Edit Job")
         binding.cardPopUp.visibility = View.VISIBLE
 
@@ -111,7 +111,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun edittLoker(id: Int, title: String,gaji: String, deskripsi: String) {
+    private fun edittLoker(id: String, title: String,gaji: String, deskripsi: String) {
 
         lifecycleScope.launch {
             try {
@@ -126,7 +126,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun showDeleteLokerConfirmationDialog(id: Int) {
+    fun showDeleteLokerConfirmationDialog(id: String) {
         AlertDialog.Builder(context)
             .setTitle("Konfirmasi Hapus")
             .setMessage("Apakah Anda yakin ingin menghapus loker ini?")

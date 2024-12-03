@@ -29,7 +29,7 @@ class PostFragment : Fragment() {
     private lateinit var binding: FragmentPostBinding
     private lateinit var homeViewModel: HomeViewModel
     private var imageFile: File? = null
-    private var selectedCompanyId: Int = -1
+    private var selectedCompanyId: String = ""
     private val PICK_IMAGE_REQUEST = 1
 
     override fun onCreateView(
@@ -86,11 +86,11 @@ class PostFragment : Fragment() {
             adapter.notifyDataSetChanged()
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parentView: AdapterView<*>, view: View?, position: Int, id: Long) {
-                    selectedCompanyId = company[position].id!!
+                    selectedCompanyId = company[position]._id
                 }
 
                 override fun onNothingSelected(parentView: AdapterView<*>) {
-                    selectedCompanyId = -1
+                    selectedCompanyId = ""
                 }
             }
         }
@@ -120,7 +120,7 @@ class PostFragment : Fragment() {
         }
         return file
     }
-    private fun insertLoker(title: String,gaji: String, deskripsi: String, instansi: Int, image: File) {
+    private fun insertLoker(title: String,gaji: String, deskripsi: String, instansi: String, image: File) {
         if (image == null) {
             Toast.makeText(requireContext(), "Gambar harus dipilih", Toast.LENGTH_SHORT).show()
             return

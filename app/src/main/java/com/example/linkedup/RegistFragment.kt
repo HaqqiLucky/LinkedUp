@@ -53,11 +53,16 @@ class RegistFragment : Fragment() {
 
             userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
             // Regular expression untuk validasi email
-            val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+            val emailPattern = Regex("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")
 
             // Logika untuk registrasi (misalnya validasi input)
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                tambahAccount(name, email, password)
+                if (email.matches(emailPattern)) {
+                    tambahAccount(name, email, password)
+                } else {
+                    // Tampilkan pesan kesalahan jika format email tidak valid
+                    Toast.makeText(requireContext(), "Format email tidak valid", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 // Tampilkan pesan kesalahan jika ada field yang kosong
                 Toast.makeText(requireContext(), "Semua field harus diisi", Toast.LENGTH_SHORT).show()

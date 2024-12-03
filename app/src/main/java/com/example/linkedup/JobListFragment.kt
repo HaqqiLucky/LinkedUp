@@ -38,7 +38,7 @@ class JobListFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var lokerView: RecyclerView
     private var imageFile: File? = null
-    private var selectedCompanyId: Int = -1
+    private var selectedCompanyId: String = ""
     private val PICK_IMAGE_REQUEST = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +51,36 @@ class JobListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentJobListBinding.inflate(inflater, container, false)
+
+
+        val spinner: Spinner = binding.company
+        val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mutableListOf())
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
+        val viewModelCompany: HomeViewModel by viewModels()
+
+        viewModelCompany.companiesLiveData.observe(viewLifecycleOwner) { company ->
+            if (company.isNullOrEmpty()) return@observe
+
+            val companyNames = company.map { it.name }
+            adapter.clear()
+            adapter.addAll(companyNames)
+            adapter.notifyDataSetChanged()
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parentView: AdapterView<*>, view: View?, position: Int, _id: Long) {
+                    selectedCompanyId = company[position]._id
+                }
+
+                override fun onNothingSelected(parentView: AdapterView<*>) {
+                    selectedCompanyId = ""
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewModelCompany.fetchAllCompany()
+        }
+
 
         lokerView = binding.itemloker
         lokerView.layoutManager = GridLayoutManager(requireContext(), 1, GridLayoutManager.VERTICAL, false)
@@ -156,32 +186,6 @@ class JobListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val spinner: Spinner = binding.company
-        val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mutableListOf())
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-
-        val viewModelCompany: HomeViewModel by viewModels()
-
-        viewModelCompany.companiesLiveData.observe(viewLifecycleOwner) { company ->
-            val companyNames = company.map { it.name }
-            adapter.clear()
-            adapter.addAll(companyNames)
-            adapter.notifyDataSetChanged()
-            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parentView: AdapterView<*>, view: View?, position: Int, id: Long) {
-                    selectedCompanyId = company[position].id!!
-                }
-
-                override fun onNothingSelected(parentView: AdapterView<*>) {
-                    selectedCompanyId = -1
-                }
-            }
-        }
-        lifecycleScope.launch {
-            viewModelCompany.fetchAllCompany()
-        }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -195,7 +199,7 @@ class JobListFragment : Fragment() {
             }
         }
     }
-    fun navigateToEditLokerPostFragment(id: Int, title: String, deskripsi: String, gaji: Int) {
+    fun navigateToEditLokerPostFragment(id: String, title: String, deskripsi: String, gaji: Int) {
         binding.textView4.setText("Edit Job")
         binding.cardPopUp.visibility = View.VISIBLE
         binding.image.visibility = View.GONE
@@ -211,7 +215,7 @@ class JobListFragment : Fragment() {
             edittLoker(id, binding.title.text.toString(), binding.gaji.text.toString(), binding.deskripsi.text.toString())
         }
     }
-    private fun edittLoker(id: Int, title: String,gaji: String, deskripsi: String) {
+    private fun edittLoker(id: String, title: String,gaji: String, deskripsi: String) {
 
         lifecycleScope.launch {
             try {
@@ -225,7 +229,7 @@ class JobListFragment : Fragment() {
             }
         }
     }
-    fun showDeleteLokerConfirmationDialog(id: Int) {
+    fun showDeleteLokerConfirmationDialog(id: String) {
         AlertDialog.Builder(context)
             .setTitle("Konfirmasi Hapus")
             .setMessage("Apakah Anda yakin ingin menghapus loker ini?")
@@ -256,7 +260,7 @@ class JobListFragment : Fragment() {
         }
         return file
     }
-    private fun insertLoker(title: String,gaji: String, deskripsi: String, instansi: Int, image: File) {
+    private fun insertLoker(title: String,gaji: String, deskripsi: String, instansi: String, image: File) {
         if (image == null) {
             Toast.makeText(requireContext(), "Gambar harus dipilih", Toast.LENGTH_SHORT).show()
             return

@@ -140,7 +140,7 @@ class ProfileFragment : Fragment() {
     private fun updateUI() {
         lifecycleScope.launch {
             val token = AuthPrefs.getToken()
-            val response = RetrofitClient.UserApiServices.getMe(token)
+            val response = RetrofitClient.UserApiServices.getMe()
             binding.namauser.text = response.name
             binding.desk.text = response.description
             binding.alamat.text = response.address

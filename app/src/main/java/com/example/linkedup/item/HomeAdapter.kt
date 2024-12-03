@@ -15,13 +15,14 @@ import com.example.linkedup.databinding.ItemLokerBinding
 import com.example.linkedup.fetch.ConfigManager
 import com.example.linkedup.fetch.Job
 import com.example.linkedup.fetch.Company
+import com.example.linkedup.fetch.JobResponse
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class HomeAdapter(
-    private val showDeleteConfirmationDialog: (id: Int) -> Unit,
-    private val navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
+    private val showDeleteConfirmationDialog: (id: String) -> Unit,
+    private val navigateToEditLokerPostFragment: (id: String, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
     private val detail: (id: String, title: String, gaji: String, deskripsi: String, waktu: String, company: String, image: String) -> Unit,
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(HomeDiffCallback()) {
 
@@ -32,12 +33,12 @@ class HomeAdapter(
 
     class LokerViewHolder private constructor(
         val binding: ItemLokerBinding,
-        private val showDeleteConfirmationDialog: (id:Int) -> Unit,
-        private val navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
+        private val showDeleteConfirmationDialog: (id:String) -> Unit,
+        private val navigateToEditLokerPostFragment: (id: String, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
         private val detail: (id: String, title: String, gaji: String, deskripsi: String, waktu: String, company: String, image: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Job) {
+        fun bind(item: JobResponse) {
             val maxLength = 20
             val originalText = item.title
             val truncatedText = if (originalText.length > maxLength) {
@@ -64,13 +65,13 @@ class HomeAdapter(
             }
 
             binding.hapus.setOnClickListener {
-                item.id?.let { it1 -> showDeleteConfirmationDialog(it1) }
+                showDeleteConfirmationDialog(item._id)
             }
             binding.edit.setOnClickListener {
-                item.id?.let { it1 -> item.company?.let { it2 -> navigateToEditLokerPostFragment(it1, item.title, item.description, item.salary, it2.name) } }
+                item.company?.let { it2 -> navigateToEditLokerPostFragment(item._id, item.title, item.description, item.salary, it2.name) }
             }
             binding.title.setOnClickListener {
-                item.company?.let { it1 -> item.id?.let { it2 -> detail(it2.toString(), item.title, item.salary.toString(), item.description, formattedDate, it1.name, item.image) } }
+                item.company?.let { it1 -> detail(item._id, item.title, item.salary.toString(), item.description, formattedDate, it1.name, item.image) }
             }
         }
         fun formatDate(date: Date): String {
@@ -81,8 +82,8 @@ class HomeAdapter(
         companion object {
             fun from(
                 parent: ViewGroup,
-                showDeleteConfirmationDialog: (id: Int) -> Unit,
-                navigateToEditLokerPostFragment: (id: Int, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
+                showDeleteConfirmationDialog: (id: String) -> Unit,
+                navigateToEditLokerPostFragment: (id: String, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
                 detail: (id: String, title: String, gaji: String, deskripsi: String, waktu: String, company: String, image: String) -> Unit
             ): LokerViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -123,7 +124,7 @@ class HomeAdapter(
                 }
             }
             is LokerViewHolder -> {
-                val loker = getItem(position) as? Job // Safe cast
+                val loker = getItem(position) as? JobResponse // Safe cast
                 loker?.let {
                     holder.bind(it)
                 }
@@ -133,7 +134,7 @@ class HomeAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is Job -> LOKER_ITEM
+            is JobResponse -> LOKER_ITEM
             else -> COMPANY_ITEM
         }
     }
@@ -141,8 +142,8 @@ class HomeAdapter(
     class HomeDiffCallback : DiffUtil.ItemCallback<Any>() {
         override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
             return when {
-                oldItem is Job && newItem is Job -> oldItem.id == newItem.id
-                oldItem is Company && newItem is Company -> oldItem.id == newItem.id
+                oldItem is Job && newItem is Job -> oldItem._id == newItem._id
+                oldItem is Company && newItem is Company -> oldItem._id == newItem._id
                 else -> false
             }
         }
