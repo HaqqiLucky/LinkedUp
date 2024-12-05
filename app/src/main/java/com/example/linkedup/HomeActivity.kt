@@ -43,7 +43,8 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.profile -> {
-                    goProfile()
+//                    goProfile()
+                    changeFragment(HomeFragment())
                     true
                 }
                 else->false
