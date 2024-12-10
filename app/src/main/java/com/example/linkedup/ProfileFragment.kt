@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.linkedup.Profile.EditProfileFragment
 import com.example.linkedup.databinding.FragmentProfileBinding
+import com.example.linkedup.fetch.AuthPrefs
+import com.example.linkedup.fetch.RetrofitClient
 import com.example.linkedup.item.LokerViewModel
 import com.example.linkedup.item.SessionViewModel
 import com.example.linkedup.item.UserViewModel
@@ -31,6 +33,7 @@ class ProfileFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sessionViewModel = ViewModelProvider(requireActivity()).get(SessionViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        updateUI()
 
     }
 
@@ -135,9 +138,13 @@ class ProfileFragment : Fragment() {
     }
 
     private fun updateUI() {
-        binding.namauser.text = user.name
-        binding.desk.text = user.deskripsi.toString()
-        binding.alamat.text = user.alamat.toString()
+        lifecycleScope.launch {
+            val token = AuthPrefs.getToken()
+            val response = RetrofitClient.UserApiServices.getMe()
+            binding.namauser.text = response.name
+            binding.desk.text = response.description
+            binding.alamat.text = response.address
+        }
     }
     private fun loadUserFromPreferences(): User? {
         val sharedPref = requireActivity().getSharedPreferences("user_prefs", MODE_PRIVATE)

@@ -78,6 +78,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/gaji" />
 
+        <ImageButton
+            android:id="@+id/selectImageButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/edittext_background"
+            android:padding="12dp"
+            android:src="@drawable/baseline_file_upload_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deskripsi"/>
+
         <EditText
             android:id="@+id/deskripsi"
             android:layout_width="0dp"
@@ -107,7 +119,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deskripsi" />
+            app:layout_constraintTop_toBottomOf="@+id/selectImageButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

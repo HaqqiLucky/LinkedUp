@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.linkedup.databinding.ActivityHomeBinding
+import com.example.linkedup.fetch.AuthPrefs
 import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {
@@ -29,6 +30,10 @@ class HomeActivity : AppCompatActivity() {
                     changeFragment(HomeFragment())
                     true
                 }
+                R.id.job -> {
+                    changeFragment(JobListFragment())
+                    true
+                }
                 R.id.company -> {
                     changeFragment(CompanyListFragment())
                     true
@@ -38,7 +43,8 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.profile -> {
-                    goProfile()
+//                    goProfile()
+                    changeFragment(HomeFragment())
                     true
                 }
                 else->false
@@ -78,6 +84,7 @@ class HomeActivity : AppCompatActivity() {
     }
     fun out() {
         val intent = Intent(this, MainActivity::class.java)
+        AuthPrefs.clearToken()
         clearUserPreferences()
         startActivity(intent)
     }

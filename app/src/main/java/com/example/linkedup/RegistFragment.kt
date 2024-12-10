@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.linkedup.item.LokerViewModel
 import com.example.linkedup.item.SessionViewModel
 import com.example.linkedup.item.UserViewModel
+import com.example.linkedup.repository.UserRepository
 import com.example.linkedup.utils.Loker
 import com.example.linkedup.utils.User
 import kotlinx.coroutines.launch
@@ -52,11 +53,16 @@ class RegistFragment : Fragment() {
 
             userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
             // Regular expression untuk validasi email
-            val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+            val emailPattern = Regex("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")
 
             // Logika untuk registrasi (misalnya validasi input)
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                tambahAccount(name, email, password)
+                if (email.matches(emailPattern)) {
+                    tambahAccount(name, email, password)
+                } else {
+                    // Tampilkan pesan kesalahan jika format email tidak valid
+                    Toast.makeText(requireContext(), "Format email tidak valid", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 // Tampilkan pesan kesalahan jika ada field yang kosong
                 Toast.makeText(requireContext(), "Semua field harus diisi", Toast.LENGTH_SHORT).show()
@@ -75,18 +81,17 @@ class RegistFragment : Fragment() {
         }
     }
     private fun tambahAccount(name: String, email: String, password: String) {
-        val data = User(name = name, email = email, password = password, isAdmin = false, jenis_kelamin = "belum di set", deskripsi = "belum di set", alamat = "belum di set", image = "belum di set")
+//        val data = User(name = name, email = email, password = password, isAdmin = false, jenis_kelamin = "belum di set", deskripsi = "belum di set", alamat = "belum di set", image = "belum di set")
 
         lifecycleScope.launch {
             try {
-                userViewModel.insert(data)
+//                userViewModel.insert(data)
+                UserRepository().register(name, email, password)
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, LoginnFragment())
                     .addToBackStack(null)
                     .commit()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    Toast.makeText(requireContext(), "Register Berhasil", Toast.LENGTH_SHORT).show()
-                }, 100)
+                Toast.makeText(requireContext(), "Register Berhasil", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 Log.e("LokerActivity", "Error inserting data", e)
                 Toast.makeText(requireContext(), "Register gagal", Toast.LENGTH_SHORT).show()
