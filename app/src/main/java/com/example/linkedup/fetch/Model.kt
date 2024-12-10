@@ -103,3 +103,10 @@ data class Education(
     val degree: String,
     val user_id: String
 )
+//tambahan
+data class UpdateProfileRequest(
+    val name: String,
+    val address: String?,
+    val description: String?,
+    val gender: String?
+)

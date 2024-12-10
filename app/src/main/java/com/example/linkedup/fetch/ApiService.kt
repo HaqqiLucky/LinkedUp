@@ -67,6 +67,8 @@ interface CompanyApiService {
     suspend fun deleteCompany(
         @Path("id") id: String
     ): Call<ResponseMessage>
+
+
 }
 
 interface UserApiService {
@@ -76,6 +78,15 @@ interface UserApiService {
     suspend fun getMe(): User
     @GET("api/users/me")
     fun getCurrentUser(@Header("Authorization") token: String): Call<User>
+    @Multipart
+    @PUT("api/users/me/image")
+    suspend fun submitImage(
+        @Part image: MultipartBody.Part
+    ): Response<ResponseMessage>
+    @PUT("api/users/me")
+    suspend fun updateProfile(@Body user: UpdateProfileRequest): Response<User>
+    @DELETE("api/users/me")
+    suspend fun deleteUser(@Path("id") id: String): Response<ResponseMessage>
 }
 
 data class ResponseMessage(
