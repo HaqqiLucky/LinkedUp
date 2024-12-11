@@ -20,6 +20,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import android.util.Log
 
 class GantiGambarFragment : Fragment(R.layout.fragment_ganti_gambar) {
 
@@ -64,34 +65,27 @@ class GantiGambarFragment : Fragment(R.layout.fragment_ganti_gambar) {
         val userImageFile = selectedImageUri?.let { getImageFile(it) }
 
         if (userImageFile != null && userImageFile.exists()) {
-            // Membuat request body
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), userImageFile)
-
-            // Membuat MultipartBody.Part
-            val imageRequestBody = MultipartBody.Part.createFormData("image", userImageFile.name, requestFile)
-
             // Kirim gambar ke server
             lifecycleScope.launch {
                 try {
-                    // Menggunakan Retrofit Client untuk submit image
+                    val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), userImageFile)
+                    val imageRequestBody = MultipartBody.Part.createFormData("image", userImageFile.name, requestFile)
+                    
                     val response = RetrofitClient.UserApiServices.submitImage(imageRequestBody)
-
+                    
                     if (response.isSuccessful) {
-                        // Tampilkan pesan sukses
                         Toast.makeText(requireContext(), "Image Updated Successfully", Toast.LENGTH_SHORT).show()
-                        // Kembali ke fragment profil setelah sukses
                         parentFragmentManager.popBackStack()
+                        (parentFragmentManager.findFragmentById(R.id.fragment_container) as? ProfileFragment)?.updateUI()
                     } else {
-                        // Tampilkan pesan error jika respons gagal
-                        Toast.makeText(requireContext(), "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Error uploading image", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
-                    // Tampilkan pesan error jika terjadi exception
+                    Log.e("GantiGambarFragment", "Error uploading image", e)
                     Toast.makeText(requireContext(), "Error: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
-            // Tampilkan pesan jika gambar tidak valid atau tidak dipilih
             Toast.makeText(requireContext(), "Please select a valid image.", Toast.LENGTH_SHORT).show()
         }
     }

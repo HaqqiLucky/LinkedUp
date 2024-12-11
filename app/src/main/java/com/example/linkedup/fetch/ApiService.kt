@@ -87,6 +87,24 @@ interface UserApiService {
     suspend fun updateProfile(@Body user: UpdateProfileRequest): Response<User>
     @DELETE("api/users/me")
     suspend fun deleteUser(@Path("id") id: String): Response<ResponseMessage>
+    @DELETE("api/users/image")
+    suspend fun deleteProfileImage(): Response<ResponseMessage>
+    @POST("/api/users/experience")
+    suspend fun postExperience(@Body experience: Experience): Response<Experience>
+    @GET("/api/users/experience")
+    suspend fun getExperiences(): Response<List<Experience>>
+
+    @GET("/api/users/education")
+    suspend fun getEducations(): Response<List<Education>>
+    @POST("/api/users/education")
+    suspend fun addEducation(@Body education: Education): Response<Education>
+    @PUT("education/{id}")
+    suspend fun updateEducation(
+        @Path("id") id: Int,
+        @Body education: Education
+    ): Response<Education>
+    @DELETE("education/{id}")
+    suspend fun deleteEducation(@Path("id") id: Int): Response<Unit>
 }
 
 data class ResponseMessage(

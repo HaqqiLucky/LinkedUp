@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName ="experiences")
 data class Experience(
-    @PrimaryKey(autoGenerate =  true) val _id: Int = 0,
+    val _id: Int = 0,
     val judulExperience: String,
-    val deksripsiExperience : String,
-    val highligted : Boolean,
+    val tempatExperience: String,
+    val highligted: Boolean
 )

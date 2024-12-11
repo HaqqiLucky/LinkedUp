@@ -51,6 +51,10 @@ object RetrofitClient {
     }
 
     val authApiService: AuthApiService = retrofit.create(AuthApiService::class.java)
+
+    fun getApiService(): UserApiService {
+        return retrofit.create(UserApiService::class.java)
+    }
 }
 object ConfigManager {
     private const val BASE_URL = "https://linkedup.muazmhafidz.my.id/"

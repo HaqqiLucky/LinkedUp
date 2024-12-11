@@ -23,13 +23,13 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
     private fun saveUserToPreferences(user: User) {
         val sharedPref = getApplication<Application>().getSharedPreferences("user_prefs", AppCompatActivity.MODE_PRIVATE)
         with(sharedPref.edit()) {
-            putString("user_id", user._id)
+            putInt("user_id", user._id?.toIntOrNull() ?: -1)
             putString("user_name", user.name)
-            putString("user_address", user.address)
+            putString("user_address", user.address ?: "")
             putString("user_email", user.email)
-            putString("user_description", user.description)
-            putString("user_gender", user.gender)
-            putString("user_image", user.image)
+            putString("user_description", user.description ?: "")
+            putString("user_gender", user.gender ?: "")
+            putString("user_image", user.image ?: "")
             apply()
         }
     }

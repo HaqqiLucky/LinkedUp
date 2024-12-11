@@ -52,10 +52,8 @@ class ProfileFragment : Fragment() {
             hpsAkun(user._id)
         }
 
-
-        sessionViewModel = ViewModelProvider(this).get(SessionViewModel::class.java)
         binding.lihatdetailexperience.setOnClickListener {
-            val experienceFragment = LihatDetailPengalamanFragment()
+            val experienceFragment = ListExperiencesFragment()
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, experienceFragment)
                 .addToBackStack(null)
@@ -135,6 +133,14 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.lihatdetailsekolah.setOnClickListener {
+            val educationFragment = ListEducationsFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, educationFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
     override fun onResume() {
         super.onResume()
@@ -151,31 +157,28 @@ class ProfileFragment : Fragment() {
         updateUI()
     }
 
-    private fun updateUI() {
+    fun updateUI() {
         lifecycleScope.launch {
             val token = AuthPrefs.getToken()
             try {
                 val response = RetrofitClient.UserApiServices.getMe()
-
+                
                 Log.d("ProfileFragment", "Data berhasil diambil: ${response.name}, Image: ${response.image}")
-                // Menampilkan nama, deskripsi, dan alamat
                 binding.namauser.text = response.name
                 binding.desk.text = response.description
                 binding.alamat.text = response.address
 
-                // Menampilkan gambar profil menggunakan Glide
                 val BASE_URL = ConfigManager.getBaseUrl()
-                val imageUrl = BASE_URL+response.image  // Pastikan response.image berisi URL gambar
+                val imageUrl = BASE_URL+response.image
                 if (imageUrl != null) {
                     Glide.with(requireContext())
-                        .load(imageUrl)  // URL gambar yang didapatkan dari API
-                        .placeholder(R.drawable.profilegambarstatikfix)  // Gambar placeholder
-                        .error(R.drawable.profilegambarstatikfix)  // Gambar error jika gagal load
-                        .into(binding.gambarprofil)  // Memasukkan gambar ke ImageView
+                        .load(imageUrl)
+                        .placeholder(R.drawable.profilegambarstatikfix)
+                        .error(R.drawable.profilegambarstatikfix)
+                        .into(binding.gambarprofil)
                 }
 
-                // Update gender text
-                binding.gender.text = response.gender ?: "(He/Him)"  // Default value if null
+                binding.gender.text = response.gender ?: "(He/Him)"
             } catch (e: Exception) {
                 Log.e("ProfileFragment", "Error loading user data", e)
             }

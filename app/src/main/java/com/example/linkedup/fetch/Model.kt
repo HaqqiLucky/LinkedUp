@@ -84,10 +84,10 @@ data class JobPagingResponse(
     val nextCursor: String?
 )
 data class Experience(
-    val _id: String?,
+    val _id: String? = null,
     val jobTitle: String,
     val company: String,
-    val user_id: String
+    val userId: String? = null  // Diperlukan untuk POST request
 )
 data class JobUsers(
     val _id: String?,
