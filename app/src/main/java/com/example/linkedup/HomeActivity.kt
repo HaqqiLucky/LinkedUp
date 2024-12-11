@@ -44,7 +44,7 @@ class HomeActivity : AppCompatActivity() {
                 }
                 R.id.profile -> {
 //                    goProfile()
-                    changeFragment(HomeFragment())
+                    changeFragment(ProfileFragment())
                     true
                 }
                 else->false

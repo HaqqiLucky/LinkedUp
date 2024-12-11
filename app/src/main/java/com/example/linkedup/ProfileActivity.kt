@@ -26,18 +26,18 @@ class ProfileActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_profile)
         val binding : ActivityProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_profile)
-        val userId = intent.getIntExtra("EXTRA_USER_ID", -1) // Atur default value jika tidak ada
+        val userId = intent.getIntExtra("EXTRA_USER_ID", -1)
         val userName = intent.getStringExtra("EXTRA_USER_NAME")
         val userDescription = intent.getStringExtra("EXTRA_USER_DESCRIPTION")
         val profileFragment = ProfileFragment().apply {
             arguments = Bundle().apply {
-                putInt("EXTRA_USER_ID", userId) // Pastikan ini sesuai dengan tipe data yang benar
+                putInt("EXTRA_USER_ID", userId)
                 putString("EXTRA_USER_NAME", userName)
-                putString("EXTRA_USER_DESCRIPTION", userDescription) // Pastikan ada properti description di model User
+                putString("EXTRA_USER_DESCRIPTION", userDescription)
             }
         }
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, ProfileFragment())
+            .replace(R.id.fragment_container, profileFragment)
             .commit()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())

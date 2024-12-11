@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".GantiGambarFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelineatas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinekiri"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.02919708" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guidelinekanan"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.97"/>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/potoprofil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            app:cardCornerRadius="75dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guidelinekiri"
+            app:layout_constraintTop_toBottomOf="@+id/guidelineatas">
+            <androidx.cardview.widget.CardView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_margin="5dp"
+                android:background="@color/black"
+                app:cardCornerRadius="75dp">
+                <ImageView
+                    android:id="@+id/imageViewProfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/profilegambarstatikfix" />
+            </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/red"
+            android:text="Cancel"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/guidelinekanan"
+            app:layout_constraintStart_toStartOf="@+id/guidelinekiri"
+
+            app:layout_constraintTop_toBottomOf="@id/btnSubmit" />
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/green"
+            android:text="Submit"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/guidelinekanan"
+            app:layout_constraintStart_toStartOf="@id/guidelinekiri"
+            app:layout_constraintTop_toBottomOf="@+id/potoprofil" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

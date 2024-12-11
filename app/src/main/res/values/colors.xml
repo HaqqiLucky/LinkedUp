@@ -9,5 +9,7 @@
     <color name="putih_magnolia">#F8F4FF</color>
     <color name="biru_kolombia">#ACCBE1</color>
     <color name="merah_cardinal">#C51E3A</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#29AB87</color>
 
 </resources>

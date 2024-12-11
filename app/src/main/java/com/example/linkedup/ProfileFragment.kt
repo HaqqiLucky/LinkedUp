@@ -1,5 +1,6 @@
 package com.example.linkedup
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
@@ -9,12 +10,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.linkedup.Profile.EditProfileFragment
 import com.example.linkedup.databinding.FragmentProfileBinding
 import com.example.linkedup.fetch.AuthPrefs
+import com.example.linkedup.fetch.ConfigManager
 import com.example.linkedup.fetch.RetrofitClient
 import com.example.linkedup.item.LokerViewModel
 import com.example.linkedup.item.SessionViewModel
@@ -43,17 +47,13 @@ class ProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false)
-
         user = loadUserFromPreferences() ?: User(-1, "Guest", null, "", "", null, null, false, null)
-
         binding.hapusAkunButton.setOnClickListener {
             hpsAkun(user._id)
         }
 
-
-        sessionViewModel = ViewModelProvider(this).get(SessionViewModel::class.java)
         binding.lihatdetailexperience.setOnClickListener {
-            val experienceFragment = LihatDetailPengalamanFragment()
+            val experienceFragment = ListExperiencesFragment()
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, experienceFragment)
                 .addToBackStack(null)
@@ -75,22 +75,34 @@ class ProfileFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+        binding.potoprofil.setOnClickListener {
+            val fragmentB = GantiGambarFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragmentB)
+                .addToBackStack(null)
+                .commit()
+        }
 
         return binding.root
     }
 
     private fun hpsAkun(userId: Int) {
-        Log.d("ProfileFragment", "Tombol hapus akun diklik") // Cek apakah fungsi terpanggil
         AlertDialog.Builder(context)
             .setTitle("Konfirmasi Hapus")
             .setMessage("Apakah Anda yakin ingin menghapus Akun ini?")
             .setPositiveButton("Hapus") { dialog, _ ->
                 lifecycleScope.launch {
                     try {
-                        userViewModel.deleteUserAccount(userId)
-                        balikkeLogin()
+                        val response = userViewModel.deleteUserAccount(userId)
+                        if (response.isSuccessful) {
+                            clearUserPreferences()
+                            balikkeLogin()
+                        } else {
+                            Toast.makeText(context, "Gagal menghapus akun", Toast.LENGTH_SHORT).show()
+                        }
                     } catch (e: Exception) {
-                        Log.e("HomeFragment", "Error hapus data", e)
+                        Log.e("ProfileFragment", "Error hapus data", e)
+                        Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
                     }
                 }
                 dialog.dismiss()
@@ -121,6 +133,14 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.lihatdetailsekolah.setOnClickListener {
+            val educationFragment = ListEducationsFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, educationFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
     override fun onResume() {
         super.onResume()
@@ -137,15 +157,34 @@ class ProfileFragment : Fragment() {
         updateUI()
     }
 
-    private fun updateUI() {
+    fun updateUI() {
         lifecycleScope.launch {
             val token = AuthPrefs.getToken()
-            val response = RetrofitClient.UserApiServices.getMe()
-            binding.namauser.text = response.name
-            binding.desk.text = response.description
-            binding.alamat.text = response.address
+            try {
+                val response = RetrofitClient.UserApiServices.getMe()
+                
+                Log.d("ProfileFragment", "Data berhasil diambil: ${response.name}, Image: ${response.image}")
+                binding.namauser.text = response.name
+                binding.desk.text = response.description
+                binding.alamat.text = response.address
+
+                val BASE_URL = ConfigManager.getBaseUrl()
+                val imageUrl = BASE_URL+response.image
+                if (imageUrl != null) {
+                    Glide.with(requireContext())
+                        .load(imageUrl)
+                        .placeholder(R.drawable.profilegambarstatikfix)
+                        .error(R.drawable.profilegambarstatikfix)
+                        .into(binding.gambarprofil)
+                }
+
+                binding.gender.text = response.gender ?: "(He/Him)"
+            } catch (e: Exception) {
+                Log.e("ProfileFragment", "Error loading user data", e)
+            }
         }
     }
+
     private fun loadUserFromPreferences(): User? {
         val sharedPref = requireActivity().getSharedPreferences("user_prefs", MODE_PRIVATE)
         val userId = sharedPref.getInt("user_id", -1)
@@ -160,6 +199,22 @@ class ProfileFragment : Fragment() {
 
         return User(userId, userName, userAlamat, userEmail, userPassword, userDeskripsi, userGender, userIsAdmin, userImage)
     }
+    private val AMBIL_GAMBAR_DARI_GALERI = 1
+    private fun bukaGaleri(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, AMBIL_GAMBAR_DARI_GALERI)
+    }
 
-
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == AMBIL_GAMBAR_DARI_GALERI && resultCode == Activity.RESULT_OK && data !=null){
+//            val gambarUri = data.data
+//            Glide.with(this)
+//                .load(gambarUri)
+//                .placeholder(R.drawable.person1)
+//                .error(R.drawable.headtest)
+//                .into(binding.potoprofil)
+//        }
+//    }
 }

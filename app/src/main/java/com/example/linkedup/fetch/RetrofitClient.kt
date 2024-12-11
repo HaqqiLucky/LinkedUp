@@ -51,10 +51,14 @@ object RetrofitClient {
     }
 
     val authApiService: AuthApiService = retrofit.create(AuthApiService::class.java)
+
+    fun getApiService(): UserApiService {
+        return retrofit.create(UserApiService::class.java)
+    }
 }
 object ConfigManager {
     private const val BASE_URL = "https://linkedup.muazmhafidz.my.id/"
-    private const val apikey = "apikey"
+    private const val apikey = "muaztamvansekali" // ini di ganti tiap push
     fun getBaseUrl(): String {
         return BASE_URL
     }

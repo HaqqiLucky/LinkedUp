@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
+    android:layout_height="wrap_content"
     android:backgroundTint="@color/putih_magnolia"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardviewLuar"
-        android:layout_marginVertical="20dp"
+        android:layout_marginVertical="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/biru_kolombia"
@@ -27,7 +27,7 @@
                 android:id="@+id/highlighted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Highlighted"
+                android:text=" "
                 android:textColor="@color/merah_cardinal"
                 android:textStyle="italic"
                 app:layout_constraintTop_toTopOf="@id/constraintcardBuatExperiencetapibuatRecycleView"
@@ -66,7 +66,7 @@
 
 
             <TextView
-            android:id="@+id/deskExpe"
+            android:id="@+id/tempatExpe"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
