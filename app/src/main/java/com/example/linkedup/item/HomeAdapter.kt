@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -15,6 +16,7 @@ import com.example.linkedup.databinding.ItemLokerBinding
 import com.example.linkedup.fetch.ConfigManager
 import com.example.linkedup.fetch.Job
 import com.example.linkedup.fetch.Company
+import com.example.linkedup.fetch.CompanyResponse
 import com.example.linkedup.fetch.JobResponse
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -24,6 +26,7 @@ class HomeAdapter(
     private val showDeleteConfirmationDialog: (id: String) -> Unit,
     private val navigateToEditLokerPostFragment: (id: String, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
     private val detail: (id: String, title: String, gaji: String, deskripsi: String, waktu: String, company: String, image: String) -> Unit,
+    private val isAdmin: Boolean,
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(HomeDiffCallback()) {
 
     companion object {
@@ -35,7 +38,8 @@ class HomeAdapter(
         val binding: ItemLokerBinding,
         private val showDeleteConfirmationDialog: (id:String) -> Unit,
         private val navigateToEditLokerPostFragment: (id: String, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
-        private val detail: (id: String, title: String, gaji: String, deskripsi: String, waktu: String, company: String, image: String) -> Unit
+        private val detail: (id: String, title: String, gaji: String, deskripsi: String, waktu: String, company: String, image: String) -> Unit,
+        private val isAdmin: Boolean,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: JobResponse) {
@@ -64,6 +68,14 @@ class HomeAdapter(
                 binding.gaji.setTextColor(Color.MAGENTA)
             }
 
+            if (isAdmin) {
+                binding.hapus.visibility = View.VISIBLE
+                binding.edit.visibility = View.VISIBLE
+            } else {
+                binding.hapus.visibility = View.GONE
+                binding.edit.visibility = View.GONE
+            }
+
             binding.hapus.setOnClickListener {
                 showDeleteConfirmationDialog(item._id)
             }
@@ -84,17 +96,18 @@ class HomeAdapter(
                 parent: ViewGroup,
                 showDeleteConfirmationDialog: (id: String) -> Unit,
                 navigateToEditLokerPostFragment: (id: String, title: String, deskripsi: String, gaji: Int, company: String) -> Unit,
-                detail: (id: String, title: String, gaji: String, deskripsi: String, waktu: String, company: String, image: String) -> Unit
+                detail: (id: String, title: String, gaji: String, deskripsi: String, waktu: String, company: String, image: String) -> Unit,
+                isAdmin: Boolean
             ): LokerViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ItemLokerBinding.inflate(layoutInflater, parent, false)
-                return LokerViewHolder(binding, showDeleteConfirmationDialog, navigateToEditLokerPostFragment, detail)
+                return LokerViewHolder(binding, showDeleteConfirmationDialog, navigateToEditLokerPostFragment, detail, isAdmin)
             }
         }
     }
 
     class CompanyViewHolder(private val binding: ItemCompany2Binding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(company: Company) {
+        fun bind(company: CompanyResponse) {
             binding.nama.text = company.name
             binding.alamat.text = company.address
         }
@@ -110,7 +123,7 @@ class HomeAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            LOKER_ITEM -> LokerViewHolder.from(parent, showDeleteConfirmationDialog, navigateToEditLokerPostFragment, detail)
+            LOKER_ITEM -> LokerViewHolder.from(parent, showDeleteConfirmationDialog, navigateToEditLokerPostFragment, detail, isAdmin)
             else -> CompanyViewHolder.from(parent)
         }
     }
@@ -118,7 +131,7 @@ class HomeAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is CompanyViewHolder -> {
-                val company = getItem(position) as? Company // Pastikan data valid
+                val company = getItem(position) as? CompanyResponse // Pastikan data valid
                 company?.let {
                     holder.bind(it)
                 }

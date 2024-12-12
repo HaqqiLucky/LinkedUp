@@ -11,6 +11,10 @@ import retrofit2.Response
 
 class UserViewModel(application: Application): AndroidViewModel(application) {
 
+    suspend fun getProfile(): User {
+        return RetrofitClient.UserApiServices.getMe()
+    }
+
     suspend fun updateProfile(updateRequest: UpdateProfileRequest): Response<User> {
         return RetrofitClient.UserApiServices.updateProfile(updateRequest)
     }

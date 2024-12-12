@@ -24,10 +24,10 @@ class MainActivity : AppCompatActivity() {
         // Memeriksa apakah Activity sudah di-recreate
         if (savedInstanceState == null) {
             if (!isConnectedToInternet(this)) {
-                Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show()
-//                val intent = Intent(this, OfflineActivity::class.java)
-//                startActivity(intent)
-//                finish() // Menutup MainActivity jika perlu
+                Toast.makeText(this, "No Internet Connection auto Redirect to Offline Job Save", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, OfflineActivity::class.java)
+                startActivity(intent)
+                finish()
             } else {
                 if (token.isNotEmpty()) {
                     verifyToken(token)

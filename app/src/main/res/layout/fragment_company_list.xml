@@ -27,6 +27,7 @@
         android:backgroundTint="#0f72c1"
         android:text="Tambah Company"
         android:textColor="@color/white"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_bar" />
 

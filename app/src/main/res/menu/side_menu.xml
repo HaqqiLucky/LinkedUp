@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Job Save"
+        android:id="@+id/jobsave"
+        android:icon="@drawable/baseline_download_24"/>
+    <item android:title="Job Applicant"
+        android:visible="false"
+        android:id="@+id/jobapply"
+        android:icon="@drawable/baseline_work_24"/>
+    <item android:title="Riwayat Pendaftaran"
+        android:visible="false"
+        android:id="@+id/jobhistory"
+        android:icon="@drawable/baseline_work_24"/>
+    <item android:title="LogOut"
+        android:id="@+id/logout"
+        android:icon="@drawable/baseline_logout_24"/>
+</menu>

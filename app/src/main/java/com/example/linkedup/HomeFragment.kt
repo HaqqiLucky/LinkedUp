@@ -17,17 +17,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedup.databinding.FragmentHomeBinding
 import com.example.linkedup.item.HomeAdapter
 import com.example.linkedup.item.HomeViewModel
+import com.example.linkedup.item.UserViewModel
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var userViewModel: UserViewModel
     private lateinit var companyView: RecyclerView
     private lateinit var lokerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         lifecycleScope.launch {
             homeViewModel.searchJobs("")
@@ -38,6 +41,15 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        lifecycleScope.launch {
+            var isAdmin = false
+            val res = userViewModel.getProfile()
+            if (res.role == "user") {
+                isAdmin = false
+            } else {
+                isAdmin = true
+            }
 
         companyView = binding.itemcompany
         lokerView = binding.itemloker
@@ -58,7 +70,8 @@ class HomeFragment : Fragment() {
                     intent.putExtra("company", company)
                     intent.putExtra("image", image)
                     startActivity(intent)
-                }
+                },
+                isAdmin
             )
             companyView.adapter = companyAdapter
             companyAdapter.submitList(companyList)
@@ -78,7 +91,8 @@ class HomeFragment : Fragment() {
                         intent.putExtra("company", company)
                         intent.putExtra("image", image)
                         startActivity(intent)
-                    }
+                    },
+                    isAdmin
                 )
                 lokerView.adapter = lokerAdapter
                 lokerList.let {
@@ -92,6 +106,7 @@ class HomeFragment : Fragment() {
             binding.title.setText("")
             binding.gaji.setText("")
             binding.deskripsi.setText("")
+        }
         }
 
 

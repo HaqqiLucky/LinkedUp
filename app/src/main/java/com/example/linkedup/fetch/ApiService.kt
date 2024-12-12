@@ -49,6 +49,13 @@ interface JobApiService {
     suspend fun deleteJob(
         @Path("id") id: String
     ): Call<ResponseMessage>
+
+    @POST("api/job/registerforjob")
+    suspend fun registerForJob(
+        @Body RegisterForJobRequest: RegisterForJobRequest
+    ): ResponseMessage
+    @GET("api/job/getapplicant")
+    suspend fun getApplicant(): List<JobUsers>
 }
 
 interface CompanyApiService {
@@ -97,7 +104,9 @@ interface UserApiService {
     @GET("/api/users/education")
     suspend fun getEducations(): Response<List<Education>>
     @POST("/api/users/education")
-    suspend fun addEducation(@Body education: Education): Response<Education>
+    suspend fun addEducation(
+        @Body request: EducationRequest
+    ): Response<EducationResponse>
     @PUT("education/{id}")
     suspend fun updateEducation(
         @Path("id") id: Int,
