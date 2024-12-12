@@ -90,18 +90,35 @@ data class Experience(
     val userId: String? = null  // Diperlukan untuk POST request
 )
 data class JobUsers(
-    val _id: String?,
+    val _id: String,
     val job_id: String,
     val user_id: String,
-    val portfolioLink: String?,
+    val portfolioLink: String,
     val description: String,
+    @SerializedName("jobId")
     val job: Job,
+    @SerializedName("userId")
     val user: User
+)
+data class RegisterForJobRequest(
+    val userId: String,        // ID of the user applying for the job
+    val jobId: String,         // ID of the job being applied to
+    val description: String,   // A description from the user (e.g., cover letter or reason for applying)
+    val portfolioLink: String? // An optional link to the user's portfolio
 )
 data class Education(
     val _id: String?,
     val degree: String,
     val user_id: String
+)
+data class EducationRequest(
+    val degree: String
+)
+
+data class EducationResponse(
+    val _id: String,
+    val degree: String,
+    val userId: String
 )
 //tambahan
 data class UpdateProfileRequest(

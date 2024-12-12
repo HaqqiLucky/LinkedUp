@@ -33,12 +33,6 @@ class TambahEducationFragment : Fragment() {
             currentDegree = it.getString("degree")
             binding.degree.setText(currentDegree)
         }
-        
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         binding.simpanButton.setOnClickListener {
             val degree = binding.degree.text.toString()
@@ -49,27 +43,35 @@ class TambahEducationFragment : Fragment() {
             }
 
             lifecycleScope.launch {
-                try {
-                    val response = if (educationId != null) {
-                        educationViewModel.updateEducation(educationId!!, degree)
-                    } else {
+                    try {
+    //                    val response = if (educationId != null) {
+    //                        educationViewModel.updateEducation(educationId!!, degree)
+    //                    } else {
                         educationViewModel.addEducation(degree)
+    //                    }
+    //
+    //                    if (response.isSuccessful) {
+    //                        val message = if (educationId != null) "Education berhasil diupdate" else "Education berhasil ditambahkan"
+    //                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    //                        parentFragmentManager.popBackStack()
+    //                    } else {
+    //                        val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+    //                        Toast.makeText(context, "Gagal: $errorMessage", Toast.LENGTH_SHORT).show()
+    //                    }
+                    } catch (e: Exception) {
+                        Log.e("TambahEducation", "Error saving education", e)
+                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
-
-                    if (response.isSuccessful) {
-                        val message = if (educationId != null) "Education berhasil diupdate" else "Education berhasil ditambahkan"
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-                        parentFragmentManager.popBackStack()
-                    } else {
-                        val errorMessage = response.errorBody()?.string() ?: "Unknown error"
-                        Toast.makeText(context, "Gagal: $errorMessage", Toast.LENGTH_SHORT).show()
-                    }
-                } catch (e: Exception) {
-                    Log.e("TambahEducation", "Error saving education", e)
-                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
-        }
+        
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
     }
 
     override fun onDestroyView() {

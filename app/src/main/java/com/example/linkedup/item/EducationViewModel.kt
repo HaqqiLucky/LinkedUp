@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.linkedup.fetch.RetrofitClient
+import com.example.linkedup.repository.UserRepository
 import com.example.linkedup.utils.Education
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,6 +15,7 @@ import retrofit2.Response
 
 class EducationViewModel : ViewModel() {
     private val apiService = RetrofitClient.UserApiServices
+    val userRepo = UserRepository()
     private val _educations = MutableStateFlow<List<Education>>(emptyList())
     val educations: StateFlow<List<Education>> = _educations
     private var userId: Int = -1
@@ -23,34 +25,10 @@ class EducationViewModel : ViewModel() {
         loadEducations()
     }
 
-    suspend fun addEducation(degree: String): Response<com.example.linkedup.utils.Education> {
-        return try {
-            val response = apiService.addEducation(
-                com.example.linkedup.fetch.Education(
-                    _id = null,
-                    degree = degree,
-                    user_id = userId.toString()
-                )
-            )
-            if (response.isSuccessful) {
-                loadEducations()
-                Response.success(com.example.linkedup.utils.Education(
-                    _id = response.body()?._id?.toIntOrNull() ?: 0,
-                    degree = response.body()?.degree ?: ""
-                ))
-            } else {
-                Response.error(
-                    response.code(),
-                    response.errorBody() ?: "Unknown error".toResponseBody("text/plain".toMediaType())
-                )
-            }
-        } catch (e: Exception) {
-            Log.e("EducationViewModel", "Error adding education", e)
-            Response.error(
-                500,
-                e.message?.toResponseBody("text/plain".toMediaType())
-                    ?: "Unknown error".toResponseBody("text/plain".toMediaType())
-            )
+    fun addEducation(degree: String) {
+        viewModelScope.launch {
+            val result = userRepo.addEducation(degree)
+            Log.d("edu", result.toString())
         }
     }
 

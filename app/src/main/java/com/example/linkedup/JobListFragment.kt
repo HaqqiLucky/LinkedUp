@@ -30,12 +30,14 @@ import com.example.linkedup.databinding.FragmentJobListBinding
 import com.example.linkedup.fetch.Job
 import com.example.linkedup.item.HomeAdapter
 import com.example.linkedup.item.HomeViewModel
+import com.example.linkedup.item.UserViewModel
 import kotlinx.coroutines.launch
 import java.io.File
 
 class JobListFragment : Fragment() {
     private lateinit var binding: FragmentJobListBinding
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var userViewModel: UserViewModel
     private lateinit var lokerView: RecyclerView
     private var imageFile: File? = null
     private var selectedCompanyId: String = ""
@@ -44,6 +46,7 @@ class JobListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -52,6 +55,16 @@ class JobListFragment : Fragment() {
     ): View? {
         binding = FragmentJobListBinding.inflate(inflater, container, false)
 
+        lifecycleScope.launch {
+            var isAdmin = false
+            val res = userViewModel.getProfile()
+            if (res.role == "user") {
+                binding.addbutton.visibility = View.GONE
+                isAdmin = false
+            } else {
+                binding.addbutton.visibility = View.VISIBLE
+                isAdmin = true
+            }
 
         val spinner: Spinner = binding.company
         val adapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, mutableListOf())
@@ -118,7 +131,8 @@ class JobListFragment : Fragment() {
                     intent.putExtra("company", company)
                     intent.putExtra("image", image)
                     startActivity(intent)
-                }
+                },
+                isAdmin
             )
             lokerView.adapter = lokerAdapter
             lokerList.let {
@@ -179,6 +193,7 @@ class JobListFragment : Fragment() {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.type = "image/*"
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        }
         }
 
         return binding.root

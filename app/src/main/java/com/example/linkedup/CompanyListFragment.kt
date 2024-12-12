@@ -22,16 +22,19 @@ import com.example.linkedup.item.CompanyAdapter
 import com.example.linkedup.item.CompanyViewModel
 import com.example.linkedup.fetch.Company
 import com.example.linkedup.item.HomeViewModel
+import com.example.linkedup.item.UserViewModel
 import kotlinx.coroutines.launch
 
 class CompanyListFragment : Fragment() {
     private lateinit var binding: FragmentCompanyListBinding
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var userViewModel: UserViewModel
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -40,6 +43,18 @@ class CompanyListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCompanyListBinding.inflate(inflater, container, false)
+
+
+        lifecycleScope.launch {
+            var isAdmin = false
+            val res = userViewModel.getProfile()
+            if (res.role == "user") {
+                binding.addbutton.visibility = View.GONE
+                isAdmin = false
+            } else {
+                binding.addbutton.visibility = View.VISIBLE
+                isAdmin = true
+            }
 
         recyclerView = binding.itemCompany
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -50,7 +65,7 @@ class CompanyListFragment : Fragment() {
                     pindahEdit(id, nama, alamat, web)
                 },{ id ->
                     showDeleteLokerConfirmationDialog(id)
-                })
+                }, isAdmin)
             }
         }
 
@@ -82,6 +97,7 @@ class CompanyListFragment : Fragment() {
             insertCompany(binding.nama.text.toString(), binding.alamat.text.toString(), binding.web.text.toString())
         }
 
+        }
         return binding.root
     }
     private fun pindahEdit(id: String, nama: String, alamat: String, web: String) {

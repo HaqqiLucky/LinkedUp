@@ -11,7 +11,13 @@ import com.example.linkedup.R
 import com.example.linkedup.fetch.Company
 import com.example.linkedup.fetch.CompanyResponse
 
-class CompanyAdapter(private val companyList: List<CompanyResponse>, private val pindahEdit: (id: String, nama: String, alamat: String, web: String) -> Unit, private val showDeleteConfirmationDialog: (id: String) -> Unit) : RecyclerView.Adapter<CompanyAdapter.CompanyViewHolder>() {
+class CompanyAdapter(
+    private val companyList: List<CompanyResponse>,
+    private val pindahEdit: (id: String, nama: String, alamat: String, web: String) -> Unit,
+    private val showDeleteConfirmationDialog: (id: String) -> Unit,
+    private val isAdmin: Boolean
+) : RecyclerView.Adapter<CompanyAdapter.CompanyViewHolder>() {
+
     class CompanyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val namaTextView: TextView = itemView.findViewById(R.id.nama)
         val alamatTextView: TextView = itemView.findViewById(R.id.alamat)
@@ -29,6 +35,14 @@ class CompanyAdapter(private val companyList: List<CompanyResponse>, private val
         val current = companyList[position]
         holder.namaTextView.text = current.name
         holder.alamatTextView.text = current.address
+
+        if (isAdmin) {
+            holder.btndel.visibility = View.VISIBLE
+            holder.btnedit.visibility = View.VISIBLE
+        } else {
+            holder.btndel.visibility = View.GONE
+            holder.btnedit.visibility = View.GONE
+        }
 
         holder.btnedit.setOnClickListener {
             pindahEdit(current._id, current.name, current.address, current.website.toString())
