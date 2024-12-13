@@ -33,7 +33,7 @@ class HomeActivity : AppCompatActivity() {
             val res = userViewModel.getProfile()
             if (res.role == "user") {
                 binding.sideNav.menu.findItem(R.id.jobapply).isVisible = false
-                binding.sideNav.menu.findItem(R.id.jobhistory).isVisible = true
+                binding.sideNav.menu.findItem(R.id.jobhistory).isVisible = false
             } else {
                 binding.sideNav.menu.findItem(R.id.jobapply).isVisible = true
                 binding.sideNav.menu.findItem(R.id.jobhistory).isVisible = false
@@ -82,9 +82,13 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.jobapply -> {
+                    binding.sideNavu.visibility = View.GONE
+                    changeFragment(JobApplyFragment())
                     true
                 }
                 R.id.jobhistory -> {
+                    binding.sideNavu.visibility = View.GONE
+                    changeFragment(JobHistoryFragment())
                     true
                 }
                 else->false

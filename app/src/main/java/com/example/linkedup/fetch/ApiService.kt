@@ -35,11 +35,6 @@ interface JobApiService {
         @Part("companyId") companyId: RequestBody,
         @Part image: MultipartBody.Part
     ): Call<Void>
-    data class JobUpdateReq(
-        val title: String,
-        val salary: Int,
-        val description: String
-    )
     @PUT("api/job/{id}")
     suspend fun updateJob(
         @Path("id") id: String,
@@ -56,6 +51,18 @@ interface JobApiService {
     ): ResponseMessage
     @GET("api/job/getapplicant")
     suspend fun getApplicant(): List<JobUsers>
+    @GET("api/job/getjobsforuser")
+    suspend fun getJobsForUser(): List<JobResponse>
+    @PUT("api/job/{jobId}/accept/{userId}")
+    suspend fun acceptApplicant(
+        @Path("jobId") jobId: String,
+        @Path("userId") userId: String,
+    ): ResponseMessage
+    data class JobUpdateReq(
+        val title: String,
+        val salary: Int,
+        val description: String
+    )
 }
 
 interface CompanyApiService {

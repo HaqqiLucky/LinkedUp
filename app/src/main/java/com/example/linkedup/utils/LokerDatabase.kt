@@ -1,16 +1,24 @@
 package com.example.linkedup.utils
 
 import android.content.Context
+import androidx.room.Dao
 import androidx.room.Database
+import androidx.room.Delete
+import androidx.room.Entity
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.PrimaryKey
+import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import org.junit.Test
 
-@Database(entities = [User::class, Company::class, Loker::class], version = 1)
+@Database(entities = [JobEntity::class, User::class, Company::class, Loker::class], version = 1)
 abstract class LokerDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun lokerDao(): LokerDao
     abstract fun companyDao(): CompanyDao
+    abstract fun jobDao(): JobDao
 
     companion object {
             @Volatile
@@ -27,4 +35,31 @@ abstract class LokerDatabase : RoomDatabase() {
                 }
             }
         }
+}
+
+@Entity(tableName = "jobs")
+data class JobEntity(
+    @PrimaryKey val id: String,
+    val title: String,
+    val salary: Int,
+    val description: String,
+    val createdAt: String,
+    val status: Boolean,
+    val image: String,
+    val company: String,
+)
+
+@Dao
+interface JobDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertJob(job: JobEntity)
+
+    @Delete
+    suspend fun delete(job: JobEntity)
+
+    @Query("SELECT * FROM jobs")
+    suspend fun getAllJobs(): List<JobEntity>
+
+    @Query("DELETE FROM jobs")
+    suspend fun deleteAllJobs()
 }

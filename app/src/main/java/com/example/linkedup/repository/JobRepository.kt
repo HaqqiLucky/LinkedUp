@@ -5,6 +5,8 @@ import com.example.linkedup.fetch.Job
 import com.example.linkedup.fetch.JobApiService
 import com.example.linkedup.fetch.JobPagingResponse
 import com.example.linkedup.fetch.JobResponse
+import com.example.linkedup.fetch.JobUsers
+import com.example.linkedup.fetch.RegisterForJobRequest
 import com.example.linkedup.fetch.ResponseMessage
 import com.example.linkedup.fetch.RetrofitClient
 import okhttp3.MultipartBody
@@ -13,6 +15,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.http.Body
 import java.io.File
 
 class JobRepository {
@@ -29,28 +32,6 @@ class JobRepository {
             throw e
         }
     }
-
-//    suspend fun createJob(
-//        title: String,
-//        salary: Int,
-//        description: String,
-//        companyId: Int,
-//        imageFile: File
-//    ): Job? {
-//        val titleBody = RequestBody.create("text/plain".toMediaType(), title)
-//        val salaryBody = RequestBody.create("text/plain".toMediaType(), salary.toString())
-//        val descriptionBody = RequestBody.create("text/plain".toMediaType(), description)
-//        val companyIdBody = RequestBody.create("text/plain".toMediaType(), companyId.toString())
-//
-//        val imagePart = MultipartBody.Part.createFormData(
-//            "image", imageFile.name,
-//            RequestBody.create("image/jpeg".toMediaType(), imageFile)
-//        )
-//
-//        val response = apiService.createJob(titleBody, salaryBody, descriptionBody, companyIdBody, imagePart)
-//        Log.d("createjob", response.toString())
-//        return response
-//    }
 
     fun createJob(
         title: RequestBody,
@@ -77,6 +58,27 @@ class JobRepository {
                 callback(Result.failure(t))
             }
         })
+    }
+
+    suspend fun getApplicant(): List<JobUsers> {
+        val res = apiService.getApplicant()
+        Log.d("get applicant", res.toString())
+        return res
+    }
+    suspend fun acceptApplicant(jobId: String, userId: String): ResponseMessage{
+        val res = apiService.acceptApplicant(jobId, userId)
+        Log.d("accept applicant", res.toString())
+        return res
+    }
+    suspend fun registerForJob(RegisterForJobRequest: RegisterForJobRequest): ResponseMessage {
+        val res = apiService.registerForJob(RegisterForJobRequest)
+        Log.d("RegisterForJobRequest", res.toString())
+        return res
+    }
+    suspend fun getJobsForUser(): List<JobResponse> {
+        val res = apiService.getJobsForUser()
+        Log.d("getJobsForUser", res.toString())
+        return res
     }
 
     suspend fun updateJob(id: String, title: String, salary: Int, description: String): JobResponse {
