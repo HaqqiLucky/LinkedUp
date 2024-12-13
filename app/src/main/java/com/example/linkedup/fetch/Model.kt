@@ -101,7 +101,6 @@ data class JobUsers(
     val user: User
 )
 data class RegisterForJobRequest(
-    val userId: String,        // ID of the user applying for the job
     val jobId: String,         // ID of the job being applied to
     val description: String,   // A description from the user (e.g., cover letter or reason for applying)
     val portfolioLink: String? // An optional link to the user's portfolio

@@ -11,6 +11,8 @@ import com.example.linkedup.repository.JobRepository
 import com.example.linkedup.fetch.Company
 import com.example.linkedup.fetch.CompanyResponse
 import com.example.linkedup.fetch.JobResponse
+import com.example.linkedup.fetch.JobUsers
+import com.example.linkedup.fetch.ResponseMessage
 import com.example.linkedup.repository.CompanyRepository
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
@@ -29,6 +31,12 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val _companiesLiveData = MutableLiveData<List<CompanyResponse>>()
     val companiesLiveData: LiveData<List<CompanyResponse>> get() = _companiesLiveData
 
+    private val _apllyLiveData = MutableLiveData<List<JobUsers>>()
+    val applyLiveData: LiveData<List<JobUsers>> get() = _apllyLiveData
+
+    private val _historyLiveData = MutableLiveData<List<JobResponse>>()
+    val historyLiveData: LiveData<List<JobResponse>> get() = _historyLiveData
+
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> get() = _loading
@@ -38,8 +46,35 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     init {
         fetchAllLoker()
         fetchAllCompany()
+        fetchAllApply()
+        getJobsForUser()
     }
-    private fun fetchAllLoker() {
+    private fun fetchAllApply() {
+        viewModelScope.launch {
+            try {
+                val response = jobRepository.getApplicant()
+                _apllyLiveData.postValue(response)
+            } catch (e: Exception) {
+                _apllyLiveData.postValue(emptyList())
+            }
+        }
+    }
+    private fun getJobsForUser() {
+        viewModelScope.launch {
+            try {
+                val response = jobRepository.getJobsForUser()
+                _historyLiveData.postValue(response)
+            } catch (e: Exception) {
+                _historyLiveData.postValue(emptyList())
+            }
+        }
+    }
+    fun acceptApplicant(jobId: String, userId: String) {
+        viewModelScope.launch {
+            jobRepository.acceptApplicant(jobId, userId)
+        }
+    }
+    fun fetchAllLoker() {
         viewModelScope.launch {
             try {
                 val response = jobRepository.searchJobs("")
