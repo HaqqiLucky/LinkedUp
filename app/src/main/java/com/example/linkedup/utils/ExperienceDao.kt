@@ -12,16 +12,16 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ExperienceDao {
 
-    @Query("SELECT * FROM experiences ORDER BY judulExperience ASC")
-    fun getAllExperience(): List<Experience>
+    @Query("SELECT * FROM experiences")
+    fun getAllExperiences(): Flow<List<Experience>>
 
-    @Insert (onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(vararg experience: Experience)
-
-    @Delete
-    suspend fun delete(experience: Experience)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(experience: Experience)
 
     @Update
     suspend fun update(experience: Experience)
+
+    @Delete
+    suspend fun delete(experience: Experience)
 
 }

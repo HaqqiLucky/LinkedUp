@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import androidx.fragment.app.viewModels
 import com.example.linkedup.item.SessionViewModel
+import androidx.lifecycle.ViewModelProvider
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,8 +37,7 @@ class ListExperiencesFragment : Fragment() {
     private var _binding: FragmentListExperiencesBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: ExperienceViewModel by viewModels()
-    private val sessionViewModel: SessionViewModel by viewModels({ requireActivity() })
+    private lateinit var experienceViewModel: ExperienceViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,21 +52,35 @@ class ListExperiencesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentListExperiencesBinding.inflate(inflater, container, false)
+        experienceViewModel = ViewModelProvider(requireActivity())[ExperienceViewModel::class.java]
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        sessionViewModel.userId.observe(viewLifecycleOwner) { userId ->
-            userId?.let { viewModel.setUserId(it) }
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.experiences.collect { experiences ->
+            experienceViewModel.experiences.collect { experiences ->
                 binding.recycleExperience.apply {
                     layoutManager = LinearLayoutManager(context)
-                    adapter = ExperienceAdapter(experiences)
+                    adapter = ExperienceAdapter(
+                        experiences,
+                        onEditClick = { experience ->
+                            val fragment = TambahExperienceFragment.newInstance(
+                                experience._id,
+                                experience.title,
+                                experience.company,
+                                experience.isHighlighted
+                            )
+                            parentFragmentManager.beginTransaction()
+                                .replace(R.id.fragment_container, fragment)
+                                .addToBackStack(null)
+                                .commit()
+                        },
+                        onDeleteClick = { experience ->
+                            experienceViewModel.deleteExperience(experience)
+                        }
+                    )
                 }
             }
         }
