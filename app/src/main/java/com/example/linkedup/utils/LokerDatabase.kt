@@ -13,12 +13,14 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import org.junit.Test
 
-@Database(entities = [JobEntity::class, User::class, Company::class, Loker::class], version = 1)
+@Database(entities = [JobEntity::class, User::class, Company::class, Loker::class, Education::class, Experience::class], version = 1)
 abstract class LokerDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun lokerDao(): LokerDao
     abstract fun companyDao(): CompanyDao
     abstract fun jobDao(): JobDao
+    abstract fun educationDao(): EducationDao
+    abstract fun experienceDao(): ExperienceDao
 
     companion object {
             @Volatile

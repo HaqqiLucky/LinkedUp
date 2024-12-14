@@ -12,6 +12,7 @@ import com.example.linkedup.databinding.FragmentTambahEducationBinding
 import com.example.linkedup.item.EducationViewModel
 import kotlinx.coroutines.launch
 import android.util.Log
+import com.example.linkedup.utils.Education
 
 class TambahEducationFragment : Fragment() {
     private var _binding: FragmentTambahEducationBinding? = null
@@ -19,6 +20,7 @@ class TambahEducationFragment : Fragment() {
     private lateinit var educationViewModel: EducationViewModel
     private var educationId: Int? = null
     private var currentDegree: String? = null
+    private var currentSchoolName: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,47 +33,38 @@ class TambahEducationFragment : Fragment() {
         arguments?.let {
             educationId = it.getInt("education_id")
             currentDegree = it.getString("degree")
+            currentSchoolName = it.getString("school_name")
             binding.degree.setText(currentDegree)
+            binding.schoolName.setText(currentSchoolName)
         }
 
         binding.simpanButton.setOnClickListener {
             val degree = binding.degree.text.toString()
+            val schoolName = binding.schoolName.text.toString()
 
-            if (degree.isEmpty()) {
-                Toast.makeText(context, "Mohon isi degree pendidikan", Toast.LENGTH_SHORT).show()
+            if (degree.isEmpty() || schoolName.isEmpty()) {
+                Toast.makeText(context, "Mohon isi semua field", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             lifecycleScope.launch {
-                    try {
-    //                    val response = if (educationId != null) {
-    //                        educationViewModel.updateEducation(educationId!!, degree)
-    //                    } else {
-                        educationViewModel.addEducation(degree)
-    //                    }
-    //
-    //                    if (response.isSuccessful) {
-    //                        val message = if (educationId != null) "Education berhasil diupdate" else "Education berhasil ditambahkan"
-    //                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    //                        parentFragmentManager.popBackStack()
-    //                    } else {
-    //                        val errorMessage = response.errorBody()?.string() ?: "Unknown error"
-    //                        Toast.makeText(context, "Gagal: $errorMessage", Toast.LENGTH_SHORT).show()
-    //                    }
-                    } catch (e: Exception) {
-                        Log.e("TambahEducation", "Error saving education", e)
-                        Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                try {
+                    if (educationId != null) {
+                        educationViewModel.updateEducation(Education(_id = educationId!!, degree = degree, schoolName = schoolName))
+                        Toast.makeText(context, "Education berhasil diupdate", Toast.LENGTH_SHORT).show()
+                    } else {
+                        educationViewModel.addEducation(degree, schoolName)
+                        Toast.makeText(context, "Education berhasil ditambahkan", Toast.LENGTH_SHORT).show()
                     }
+                    parentFragmentManager.popBackStack()
+                } catch (e: Exception) {
+                    Log.e("TambahEducation", "Error saving education", e)
+                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
         
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
     }
 
     override fun onDestroyView() {
@@ -80,11 +73,12 @@ class TambahEducationFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(educationId: Int, degree: String): TambahEducationFragment {
+        fun newInstance(educationId: Int, degree: String, schoolName: String): TambahEducationFragment {
             return TambahEducationFragment().apply {
                 arguments = Bundle().apply {
                     putInt("education_id", educationId)
                     putString("degree", degree)
+                    putString("school_name", schoolName)
                 }
             }
         }

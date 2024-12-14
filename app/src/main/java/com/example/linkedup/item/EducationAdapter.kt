@@ -17,6 +17,7 @@ class EducationAdapter(
         
         fun bind(education: Education) {
             binding.degree.text = education.degree
+            binding.schoolName.text = education.schoolName
             
             binding.tombolEdit.setOnClickListener {
                 onEditClick(education)

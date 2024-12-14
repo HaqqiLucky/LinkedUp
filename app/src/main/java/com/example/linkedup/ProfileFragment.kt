@@ -20,6 +20,8 @@ import com.example.linkedup.databinding.FragmentProfileBinding
 import com.example.linkedup.fetch.AuthPrefs
 import com.example.linkedup.fetch.ConfigManager
 import com.example.linkedup.fetch.RetrofitClient
+import com.example.linkedup.item.EducationViewModel
+import com.example.linkedup.item.ExperienceViewModel
 import com.example.linkedup.item.LokerViewModel
 import com.example.linkedup.item.SessionViewModel
 import com.example.linkedup.item.UserViewModel
@@ -28,10 +30,13 @@ import kotlinx.coroutines.launch
 
 
 class ProfileFragment : Fragment() {
-    private lateinit var binding: FragmentProfileBinding
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
     private lateinit var sessionViewModel: SessionViewModel
     private lateinit var userViewModel: UserViewModel
     private lateinit var user: User
+    private lateinit var educationViewModel: EducationViewModel
+    private lateinit var experienceViewModel: ExperienceViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +51,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
         user = loadUserFromPreferences() ?: User(-1, "Guest", null, "", "", null, null, false, null)
         binding.hapusAkunButton.setOnClickListener {
             hpsAkun(user._id)
@@ -132,6 +137,31 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        educationViewModel = ViewModelProvider(requireActivity())[EducationViewModel::class.java]
+        experienceViewModel = ViewModelProvider(requireActivity())[ExperienceViewModel::class.java]
+
+        // Observe education data
+        viewLifecycleOwner.lifecycleScope.launch {
+            educationViewModel.educations.collect { educations ->
+                if (educations.isNotEmpty()) {
+                    // Ambil education terakhir
+                    val lastEducation = educations.last()
+                    binding.judulPendidikan.text = lastEducation.degree
+                    binding.namatempatSekolah.text = lastEducation.schoolName
+                }
+            }
+        }
+
+        // Observe experience data
+        viewLifecycleOwner.lifecycleScope.launch {
+            experienceViewModel.experiences.collect { experiences ->
+                if (experiences.isNotEmpty()) {
+                    val lastExperience = experiences.last()
+                    binding.judulexperience.text = lastExperience.title
+                    binding.namatempat.text = lastExperience.company
+                }
+            }
+        }
 
         binding.lihatdetailsekolah.setOnClickListener {
             val educationFragment = ListEducationsFragment()
