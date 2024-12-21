@@ -19,23 +19,8 @@ class UserViewModel(application: Application): AndroidViewModel(application) {
         return RetrofitClient.UserApiServices.updateProfile(updateRequest)
     }
 
-    suspend fun deleteUserAccount(userId: Int): Response<ResponseMessage> {
+    suspend fun deleteUserAccount(userId: String): Response<ResponseMessage> {
         return RetrofitClient.UserApiServices.deleteUser(userId.toString())
-    }
-
-    // Fungsi untuk menyimpan user ke shared preferences
-    private fun saveUserToPreferences(user: User) {
-        val sharedPref = getApplication<Application>().getSharedPreferences("user_prefs", AppCompatActivity.MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            putInt("user_id", user._id?.toIntOrNull() ?: -1)
-            putString("user_name", user.name)
-            putString("user_address", user.address ?: "")
-            putString("user_email", user.email)
-            putString("user_description", user.description ?: "")
-            putString("user_gender", user.gender ?: "")
-            putString("user_image", user.image ?: "")
-            apply()
-        }
     }
 }
 

@@ -1,8 +1,6 @@
 package com.example.linkedup
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.example.linkedup.item.LokerViewModel
-import com.example.linkedup.item.SessionViewModel
 import com.example.linkedup.item.UserViewModel
 import com.example.linkedup.repository.UserRepository
-import com.example.linkedup.utils.Loker
-import com.example.linkedup.utils.User
 import kotlinx.coroutines.launch
 
 class RegistFragment : Fragment() {

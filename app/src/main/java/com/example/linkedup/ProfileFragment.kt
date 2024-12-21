@@ -1,6 +1,5 @@
 package com.example.linkedup
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
@@ -11,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -20,19 +18,16 @@ import com.example.linkedup.databinding.FragmentProfileBinding
 import com.example.linkedup.fetch.AuthPrefs
 import com.example.linkedup.fetch.ConfigManager
 import com.example.linkedup.fetch.RetrofitClient
+import com.example.linkedup.fetch.User
 import com.example.linkedup.item.EducationViewModel
 import com.example.linkedup.item.ExperienceViewModel
-import com.example.linkedup.item.LokerViewModel
-import com.example.linkedup.item.SessionViewModel
 import com.example.linkedup.item.UserViewModel
-import com.example.linkedup.utils.User
 import kotlinx.coroutines.launch
 
 
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private lateinit var sessionViewModel: SessionViewModel
     private lateinit var userViewModel: UserViewModel
     private lateinit var user: User
     private lateinit var educationViewModel: EducationViewModel
@@ -40,7 +35,6 @@ class ProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sessionViewModel = ViewModelProvider(requireActivity()).get(SessionViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         updateUI()
 
@@ -52,9 +46,8 @@ class ProfileFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        user = loadUserFromPreferences() ?: User(-1, "Guest", null, "", "", null, null, false, null)
         binding.hapusAkunButton.setOnClickListener {
-            hpsAkun(user._id)
+            hpsAkun(user._id.toString())
         }
 
         binding.lihatdetailexperience.setOnClickListener {
@@ -63,14 +56,6 @@ class ProfileFragment : Fragment() {
                 .replace(R.id.fragment_container, experienceFragment)
                 .addToBackStack(null)
                 .commit()
-        }
-        lifecycleScope.launch {
-            try {
-                Log.d("lalala", "userId value: ${sessionViewModel.userId.value}")
-                sessionViewModel.userId.value?.let { Log.d("lalala", it.toString()) }
-            } catch (e: Exception) {
-                Log.e("Lalalala", "Error inserting data", e)
-            }
         }
 
         binding.tombolEditTabelUser.setOnClickListener{
@@ -91,7 +76,7 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
-    private fun hpsAkun(userId: Int) {
+    private fun hpsAkun(userId: String) {
         AlertDialog.Builder(context)
             .setTitle("Konfirmasi Hapus")
             .setMessage("Apakah Anda yakin ingin menghapus Akun ini?")
@@ -121,7 +106,7 @@ class ProfileFragment : Fragment() {
 
 
     private fun balikkeLogin() {
-        val intent = Intent(activity, RegisterLoginActivity::class.java)
+        val intent = Intent(activity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         activity?.finish()
@@ -172,20 +157,6 @@ class ProfileFragment : Fragment() {
         }
 
     }
-    override fun onResume() {
-        super.onResume()
-        sessionViewModel.userId.observe(viewLifecycleOwner) { userId ->
-            if (userId != null) {
-                // Gunakan userId dari sessionViewModel
-                Log.d("ProfileFragment", "User ID dari SessionViewModel: $userId")
-            } else {
-                Log.d("ProfileFragment", "User ID masih null")
-            }
-        }
-
-        user = loadUserFromPreferences() ?: User(-1, "Guest", null, "", "", null, null, false, null)
-        updateUI()
-    }
 
     fun updateUI() {
         lifecycleScope.launch {
@@ -215,20 +186,6 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun loadUserFromPreferences(): User? {
-        val sharedPref = requireActivity().getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val userId = sharedPref.getInt("user_id", -1)
-        val userName = sharedPref.getString("user_name", null) ?: return null
-        val userAlamat = sharedPref.getString("user_alamat", null)
-        val userEmail = sharedPref.getString("user_email", null) ?: return null
-        val userPassword = sharedPref.getString("user_password", null) ?: return null // Hati-hati, ini bisa berisiko
-        val userDeskripsi = sharedPref.getString("user_deskripsi", null)
-        val userGender = sharedPref.getString("user_gender", null)
-        val userIsAdmin = sharedPref.getBoolean("user_isAdmin", false)
-        val userImage = sharedPref.getString("user_image", null)
-
-        return User(userId, userName, userAlamat, userEmail, userPassword, userDeskripsi, userGender, userIsAdmin, userImage)
-    }
     private val AMBIL_GAMBAR_DARI_GALERI = 1
     private fun bukaGaleri(){
         val intent = Intent(Intent.ACTION_PICK)
