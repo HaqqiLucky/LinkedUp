@@ -107,24 +107,24 @@ class JobViewModel(application: Application) : AndroidViewModel(application) {
 
         init {
         // Menginisialisasi database dan DAO
-        val db = Room.databaseBuilder(application, LokerDatabase::class.java, "loker_database").build()
-        jobDao = db.jobDao() // Menggunakan LiveData agar bisa diamati
+            val db = Room.databaseBuilder(application, LokerDatabase::class.java, "loker_database").build()
+            jobDao = db.jobDao() // Menggunakan LiveData agar bisa diamati
             getAllJobs()
-    }
+        }
 
-    // Menyediakan LiveData untuk mengamati perubahan data pekerjaan
-    fun getAllJobs() {
-        viewModelScope.launch {
-            try {
-                val res = jobDao.getAllJobs()
-                _jobssLiveData.postValue(res)
+        // Menyediakan LiveData untuk mengamati perubahan data pekerjaan
+        fun getAllJobs() {
+            viewModelScope.launch {
+                try {
+                    val res = jobDao.getAllJobs()
+                    _jobssLiveData.postValue(res)
 
-            } catch (e: Exception) {
-                _jobssLiveData.postValue(emptyList())
+                } catch (e: Exception) {
+                    _jobssLiveData.postValue(emptyList())
 
+                }
             }
         }
-    }
 
         // Fungsi untuk menyisipkan data pekerjaan
         fun insertJob(job: JobEntity) {
@@ -136,13 +136,6 @@ class JobViewModel(application: Application) : AndroidViewModel(application) {
         fun deleteJobs(job: JobEntity) {
             viewModelScope.launch {
                 jobDao.delete(job)
-            }
-        }
-
-        // Fungsi untuk menghapus seluruh pekerjaan
-        fun deleteAllJobs() {
-            viewModelScope.launch {
-                jobDao.deleteAllJobs()
             }
         }
     }

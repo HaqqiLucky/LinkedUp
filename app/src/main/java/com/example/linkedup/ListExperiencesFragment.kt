@@ -7,16 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.linkedup.databinding.FragmentListExperiencesBinding
-import com.example.linkedup.utils.Experience
 import com.example.linkedup.item.ExperienceAdapter
 import com.example.linkedup.Profile.TambahExperienceFragment
 import com.example.linkedup.item.ExperienceViewModel
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import androidx.fragment.app.viewModels
-import com.example.linkedup.item.SessionViewModel
 import androidx.lifecycle.ViewModelProvider
 
 // TODO: Rename parameter arguments, choose names that match

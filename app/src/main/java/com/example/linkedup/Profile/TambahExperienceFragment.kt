@@ -6,17 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.example.linkedup.databinding.FragmentTambahExperienceBinding
 import com.example.linkedup.item.ExperienceViewModel
-import com.example.linkedup.item.SessionViewModel
-import kotlinx.coroutines.launch
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import com.example.linkedup.R
-import com.example.linkedup.fetch.RetrofitClient
 import com.example.linkedup.utils.Experience
 
 class TambahExperienceFragment : Fragment() {

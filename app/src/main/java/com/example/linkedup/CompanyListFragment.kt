@@ -1,10 +1,7 @@
 package com.example.linkedup
 
 import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -19,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.linkedup.databinding.FragmentCompanyListBinding
 import com.example.linkedup.item.CompanyAdapter
-import com.example.linkedup.item.CompanyViewModel
 import com.example.linkedup.fetch.Company
 import com.example.linkedup.item.HomeViewModel
 import com.example.linkedup.item.UserViewModel
